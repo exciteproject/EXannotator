@@ -49,9 +49,9 @@
 		<p> Preview Reference String with XML tags:</p>
 		<textarea id="ta2" cols="80" rows="7"></textarea> 
 		<br>
-		<button type="button" onclick="prevLine();">Previous</button>
+		<button type="button" id="prev" onclick="prevLine();">Previous</button>
 		<label id="count" style="padding-left:5px; padding-right:5px;"> 0/0 </label>
-		<button type="button" onclick="nextLine();">Next</button>
+		<button type="button" id="next" onclick="nextLine();">Next</button>
 		<span style="padding-left:312px">
 		<button type="button">Export XML File</button>
 		<br>

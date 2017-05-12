@@ -1,5 +1,5 @@
 function fileNameB1()
-{
+{//displays the filename of anything uploaded through button "rsf" in label "demo". happens onchange of "rsf"
 var x = document.getElementById("rsf");
 var txt = "";
 	if ('files' in x) 
@@ -10,8 +10,8 @@ var txt = "";
 		} 
 		else 
 		{
-			for (var i = 0; i < x.files.length; i++) 
-			{ // made for any amount of uploaded files
+			for (var i = 0; i < x.files.length; i++) //made for any amount of uploaded files 
+			{  
 				//txt += "<br><strong>" + (i+1) + ". file</strong><br>";
 				var file = x.files[i];
 				if ('name' in file) 
@@ -41,7 +41,7 @@ document.getElementById("demo").innerHTML = txt;
 }
 		
 function fileNameB2()
-{
+{//displays the filename of anything uploaded through button "trs" in label "demo". happens onchange of "trs"
 	var x = document.getElementById("trs");
 	var txt = "";
 	if ('files' in x) {
@@ -81,13 +81,13 @@ document.getElementById("demo").innerHTML = txt;
 }
 		
 function loadFileAsTextB1()
-{
+{//loads the file uploaded through "rsf" into the textareas "ta1" and "ta2" and updates the "count" label. happens onchange of rsf
 	var fileToLoad = document.getElementById("rsf").files[0];
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
 		var textFromFileLoaded = fileLoadedEvent.target.result;
-		var textByLines = textFromFileLoaded.split('\n');
+		var textByLines = textFromFileLoaded.split('\n');//converts textfile into array of lines cutting whenever "\n" is in the file
 		document.getElementById("ta1").value = textByLines[0];
 		document.getElementById("ta2").value = textByLines[0];
 		document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
@@ -99,13 +99,13 @@ function loadFileAsTextB1()
 fileReader.readAsText(fileToLoad, "UTF-8");
 }
 function loadFileAsTextB2()
-{
+{//loads the file uploaded through "trs" into the textareas "ta1" and "ta2" and updates the "count" label. happens onchange of trs
 	var fileToLoad = document.getElementById("trs").files[0];
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
 		var textFromFileLoaded = fileLoadedEvent.target.result;
-		var textByLines = textFromFileLoaded.split('\n');
+		var textByLines = textFromFileLoaded.split('\n');//converts textfile into array of lines cutting whenever "\n" is in the file
 		document.getElementById("ta1").value = textByLines[0];
 		document.getElementById("ta2").value = textByLines[0];
 		document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
@@ -116,8 +116,20 @@ fileReader.readAsText(fileToLoad, "UTF-8");
 	
 var currentLine = 0;
 function prevLine()
-{
-	var fileToLoad = document.getElementById("rsf").files[0];
+{//cycles forward through the lines of an uploaded file updating label "count" and "ta1"+"ta2".happens onclick of "prev"
+	if(document.getElementById("rsf").files[0]!==0)
+	{
+		var fileToLoad = document.getElementById("rsf").files[0];
+	}
+	else if(document.getElementById("trs").files[0]!==0)
+	{
+		var fileToLoad = document.getElementById("trs").files[0];
+	}
+	else
+	{
+		document.getElementById("ta1").value = "Upload a file";
+		document.getElementById("ta2").value = "Upload a file";
+	}
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
@@ -146,8 +158,20 @@ fileReader.readAsText(fileToLoad, "UTF-8");
 }
 
 function nextLine()
-{
-	var fileToLoad = document.getElementById("rsf").files[0];	
+{//cycles backwards through the lines of an uploaded file updating label "count" and "ta1"+"ta2". happens onclick of "next"
+	if(document.getElementById("rsf").files[0]!==0)
+	{
+		var fileToLoad = document.getElementById("rsf").files[0];
+	}
+	else if(document.getElementById("trs").files[0]!==0)
+	{
+		var fileToLoad = document.getElementById("trs").files[0];
+	}
+	else
+	{
+		document.getElementById("ta1").value = "Upload a file";
+		document.getElementById("ta2").value = "Upload a file";
+	}	
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
@@ -157,6 +181,7 @@ function nextLine()
 		if(textByLines.length-1 > currentLine)
 		{
 			currentLine = currentLine +1;
+			document.getElementById("ta1").value = textByLines[currentLine];
 			document.getElementById("ta2").value = textByLines[currentLine];
 			var line = currentLine+1
 			document.getElementById("count").innerHTML = line + "/" + textByLines.length;
@@ -164,6 +189,7 @@ function nextLine()
 		else
 		{
 			currentLine = 0;
+			document.getElementById("ta1").value = textByLines[currentLine];
 			document.getElementById("ta2").value = textByLines[currentLine];
 			var line = currentLine+1
 			document.getElementById("count").innerHTML = line + "/" + textByLines.length;
