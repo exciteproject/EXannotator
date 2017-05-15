@@ -139,6 +139,7 @@ function prevLine()
 		if(currentLine > 0)
 		{	
 			currentLine = currentLine -1;
+			document.getElementById("ta1").value = textByLines[currentLine];
 			document.getElementById("ta2").value = textByLines[currentLine];
 			var line = currentLine+1
 			document.getElementById("count").innerHTML = line + "/" + textByLines.length;
@@ -146,6 +147,7 @@ function prevLine()
 		else
 		{
 			currentLine = textByLines.length-1;
+			document.getElementById("ta1").value = textByLines[currentLine];
 			document.getElementById("ta2").value = textByLines[currentLine];
 			var line = currentLine+1
 			document.getElementById("count").innerHTML = line + "/" + textByLines.length;

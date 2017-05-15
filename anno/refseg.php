@@ -19,7 +19,6 @@
 			<input type="file" accept=".xml" id="trs" style="display: none;" name="TaggedReferenceStrings" value="TaggedReferenceStrings" id="trs" onchange="fileNameB2(); loadFileAsTextB2();"/>
 			<input type="button" value="Tagged Reference String" onclick="document.getElementById('trs').click();" />
 		</form>
-		<!--<script> document.write(document.getElementById('rsf').files) </script>-->
 		<p id="demo"></p>
 
 		
