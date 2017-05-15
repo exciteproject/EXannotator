@@ -202,3 +202,58 @@ function nextLine()
 
 fileReader.readAsText(fileToLoad, "UTF-8");
 }
+
+/* Experiments for keeping the selected text selected on button hit
+
+var textarea = document.getElementById('textarea');
+var div = document.getElementById('holder');
+
+var original_value = textarea.value;
+textarea.onblur = function () {
+    var start = textarea.selectionStart;
+    var end = textarea.selectionEnd;
+    textarea.style.display = "none";
+    div.innerHTML = textarea.value.splice(end, 0, "</span>").splice(start, 0, "<span>");
+    div.style.display = "block";
+}
+
+div.onclick = function () {
+    div.style.display = "none";
+    textarea.style.display = "block";
+    textarea.value = original_value;
+}
+
+String.prototype.splice = function( idx, rem, s ) {
+    return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+};
+
+function foo() {
+    var selObj = window.getSelection(); 
+    alert(selObj);
+    var selText = selObj.toString();
+	document.getElementById("ta1").value = document.getElementById("ta1").value + "tag" + selText;
+    
+}
+
+function getSelectedText() {
+    if (window.getSelection) {
+        txt = window.getSelection();
+    } else if (window.document.getSelection) {
+        txt =window.document.getSelection();
+    } else if (window.document.selection) {
+        txt = window.document.selection.createRange().text;
+    }
+	document.getElementById("ta1").value = document.getElementById("ta1").value + "tag" + varText;
+    //return txt;  
+}
+
+function getSelectionText() {
+    var varText = "";
+    if (window.getSelection) {
+        varText = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        varText = document.selection.createRange().text;
+    }
+    //return text;
+	document.getElementById("ta1").value = "tag" + varText;
+}*/
