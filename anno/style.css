@@ -8,6 +8,7 @@
 	border: 1px solid #b3b3b3;
 }
 .roundButtons:hover {background-color: #e3e3e3}
+.roundButtons:active {transform: translateY(2px)}
 
 .fileName{
 	display: block;
@@ -51,7 +52,6 @@
 	font-size: 1em;
 	width: 100%
 }
-
 input[type='radio'] {
   width:auto;
   float:left;
@@ -109,6 +109,29 @@ input[type='radio']:checked  + label::before {
 	border: 1px solid #b3b3b3;
 }
 .tagButton:hover {background-color: #e3e3e3}
+.tagButton:active {transform: translateY(2px)}
+
+.textLabel {
+	font-family: monospace;
+	font-size: 13px;
+	width: 580px;
+	height: 80px;
+	display: inline-block;
+	border: 1px solid #b3b3b3;
+	cursor: text;
+}
+
+.ta2{
+	
+	font-size: 13px;
+	width: 580px;
+	height: 120px;
+}
+
+.tag{
+	font-size: large;
+	
+}
 
 .cycleButtons{
 	background: white;
@@ -119,7 +142,7 @@ input[type='radio']:checked  + label::before {
 	cursor: pointer;
 }
 .cycleButtons:hover {background-color: #e3e3e3}
-
+.cycleButtons:active {transform: translateY(2px)}
 
 .exportButton{
 	background: white;
@@ -131,4 +154,4 @@ input[type='radio']:checked  + label::before {
 	left: 475px;
 }
 .exportButton:hover {background-color: #e3e3e3}
-
+.exportButton:active {transform: translateY(2px)}
