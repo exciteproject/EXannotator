@@ -3,6 +3,39 @@ var textFromFileLoaded = "";
 var textByLines = "";
 var currentLine = 0;
 
+$(document).ready(function(){
+    $("#btnLoadSession").click(function(){
+        if(typeof(Storage)!=="undefined")
+        {
+            if (localStorage.getItem("anno1storage") != "")
+            {
+                alert(localStorage.getItem("anno1storage"));                
+                var localStorage1 =  localStorage.getItem("anno1storage");
+                var file = new Blob([localStorage1], {type:'text/xml'});
+                var fileToLoad = file;
+                loadFileAsText(fileToLoad);                
+            }
+        }
+        else
+        {
+            alert("Sorry! No Web Storage support..");
+        }
+    });
+    
+    $("#btnReload").click(function(){
+        var textforSave = getxaxmlText();
+        if (textforSave !="")
+            localStorage.setItem("anno1storage", textforSave);        
+        location.reload();        
+    });
+});
+
+window.onbeforeunload = function(){ 
+    var textforSave = getxaxmlText();
+    if (textforSave !="")
+        localStorage.setItem("anno1storage", textforSave);  
+    }
+
 //load File //////////////////////////////////////////
 function checkfileType(sender) {
 	$('#dvLoading').show();
@@ -17,8 +50,10 @@ function checkfileType(sender) {
     else
 	{	
 		emptyParameters(); 
-		showfileName(); 		
-		loadFileAsText();
+		showfileName();        
+        var fileToLoad = document.getElementById("uploadbtn").files[0];        
+        document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " / File Size : "+ getFile_Size(document.getElementById("uploadbtn"));;
+		loadFileAsText(fileToLoad);
 	}
 	$('#dvLoading').hide();
 	return true;
@@ -58,11 +93,21 @@ function showfileName()
 	document.getElementById("demo").innerHTML = txt;
 }
 
-function loadFileAsText()
+function getFile_Size(sender)
+{
+    //alert(sender.files[0].size);
+    var _size = sender.files[0].size;
+    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+    i=0;
+    while(_size>900){_size/=1024;i++;}
+    var exactSize = (Math.round(_size*100)/100)+' '+fSExt[i];
+    //alert(exactSize);
+    return exactSize;
+}
+
+function loadFileAsText(fileToLoad)
 {
 	//loads the file uploaded through "uploadbtn" into the textareas "content1" and "txaxml" and updates the "count" label. happens onchange of uploadbtn
-	var fileToLoad = document.getElementById("uploadbtn").files[0];
-	
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
@@ -82,27 +127,41 @@ function saveTextAsFile()
 {
 	if (document.getElementById("txaxml").value != "")
 	{
+		var textToWrite = getxaxmlText();
+        var fileNameToSaveAs = getFileName();
+		download(textToWrite, fileNameToSaveAs);
+	}else
+	alert('No File Selected OR Text is Empty ');
+}
+
+function getxaxmlText()
+{
+	if (document.getElementById("txaxml").value != "")
+	{
 		textByLines[currentLine] = document.getElementById("txaxml").value;
 	
 		textFromFileLoaded = textByLines.join("\n");
 		document.getElementById("txaxml").value = textByLines[currentLine];	
 	
 		var textToWrite = textFromFileLoaded;
-		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
-		//get file name
-		var fullPath = document.getElementById('uploadbtn').value;
-		if (fullPath) {
-			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-			var filename = fullPath.substring(startIndex);
-			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-				filename = filename.substring(1).split('.')[0];
-			}
-		}
-		var fileNameToSaveAs = filename + ".xml";
-		
-		download(textToWrite, fileNameToSaveAs);
+		return textToWrite;
 	}else
-	alert('No File Selected');
+    return "";
+}
+
+function getFileName()
+{
+    //get file name
+    var fullPath = document.getElementById('uploadbtn').value;
+    if (fullPath) {
+        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        var filename = fullPath.substring(startIndex);
+        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+            filename = filename.substring(1).split('.')[0];
+        }
+    }
+    var fileNameToSaveAs = filename + ".xml";
+    return fileNameToSaveAs;
 }
 
 function download(data, filename) {
@@ -198,16 +257,16 @@ function changeColor2(sender)
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
 		text12 = '</span>' + text12;
-		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;
-		//document.execCommand("HiliteColor", false, "#ffce30");
+		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;/**/
+		document.execCommand("HiliteColor", false, "#ffce30");
 	}
 	else if(tagname == "btnfirstname"){
-		text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
+		/*text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
 		text12 = '</span>' + text12;
-		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;
-		//document.execCommand("HiliteColor", false, "#aabb30");
+        document.getElementById("content1").innerHTML = text11 + selectedtext + text12;}*/
+		document.execCommand("HiliteColor", false, "#aabb30");
 	}
 	else if(tagname =="ye"){
 		document.execCommand("HiliteColor", false, "#bfb1d5");		

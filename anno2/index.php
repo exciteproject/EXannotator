@@ -21,32 +21,36 @@
 				<div class="col-md-2" >
 					&nbsp;&nbsp;  
 				</div>
-				<div class="col-md-8">					
-						<div class="row">
-							<div class="col-md-2" >
-								<form action=""> 
-									<!--<label for="uploadbtn"> Select Reference Strings File (.txt): </label> -->
-									<input type="file" accept=".txt, .xml"  id="uploadbtn" style="display: none;" name="ReferenceStringsFile" value="ReferenceStringsFile" onchange="checkfileType(this); "/>
-									<input type="button" id="uploasfile" class="btn btn-default" value="Upload a File" onclick="document.getElementById('uploadbtn').click();"  />
-								</form>
-							</div>
-							<div class="col-md-5 textalignc" >
-								<label class="fileName" id="demo"></label>
-							</div>
-							<div class="col-md-2" >
-							</div>
-							<div class="col-md-2" >
-								<button class="btn btn-default" onclick="location.reload();">Reload page</button>									
-							</div>
-						</div>					
-	
+				<div class="col-md-8">
+                    <div class="panel panel-default" >
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2" >                                    
+                                    <input type="file" accept=".txt, .xml"  id="uploadbtn" style="display: none;" name="ReferenceStringsFile" value="ReferenceStringsFile" onchange="checkfileType(this); "/>
+                                    <input type="button" id="uploasfile" class="btn btn-primary" value="Choose a File" onclick="document.getElementById('uploadbtn').click();"  />                                    
+                                </div>
+                                <div class="col-md-4 textalignc" >
+                                    
+                                </div>
+                                <div class="col-md-2" >
+                                    <button id="btnLoadSession" class="btn btn-primary">Load Last Session</button>
+                                </div>
+                                <div class="col-md-2" >
+                                    <button id="btnReload" class="btn btn-primary" >Reload page</button>									
+                                </div>
+                                <div class="col-md-2" >
+                                    <button class ="btn btn-primary" type="button" onclick="saveTextAsFile();">Export XML File</button>
+                                </div>
+                            </div>					
+                        </div>
+                    </div>
 						
 						<!--<label id="ta1" class="textLabel">Please upload a File</label><!--note that ta1 isn't a textarea (anymore)-->
 						<!--<textarea id="ta1" cols="80" rows="5">Please upload a file</textarea>-->						
 						
 						<div class="panel panel-info"> 
 							<div class="panel-heading"> 
-								<h3 class="panel-title textalignl bold">Tag the Reference String:</h3> 
+								<h3 class="panel-title textalignl bold">Tag the Reference String:&nbsp;&nbsp;<label class="fileName" id="demo"></label></h3> 
 							</div> 
 							<div class="panel-body"> 
 								<div class="row margin-bottom-10" >
@@ -159,20 +163,23 @@
 										</div>
 										<div class="row mrg-0">
 											<br/>									
-											<div class="col-md-6">
-												<div class="col-md-4">
+											<div class="col-md-12">
+                                                <div class="col-md-3">
+                                                    &nbsp;&nbsp; 
+                                                </div>
+												<div class="col-md-2">
 													<button type="button" id="prev" class="btn btn-primary" onclick="gotoprevLine();">Previous</button>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-2">
 													<label class="btn btn-default btn-sm" id="count"> 0/0 </label>
 												</div>
-												<div class="col-md-4">
+												<div class="col-md-2">
 													<button type="button" id="next" class="btn btn-primary" onclick="gotonextLine();">Next</button>
 												</div>
-											</div>											
-											<div class="col-md-6 textalignc">
-												<button class ="btn btn-default" type="button" onclick="saveTextAsFile();">Export XML File</button>
-											</div>
+                                                <div class="col-md-3">
+                                                    &nbsp;&nbsp; 
+                                                </div>
+											</div>																						
 										</div>
 
 										<div class="row">

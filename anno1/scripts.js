@@ -16,13 +16,29 @@ function emptyParameters()
     //textFileName = ""
 }
 
-function CheckFileAvailabilityReturnName(x)
+$(document).ready(function(){
+    //$("#btnUploadText").click(show_TextFile());
+    
+    
+    $("#btnUpdateTag").click(function(){
+        $("#spinner").show("slow", function(){
+            //alert("The paragraph is now hidden");
+            translateColor_ToTag();
+            $("#spinner").hide("slow");
+        });
+    });
+    
+    
+    
+});
+
+function checkFileAvailability_ReturnFileName(x)
 {
-	//displays the filename of anything uploaded through button "uploadbtn" in label "demo". happens onchange of "uploadbtn"
-	//var x = document.getElementById("uploadbtn");
+	//displays the filename of anything uploaded through button "btnUploadText" in label "demo". happens onchange of "btnUploadText"
+	//var x = document.getElementById("btnUploadText");
 	var filename = "";
 	var txt = "";
-	if ('files' in x) 
+	if ('files' in x)
 	{
 		for (var i = 0; i < x.files.length; i++) //made for any amount of uploaded files 
 		{  
@@ -43,7 +59,7 @@ function CheckFileAvailabilityReturnName(x)
 	return filename.split('.')[0];
 }
 
-function checkSimilarity()
+function checkFilesName_Similarity()
 {
     if (textFileName == "")
     {
@@ -53,7 +69,7 @@ function checkSimilarity()
     }
     if (pdfFileName == "")
     {
-        alert("Please Select a PDF File.");
+        //alert("Please Select a PDF File.");
         document.getElementById("errorMsg").innerHTML = "Please Select a PDF File.";
         return;
     }
@@ -64,12 +80,12 @@ function checkSimilarity()
     }    
 }
 
-function assignPdf(sender) {
+function show_PdfFile() {
     emptyParameters();
     
     //Check Availibality
-    var x = document.getElementById("file-input");
-    pdfFileName = CheckFileAvailabilityReturnName(x);
+    var x = document.getElementById("btnUploadPdf");
+    pdfFileName = checkFileAvailability_ReturnFileName(x);
     //alert(pdfFileName);
     if (pdfFileName == "")
     {
@@ -82,13 +98,14 @@ function assignPdf(sender) {
     
     //Check Type
     var validExts = new Array(".pdf");
-    var fileExt = sender.value;
+    var fileExt = x.value;
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
     //alert(fileExt);
     if (validExts.indexOf(fileExt) < 0) {
       alert("Invalid file selected, valid files are of " + validExts.toString() + " types.!!! ");
       return false;
     }    
+    document.getElementById("pdfSize").innerHTML = getFile_Size(x);
     
     //Show File 
     var file = x.files[0];
@@ -96,81 +113,105 @@ function assignPdf(sender) {
     //alert(tmppath);
     //web/viewer.html?file=12826.pdf
     document.getElementById('pdfiframe').src = "web/viewer.html?file="+tmppath;
-    checkSimilarity();
+    checkFilesName_Similarity();
 }
 
+function getFile_Size(sender)
+{
+    //alert(sender.files[0].size);
+    var _size = sender.files[0].size;
+    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+    i=0;
+    while(_size>900){_size/=1024;i++;}
+    var exactSize = (Math.round(_size*100)/100)+' '+fSExt[i];
+    //alert(exactSize);
+    return exactSize;
+}
 
-function checkfileType(sender) {
+function show_TextFile() {
     emptyParameters(); 
+    
     //Check Availibality
-    var x = document.getElementById("uploadbtn");
-    textFileName = CheckFileAvailabilityReturnName(x);
-    //alert(textFileName);
+    var x = document.getElementById("btnUploadText");
+    textFileName = checkFileAvailability_ReturnFileName(x);
     if (textFileName == "")
     {
         alert("No File Selected!!!");
         return false;
-    }
+    }    
     
     //Check Type
     var validExts = new Array(".txt", ".xml");
-    var fileExt = sender.value;    
+    var fileExt = x.value;    
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
-    //alert(fileExt);
     if (validExts.indexOf(fileExt) < 0) {
       alert("Invalid file selected, valid files are of " + validExts.toString() + " types.");
       return false;
     }
-    //var filename = showfileName(); 
-    //showpdffile(filename);		
-    loadFileAsText();
-	checkSimilarity();
+    //CheckFileSize
+    document.getElementById("txtSize").innerHTML = getFile_Size(x);
+    
+    //Show Text in page 
+     $("#spinner").show("slow", function(){
+            //alert("The paragraph is now hidden");
+            loadFile_AsText();
+            $("#spinner").hide("slow");
+        });
+	
+    //check Similarity of pdf and text files
+    checkFilesName_Similarity();
+
 }
 
-function loadFileAsText()
+function loadFile_AsText()
 {
-	//loads the file uploaded through "uploadbtn" into the textareas "content1" and "txaxml" and updates the "count" label. happens onchange of uploadbtn
-	var fileToLoad = document.getElementById("uploadbtn").files[0];
-	
+	//loads the file into the textareas "content1" and "txaxml"
+	var fileToLoad = document.getElementById("btnUploadText").files[0];
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
 		textFromFileLoaded = fileLoadedEvent.target.result;
-		
-		textByLines = textFromFileLoaded.split('\n');//converts textfile into array of lines cutting whenever "\n" is in the file
+		//converts textfile into array of lines cutting whenever "\n" is in the file
+		textByLines = textFromFileLoaded.split('\n');
 		//alert(textByLines.length);
 		var temp= "";
-		for (var i = 0; i < textByLines.length; i++) //made for any amount of uploaded files 
+        //made for any amount of uploaded files
+		for (var i = 0; i < textByLines.length; i++)  
 		{
-			temp = temp + textByLines[i] + '<br>';
-			
+			temp = temp + textByLines[i] + '<br>';			
 		}
 		document.getElementById("content1").innerHTML = temp;
 		document.getElementById("txaxml").value = textFromFileLoaded;
-		//document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
-		colorize();
-		
+		colorizeText_InLable();	
+        //callback();        
 	};			
-	fileReader.readAsText(fileToLoad, "UTF-8");
+	fileReader.readAsText(fileToLoad, "UTF-8");    
 }
 
-function showpdffile(txt)
-{
-	var loc = location.pathname;
-	var dir = loc.substring(0, loc.lastIndexOf('/'));
-	var filename = txt.split('.')[0];
-	var srcpdf = dir + "/PDF/" + filename + ".pdf";
-	//alert(srcpdf);
-	document.getElementById('pdfiframe').src = srcpdf;
+function colorizeText_InLable()
+{// replaces the manually added tags with colortags for content1.
+	var textCopy = document.getElementById("txaxml").value;;
 	
+	while (textCopy.indexOf("<ref>") !==-1)
+	{
+		textCopy = textCopy.replace("</ref>", "</span>");
+		textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(255, 150, 129);">');
+	}
+	textCopy = textCopy.split('\n');
+	//alert(textCopy.length);
+    //Add '<br>' to the end of all lines
+	var temp= "";
+	for (var i = 0; i < textCopy.length; i++) 
+	{
+		temp = temp + textCopy[i] + '<br>';		
+	}
+	document.getElementById("content1").innerHTML = temp;	
 }
 
-
-
-function showfileName()
+function show_FileName()
 {
-	//displays the filename of anything uploaded through button "uploadbtn" in label "demo". happens onchange of "uploadbtn"
-	var x = document.getElementById("uploadbtn");
+	//displays the filename of anything uploaded through button "btnUploadText" in label "demo". happens onchange of "btnUploadText"
+	var x = document.getElementById("btnUploadText");
 	var filename = "";
 	var txt = "";
 	if ('files' in x) 
@@ -194,31 +235,43 @@ function showfileName()
 	return filename;
 }
 
-function saveTextAsFile()
+function saveText_AsXmlFile()
 {
-	if (document.getElementById("txaxml").value != "")
-	{
-		textByLines[currentLine] = document.getElementById("txaxml").value;
-	
-		textFromFileLoaded = textByLines[currentLine];//textByLines.join("\n");
-		document.getElementById("txaxml").value = textByLines[currentLine];	
-	
-		var textToWrite = textFromFileLoaded;
-		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
-		//get file name
-		var fullPath = document.getElementById('uploadbtn').value;
-		if (fullPath) {
-			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-			var filename = fullPath.substring(startIndex);
-			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-				filename = filename.substring(1).split('.')[0];
-			}
-		}
-		var fileNameToSaveAs = filename + ".xml";
-		
-		download(textToWrite, fileNameToSaveAs);
-	}else
-	alert('No File Selected');
+	if (document.getElementById("txaxml").value == "")
+    {
+        alert('No File Selected');
+        return;
+    }
+    //$("#spinner").show();
+    //translateColor_ToTag( function() {$("#spinner").hide()});
+    
+    $("#spinner").show("slow", function(){
+        //alert("The paragraph is now hidden");
+        translateColor_ToTag();            
+
+        translateColor_ToTag();
+        textByLines[currentLine] = document.getElementById("txaxml").value;
+
+        textFromFileLoaded = textByLines[currentLine];//textByLines.join("\n");
+        document.getElementById("txaxml").value = textByLines[currentLine];	
+
+        var textToWrite = textFromFileLoaded;
+        var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+        //get file name
+        var fullPath = document.getElementById('btnUploadText').value;
+        
+        if (fullPath) {
+            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+            var filename = fullPath.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                filename = filename.substring(1).split('.')[0];
+            }
+        }
+        var fileNameToSaveAs = filename + ".xml";
+        
+        download(textToWrite, fileNameToSaveAs); 
+        $("#spinner").hide("slow");
+    });
 }
 
 function download(data, filename) {
@@ -239,11 +292,8 @@ function download(data, filename) {
     }
 }
 
-//Navigate between Lines/////////////////////////////////////
-
-
 //change color in plain text and translate to tags in textarea////////
-function changeColor2(sender) 
+function change_TxtColor(sender) 
 {
 	// Get Selection
 	if (document.getElementById("content1").innerHTML == "")
@@ -254,7 +304,12 @@ function changeColor2(sender)
     
 	sel = window.getSelection();
 	var selectedtext = sel.toString();	
-    alert(selectedtext.toString());
+    //alert(selectedtext.toString());
+    if (selectedtext == "")
+    {
+		alert('Please Select Text');
+		return;        
+    }
     if (sel.rangeCount && sel.getRangeAt) {
         range = sel.getRangeAt(0);
     }
@@ -267,23 +322,20 @@ function changeColor2(sender)
     //Colorize text	
 	document.execCommand("HiliteColor", false, "#ff9681");
     // Set design mode to off
-    document.designMode = "off";
-	translateColor(sender);
-    
+    document.designMode = "off"; 
 }
 
-function translateColor(sender)
+
+
+function translateColor_ToTag()
 {
-	// replaces the manually added tags with colortags for content1. 
-	//updateText();
+    // replaces the manually added tags with colortags for content1. 
 	var textCopy = document.getElementById("content1").innerHTML;
-	var tagname = sender.value;
-	
-	var flagsurname = false;
-	var flagfirstname = false;
 	var openSpanValue = "";
 
 	openSpanValue = '<span style="background-color: rgb(255, 150, 129);">';	
+    var re = new RegExp(/<span style="background-color: rgb\(255, 150, 129\);"/g);
+    //alert(textCopy.match(re || []).length);
 	while(textCopy.indexOf(openSpanValue) !==-1)
 	{				
 		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue));
@@ -300,29 +352,9 @@ function translateColor(sender)
 		textCopy = textCopy.replace(openSpanValue, '\n');	
 	}	
 	//alert(i);
-	document.getElementById("txaxml").value = textCopy;
+	document.getElementById("txaxml").value = textCopy;	
 }
 
-function colorize()
-{// replaces the manually added tags with colortags for content1.
-	var textCopy = document.getElementById("txaxml").value;;
-	
-	while (textCopy.indexOf("<ref>") !==-1)
-	{
-		textCopy = textCopy.replace("</ref>", "</span>");
-		textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(255, 150, 129);">');
-	}
-	textCopy = textCopy.split('\n');
-	//alert(textCopy.length);
-	var temp= "";
-	for (var i = 0; i < textCopy.length; i++) //made for any amount of uploaded files 
-	{
-		temp = temp + textCopy[i] + '<br>';		
-	}
-	document.getElementById("content1").innerHTML = temp;
-	//document.getElementById("content1").innerHTML = textCopy;
-	
-}
 function RemoveTag(sender)
 {
     sel = window.getSelection();
@@ -334,14 +366,29 @@ function RemoveTag(sender)
 	//alert(sel.anchorNode.parentElement.toString());
 	if (sel.anchorNode.parentElement.toString()== "[object HTMLSpanElement]")
 	{
-		//alert('yes');
 		$(sel.anchorNode.parentElement).contents().unwrap();
-		translateColor(sender);
+        document.getElementById("myPopup").classList.toggle("show");
+		popUpFlag = false;
 	}
 	//alert(sel);
 }
 
-function RemoveTagOld(sender)
+function RemoveTag1(sender)
+{
+    var par = getSelectionParentElement().nodeName;
+    alert(par);
+    sel = window.getSelection();
+	//alert(sel.anchorNode.parentElement.toString());
+	if(par == "SPAN")
+	{
+		//alert('yes');
+		$(par).contents().unwrap();
+		translateColor_ToTag(sender);
+	}
+	//alert(sel);
+}
+
+function RemoveTagOld0(sender)
 {
 
 	sel = window.getSelection();
@@ -358,8 +405,126 @@ function RemoveTagOld(sender)
     }
 	document.execCommand("removeFormat", false, "foreColor");
 	document.designMode = "off";
-	translateColor(sender);	
+	translateColor_ToTag(sender);	
+    
 }
 
 ///////////////////////////////
 
+ var popUpFlag = false;
+ function getSelectionParentElement() {
+    var parentEl = null, sel;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.rangeCount) {
+            parentEl = sel.getRangeAt(0).commonAncestorContainer;
+            if (parentEl.nodeType != 1) {
+                parentEl = parentEl.parentNode;
+            }
+        }
+    } else if ( (sel = document.selection) && sel.type != "Control") {
+        parentEl = sel.createRange().parentElement();
+    }
+    return parentEl;
+}
+
+$(document).click(function(event){
+    
+        if (popUpFlag != true)
+        {
+            document.getElementById("myPopup").classList.add('popuphidden');
+            popUpFlag = false;
+        }
+    
+});
+
+
+
+$("#content").click(function(event) {
+    
+    //event.stopPropagation(); // i read that this might be harmful to other functions
+    //document.getElementById("myPopup").classList.add('popuphidden');
+    //document.getElementById("myPopup").css("visibility", "hidden");
+    var par = getSelectionParentElement().nodeName;
+    //alert(par);
+    var popup = document.getElementById("myPopup");
+    if(par == "SPAN")
+    {
+        $('#myPopup').css('left',event.pageX-85 ); // -14 and -310 account for the top and left border(maybe there is an other way)
+        $('#myPopup').css('top',event.pageY-85 );
+        $('#myPopup').css('display','inline');     
+        $("#myPopup").css("position", "absolute");
+        popup.classList.toggle("show");
+        if(popUpFlag == false)
+        {
+            popUpFlag= true;
+        }     
+    }
+    else if(popUpFlag == true){
+        popup.classList.toggle("show");
+		popUpFlag = false;
+
+    }
+});
+
+$("#delbtnno").click(function(event) {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+    popUpFlag = false;
+});
+
+$("#pdfiframe").click(function(event) {
+    document.getElementById("myPopup").classList.add('popuphidden'); // i read that this might be harmful to other functions
+});
+
+$("#content").mouseup(function(){
+    
+    var popup = document.getElementById("myPopup");
+    sel = window.getSelection();
+	if (sel != "")
+	{        
+        if (sel.anchorNode.parentElement.toString()== "[object HTMLSpanElement]")
+        {
+            //alert(sel);
+            $('#myPopup').css('left',event.pageX-85 ); // -14 and -310 account for the top and left border(maybe there is an other way)
+            $('#myPopup').css('top',event.pageY-85 );
+            $('#myPopup').css('display','inline');     
+            $("#myPopup").css("position", "absolute");
+            popup.classList.toggle("show");
+            if(popUpFlag == false)
+            {
+                popUpFlag= true;
+            }
+            
+        }
+        else if(popUpFlag == true){
+            popup.classList.add('popuphidden');
+            popUpFlag = false;
+        }    
+        //alert("Mouse button released.");
+    }
+});
+
+$("#content1").dblclick(function(event) 
+{
+    var par = getSelectionParentElement().nodeName;
+    var popup = document.getElementById("myPopup");
+    
+    if(par == "SPAN")
+    {
+        $('#myPopup').css('left',event.pageX-85 ); // -14 and -310 account for the top and left border(maybe there is an other way)
+        $('#myPopup').css('top',event.pageY-85 );
+        $('#myPopup').css('display','inline');     
+        $("#myPopup").css("position", "absolute");
+        popup.classList.toggle("show");
+        if(popUpFlag == false)
+        {
+            popUpFlag= true;
+        }     
+    }
+    else if(popUpFlag == true){
+        popup.classList.toggle("show");
+		popUpFlag = false;
+    }    
+});
+//////////////////////////////////

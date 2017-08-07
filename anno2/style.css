@@ -7,10 +7,10 @@ body
 
 .fileName{
 	display1: block;
-	text-align: center;
-	width: 200px;
-	height: 18px;
-	color: grey;
+	text-align: left;
+	width1: 200px;
+	height1: 18px;
+	color: #199C13;
 }
 
 .headerDivider {
