@@ -9,7 +9,7 @@ $(document).ready(function(){
         {
             if (localStorage.getItem("anno1storage") != "")
             {
-                alert(localStorage.getItem("anno1storage"));                
+                //alert(localStorage.getItem("anno1storage"));                
                 var localStorage1 =  localStorage.getItem("anno1storage");
                 var file = new Blob([localStorage1], {type:'text/xml'});
                 var fileToLoad = file;
@@ -52,7 +52,7 @@ function checkfileType(sender) {
 		emptyParameters(); 
 		showfileName();        
         var fileToLoad = document.getElementById("uploadbtn").files[0];        
-        document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " / File Size : "+ getFile_Size(document.getElementById("uploadbtn"));;
+        document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " - File Size : "+ getFile_Size(document.getElementById("uploadbtn"));;
 		loadFileAsText(fileToLoad);
 	}
 	$('#dvLoading').hide();
@@ -226,6 +226,7 @@ function changeColor2(sender)
 {
     // Get Selection
 	var text1 = document.getElementById("content1").innerHTML;
+    //alert(text1);
 	if (document.getElementById("content1").innerHTML == "")
 	{ 
 		alert('Please Select a file');
@@ -237,7 +238,7 @@ function changeColor2(sender)
 	sel = window.getSelection();
 	var selectedtext = sel.toString();	
 	var text11 = text1.substr(0, text1.indexOf(sel)) ;	
-	
+	//alert(text11);
     if (sel.rangeCount && sel.getRangeAt) {
         range = sel.getRangeAt(0);
     }
@@ -253,11 +254,11 @@ function changeColor2(sender)
 		document.execCommand("HiliteColor", false, "#ff9681");
 	}
 	else if(tagname =="btnsurname"){
-		text11 = text11 + '<span style="background-color: rgb(255, 206, 48);">';
+		/*text11 = text11 + '<span style="background-color: rgb(255, 206, 48);">';
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
 		text12 = '</span>' + text12;
-		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;/**/
+		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
 		document.execCommand("HiliteColor", false, "#ffce30");
 	}
 	else if(tagname == "btnfirstname"){
@@ -361,8 +362,42 @@ function translateColor(sender)
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(244, 133, 142);">', '<other>');
 	}
 	textByLines[currentLine] = textCopy[currentLine];
-	document.getElementById("txaxml").value = textByLines[currentLine];
-	textFromFileLoaded = textByLines.join("");
+	    
+    var text1 = textByLines[currentLine];
+    
+    {
+        var openTag = '</author><surname>';
+        var i = 0
+        while(text1.indexOf(openTag) !==-1)
+        {
+            i++;
+            text1 = text1.replace(openTag, '<surname>');	
+        }
+        var CloseTag = '</surname><author>';
+        var j = 0
+        while(text1.indexOf(CloseTag) !==-1)
+        {
+            j++;
+            text1 = text1.replace(CloseTag, '</surname>');	
+        }
+
+        openTag = '</author><firstname>';
+        while(text1.indexOf(openTag) !==-1)
+        {
+            i++;
+            text1 = text1.replace(openTag, '<firstname>');	
+        }
+        CloseTag = '</firstname><author>';
+        j = 0
+        while(text1.indexOf(CloseTag) !==-1)
+        {
+            j++;
+            text1 = text1.replace(CloseTag, '</firstname>');	
+        }
+	}
+    
+    textFromFileLoaded = text1;
+    document.getElementById("txaxml").value = text1;
 }
 
 function colorize()

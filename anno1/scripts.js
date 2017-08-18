@@ -17,9 +17,7 @@ function emptyParameters()
 }
 
 $(document).ready(function(){
-    //$("#btnUploadText").click(show_TextFile());
-    
-    
+    //$("#btnUploadText").click(show_TextFile());  
     $("#btnUpdateTag").click(function(){
         $("#spinner").show("slow", function(){
             //alert("The paragraph is now hidden");
@@ -27,9 +25,6 @@ $(document).ready(function(){
             $("#spinner").hide("slow");
         });
     });
-    
-    
-    
 });
 
 function checkFileAvailability_ReturnFileName(x)
@@ -325,8 +320,6 @@ function change_TxtColor(sender)
     document.designMode = "off"; 
 }
 
-
-
 function translateColor_ToTag()
 {
     // replaces the manually added tags with colortags for content1. 
@@ -430,37 +423,25 @@ function RemoveTagOld0(sender)
 
 $(document).click(function(event){
     
-        if (popUpFlag != true)
-        {
-            document.getElementById("myPopup").classList.add('popuphidden');
-            popUpFlag = false;
-        }
+    //alert(document.getElementsByClassName("popup").value);
+    var popup = document.getElementById("myPopup");
+    if(popUpFlag == true){
+        popup.classList.toggle("show");
+		popUpFlag = false;
+
+    }
     
 });
 
 
 
-$("#content").click(function(event) {
+$("#content1").click(function(event) {
     
     //event.stopPropagation(); // i read that this might be harmful to other functions
     //document.getElementById("myPopup").classList.add('popuphidden');
     //document.getElementById("myPopup").css("visibility", "hidden");
-    var par = getSelectionParentElement().nodeName;
-    //alert(par);
     var popup = document.getElementById("myPopup");
-    if(par == "SPAN")
-    {
-        $('#myPopup').css('left',event.pageX-85 ); // -14 and -310 account for the top and left border(maybe there is an other way)
-        $('#myPopup').css('top',event.pageY-85 );
-        $('#myPopup').css('display','inline');     
-        $("#myPopup").css("position", "absolute");
-        popup.classList.toggle("show");
-        if(popUpFlag == false)
-        {
-            popUpFlag= true;
-        }     
-    }
-    else if(popUpFlag == true){
+    if(popUpFlag == true){
         popup.classList.toggle("show");
 		popUpFlag = false;
 
@@ -468,9 +449,17 @@ $("#content").click(function(event) {
 });
 
 $("#delbtnno").click(function(event) {
+    //alert($("#popupdiv").is(':visible'))
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
     popUpFlag = false;
+    //alert($("#popupdiv").is(':visible'));
+});
+
+$("#btntest").click(function(event) {
+    document.getElementById("popupdiv").classList.add('popuphidden');
+    alert($("#popupdiv").is(':visible'))
+    
 });
 
 $("#pdfiframe").click(function(event) {
@@ -480,6 +469,7 @@ $("#pdfiframe").click(function(event) {
 $("#content").mouseup(function(){
     
     var popup = document.getElementById("myPopup");
+    
     sel = window.getSelection();
 	if (sel != "")
 	{        

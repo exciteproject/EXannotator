@@ -16,7 +16,7 @@
         
     </div>
 	<div class="container-fluid">
-        <div class="popup">
+        <div class="popup" id="popupdiv">
             <span class="popuptext" id="myPopup">
                 <div class="row textalignc">
                     <div class="row textalignc">
@@ -81,6 +81,9 @@
                     
                     <div class="col-md-2 textalignl pad-b-5" >
                         <button class="btn btn-success" onclick="location.reload();">Reload page</button>									
+                    </div>
+                    <div class="col-md-2 textalignl pad-b-5" >
+                        <button class="btn btn-success" id="btntest">Test </button>		
                     </div>
                 </div>
             </div>
