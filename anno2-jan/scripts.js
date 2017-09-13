@@ -275,14 +275,14 @@ function changeColor2(sender)
         alert("finddddd");*/
         
     
-    if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]")
+  /*  if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]")
 	{
 		if (tagname =="btnsurname" || tagname =="btnfirstname")
         {
             alert("Adding First Name and Surname only in Author tag is possible.");
             return;
         }
-	}
+	}*/
 	var text11 = text1.substr(0, text1.indexOf(sel)) ;	
 	//alert(text11);
     if (sel.rangeCount && sel.getRangeAt) {
@@ -353,19 +353,18 @@ function translateColor(sender)
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
-		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length);
-        text2 = text2.replace("</span>", "</surname>");
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</surname></author>");
 		textCopy[currentLine] = text1 + text2;
-		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<surname>');
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author><surname>');
 	}
 	
 	openSpanValue = '<span style="background-color: rgb(170, 187, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
-		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</firstname>");
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</firstname></author>");
 		textCopy[currentLine] = text1 + text2;
-		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<firstname>');
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author><firstname>');
 	}
 
 	openSpanValue = '<span style="background-color: rgb(255, 150, 129);">';	
@@ -405,11 +404,23 @@ function translateColor(sender)
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">'), textCopy[currentLine].length).replace("</span>", "</other>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(244, 133, 142);">', '<other>');
 	}
+	
+	while(textCopy[currentLine].lastIndexOf("</author>") != textCopy[currentLine].indexOf("</author>"))
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</author>","");
+	}
+	
+	while(textCopy[currentLine].indexOf("<author>") != textCopy[currentLine].lastIndexOf("<author>"))
+	{	
+		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf("<author>"));
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf("<author>")+1, textCopy[currentLine].length).replace("<author>", "");
+		textCopy[currentLine] = text1 +"<"+ text2;
+	}
 	textByLines[currentLine] = textCopy[currentLine];
 	    
-    var text1 = textByLines[currentLine];
-    
-    {
+	
+	
+	/*{
         var openTag = '</author><surname>';
         var i = 0
         while(text1.indexOf(openTag) !==-1)
@@ -441,10 +452,11 @@ function translateColor(sender)
             j++;
             text1 = text1.replace(CloseTag, '</firstname>');	
         }
-	}
+	}*/
     
     textFromFileLoaded = text1;
-    document.getElementById("txaxml").value = text1;
+    document.getElementById("txaxml").value = textCopy[currentLine];
+	colorize();
 }
 
 function colorize()
@@ -890,6 +902,10 @@ function deleteTags2()
 	
 }
 
+/*
+
+
+*/
 /////popup
  var popUpFlag = false;
  function getSelectionParentElement() {

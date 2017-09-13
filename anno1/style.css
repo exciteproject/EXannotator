@@ -7,20 +7,23 @@ body
 
 .textLabel {
 	font-family: monospace;
-	font-size: 13px;
+	font-size: 12px;
 	width: 100%;
 	height: 100%;
 	border: 1px solid #b3b3b3;
 	cursor: text;
+    white-space: nowrap !important;
+    overflow1: scroll;
 }
 
 .txaxml{
 	font-family: monospace;
-	font-size: 13px;
+	font-size: 12px;
 	width: 100%;
 	height: 100%;
 	border: 1px solid #b3b3b3;
 	cursor: text;
+    
 }
 
 /*Popup Css*/
@@ -116,7 +119,10 @@ body
 .noborderbtn
 {
 	border: 0px !important;
-	
+}
+.nowrap{
+    white-space: nowrap !important;
+    color1: red;
 }
 #spinner {
     display : none;

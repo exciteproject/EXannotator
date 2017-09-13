@@ -1,0 +1,192 @@
+.page {
+	max-width: 580px;
+	margin: auto;
+}
+
+.roundButton {
+	position: relative;
+	top: 30px;
+    border-radius: 6px;
+	background: white;
+	font-weight: bold;
+	height: 35px;
+	width: 200px;
+	cursor: pointer;
+	border: 1px solid #b3b3b3;
+}
+.roundButton:hover {background-color: #e3e3e3}
+.roundButton:active {transform: translateY(2px)}
+
+.fileName{
+	display: block;
+	text-align: center;
+	width: 200px;
+	height: 18px;
+	font-size: 14px;
+	color: grey;
+	position: relative;
+	top: 25px;
+
+}
+
+.headerDivider {
+     border-left: 1px solid #38546d;  
+     height: 80px;
+     position: relative;
+     left: 228px;
+     top: -60px; 
+}
+/*left row*/
+.radioButtonsContainer1{
+	position: relative;
+	left: 246px;
+	top: -140px;
+}
+/*right row*/
+.radioButtonsContainer2{
+	position: relative;
+	left: 366px;
+	top: -209px;
+}
+/* this block is for the alternative radiobutton design*/
+.radioButtons{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border:none;
+	border-radius: 0;
+	font-size: 1em;
+	width: 100%
+}
+input[type='radio'] {
+  width:auto;
+  float:left;
+  margin-right: .75em;
+  background:transparent;
+  border:none;
+}
+input[type='radio']:checked,
+input[type='radio']:not(:checked) {
+  background: transparent;
+  position: relative;
+  visibility: hidden;
+  margin:0;
+  padding:0;
+}
+input[type='radio'] + label {
+  cursor: pointer;
+}
+input[type='radio']:checked + label::before,
+input[type='radio']:not(:checked) + label::before {
+    content:' ';
+    display:inline-block;
+    width: 17px;
+    height:17px;
+    position: relative;
+    top:4px;
+    border: 1px solid #bbb;
+    background: white;
+    margin-right: 1em;
+    box-shadow: inset 0 1px 1px 0 rgba(0,0,0,.1);
+}
+input[type=radio]:checked + label::before,
+input[type=radio]:not(:checked) + label::before {
+  border-radius: 30px;
+}
+input[type='radio']:hover  + label::before {
+  background:#ddd;
+  box-shadow: inset 0 0 0 2px white;
+}
+input[type='checkbox']:checked  + label::before,
+input[type='radio']:checked  + label::before {
+  background:black;
+  box-shadow: inset 0 0 0 2px white;
+}
+
+.tagButton{
+	background: white;
+	font-weight: bold;
+	position: relative;
+	height: 25px;
+	width: 120px;
+	left: 460px;
+	top: -208px;
+	cursor: pointer;
+	border: 1px solid #b3b3b3;
+}
+.tagButton:hover {background-color: #e3e3e3}
+.tagButton:active {transform: translateY(2px)}
+
+.textLabel {
+	position: relative;
+	top: -190px;
+	font-family: monospace;
+	font-size: 13px;
+	width: 578px;
+	height: 80px;
+	display: inline-block;
+	border: 1px solid #b3b3b3;
+	cursor: text;
+}
+
+.ta2{
+	position: relative;
+	top: -180px;
+	font-size: 13px;
+	width: 580px;
+	height: 120px;
+}
+
+.tag{
+	position: relative;
+	top: -185px;
+	font-size: large;
+	
+}
+
+.cycleButtonPrev{
+	position: relative;
+	top: -170px;
+	background: white;
+	font-weight: bold;
+	border: 1px solid #b3b3b3;
+	height: 25px;
+	width: 80px;
+	cursor: pointer;
+}
+.cycleButtonPrev:hover {background-color: #e3e3e3}
+.cycleButtonPrev:active {transform: translateY(2px)}
+
+.count{
+	display: block;
+	position: relative;
+	top: -190px;
+	left: 100px;
+	width: 35px;
+}
+.cycleButtonNext{
+	position: relative;
+	top: -213px;
+	left: 140px;
+	background: white;
+	font-weight: bold;
+	border: 1px solid #b3b3b3;
+	height: 25px;
+	width: 80px;
+	cursor: pointer;
+}
+.cycleButtonNext:hover {background-color: #e3e3e3}
+.cycleButtonNext:active {transform: translateY(2px)}
+
+.exportButton{
+	background: white;
+	font-weight: bold;
+	border: 1px solid #b3b3b3;
+	cursor: pointer;
+	height: 25px;
+	position: relative;
+	left: 382px;
+	top: -213px;
+}
+.exportButton:hover {background-color: #e3e3e3}
+.exportButton:active {transform: translateY(2px)}

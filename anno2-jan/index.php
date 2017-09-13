@@ -14,6 +14,21 @@
 
 
 		<div class="container-fluid">
+			<div class="popup" id="popupdiv">
+            <span class="popuptext" id="myPopup">
+                <div class="row textalignc">
+                    <div class="row textalignc">
+                        Remove Tag?!
+                    </div>
+						<div class="row textalignc">                    
+							<div class="col-md-12" >
+								<button style='background-color: #C0D4EE' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button" onclick="RemoveTag(this);">Yes</button>                                       
+								<button style='background-color: #C0D4EE' id="delbtnno" value="delbtnno" class="btn btn-default noborderbtn text-wrap" type="button" onclick="">No</button>                   
+							</div>                    
+						</div>
+				</div>
+			</span>
+			</div>
 			<div class="row">
 			  &nbsp;&nbsp; 
 			</div>

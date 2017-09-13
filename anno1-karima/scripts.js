@@ -1,59 +1,197 @@
-
 var textFromFileLoaded = "";
 var textByLines = "";
 var currentLine = 0;
 
-function emptyParameters()
+// var reader = new FileReader();
+// function readText(that){
+			// if(that.files && that.files[0]){
+				// var reader = new FileReader();
+				// reader.onload = function (e) {  
+					// var output=e.target.result;
+					// var temp= "";
+					
+					// textByLines = output.split('\n');															
+					// for (var i = 0; i < textByLines.length; i++) 
+						// {
+							// temp = temp + textByLines[i] + '</br>';
+			
+						// }											
+					// document.getElementById('main').innerHTML= temp;
+				// };//end onload()
+				// reader.readAsText(that.files[0]);
+			// }
+// } 
+
+// function saveTextAsFile()
+// {
+	// var textToWrite = document.getElementById("content1").value;
+	// var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+	// var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+
+	// var downloadLink = document.createElement("a");
+	// downloadLink.download = fileNameToSaveAs;
+	// downloadLink.innerHTML = "Download File";
+	// if (window.webkitURL != null)
+	// {
+		// // Chrome allows the link to be clicked
+		// // without actually adding it to the DOM.
+		// downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	// }
+	// else
+	// {
+		// // Firefox requires the link to be added to the DOM
+		// // before it can be clicked.
+		// downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+		// downloadLink.onclick = destroyClickedElement;
+		// downloadLink.style.display = "none";
+		// document.body.appendChild(downloadLink);
+	// }
+
+	// downloadLink.click();
+// }
+
+
+function loadFileAsText()
 {
-	textFromFileLoaded = "";
-	textByLines = "";
-	currentLine = 0;
-	document.getElementById("txaxml").value = "";
-	document.getElementById("content1").innerHTML = "";
-	document.getElementById("demo").innerHTML = "";
+	//loads the file uploaded through "uploadbtn" into the textareas "content1" and "txaxml" and updates the "count" label. happens onchange of uploadbtn
+	var fileToLoad = document.getElementById("uploadbtn").files[0];
+	
+	var fileReader = new FileReader();
+	fileReader.onload = function(fileLoadedEvent)
+	{
+		textFromFileLoaded = fileLoadedEvent.target.result;
+		
+		document.getElementById("content1").innerHTML = textFromFileLoaded;
+		//document.getElementById("txaxml").value = textFromFileLoaded;
+		
+	};			
+	fileReader.readAsText(fileToLoad, "UTF-8");
 }
 
-$(document).ready(function(){
-    $("#btnLoadSession").click(function(){
-        //load lasst saved localstorage
-        if(typeof(Storage)!=="undefined")
-        {
-            if (localStorage.getItem("anno1storage") != "")
-            {
-                //alert(localStorage.getItem("anno1storage"));                
-                var localStorage1 =  localStorage.getItem("anno1storage");
-                var file = new Blob([localStorage1], {type:'text/xml'});
-                var fileToLoad = file;
-                loadFileAsText(fileToLoad);                
-            }else
-                alert("Sorry! No Data To Load..");
-        }
-        else
-        {
-            alert("Sorry! No Web Storage support..");
-        }
-    });
-    
-    $("#btnReload").click(function(){
-        //reloade the page and save the changes
-        var textforSave = getxaxmlText();
-        if (textforSave !="")
-            localStorage.setItem("anno1storage", textforSave);        
-        location.reload();        
-    });
-});
+// function loadFileAsText()
+// {
+	// //loads the file uploaded through "uploadbtn" into the textareas "content1" and "txaxml" and updates the "count" label. happens onchange of uploadbtn
+	// var fileToLoad = document.getElementById("uploadbtn").files[0];
+	
+	// var fileReader = new FileReader();
+	// fileReader.onload = function(fileLoadedEvent)
+	// {
+		// textFromFileLoaded = fileLoadedEvent.target.result;
+		// textByLines = textFromFileLoaded.split('\n');//converts textfile into array of lines cutting whenever "\n" is in the file
+		// //alert(textByLines.length);
+		// var temp= "";
+		// for (var i = 0; i < textByLines.length; i++) //made for any amount of uploaded files 
+		// {
+			// temp = temp + textByLines[i] + '</br>';
+			
+		// }
+		// document.getElementById("content1").innerHTML = temp;
+		// //document.getElementById("content1").innerHTML = textByLines;
+		// document.getElementById("txaxml").value = textFromFileLoaded;
+		// //document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
+		// //colorize();
+		
+	// };			
+	// fileReader.readAsText(fileToLoad, "UTF-8");
+// }
 
-window.onbeforeunload = function(){ 
-//saved the last changes before closeing
-    var textforSave = getxaxmlText();
-    if (textforSave !="")
-        localStorage.setItem("anno1storage", textforSave);  
-    }
+function addTagSel(tag, idelm) {
+  // http://CoursesWeb.net/javascript/
+  var tag_type = new Array('<', '>');       
+  var txta = document.getElementById(idelm);
+  var start = tag_type[0] + tag + tag_type[1];
+  var end = tag_type[0] +'/'+ tag +  tag_type[1];
+  var IE = /*@cc_on!@*/false;    
 
-//load File //////////////////////////////////////////
+  if (IE) {
+    var r = document.selection.createRange();
+    var tr = txta.createTextRange();
+    var tr2 = tr.duplicate();
+    tr2.moveToBookmark(r.getBookmark());
+    tr.setEndPoint('EndToStart',tr2);
+    var tag_seltxt = start + r.text + end;
+    var the_start = txta.value.replace(/[\r\n]/g,'.').indexOf(r.text.replace(/[\r\n]/g,'.'),tr.text.length);
+    txta.value = txta.value.substring(0, the_start) + tag_seltxt + txta.value.substring(the_start + tag_seltxt.length, txta.value.length);
+
+    var pos = txta.value.length - end.length;    
+    tr.collapse(true);
+    tr.moveEnd('character', pos);        
+    tr.moveStart('character', pos);        
+    tr.select();                 
+  }
+  else if (txta.selectionStart || txta.selectionEnd == "0") {
+    var startPos = txta.selectionStart;
+    var endPos = txta.selectionEnd;
+    var tag_seltxt = start + txta.value.substring(startPos, endPos) + end;
+    txta.value = txta.value.substring(0, startPos) + tag_seltxt + txta.value.substring(endPos, txta.value.length);
+
+   
+    txta.setSelectionRange((endPos+start.length),(endPos+start.length));
+    txta.focus();
+  }
+  return tag_seltxt;
+}
+
+// function download(text, name, type) {
+  // var a = document.getElementById(text);
+  // var file = new Blob([text], {type: type});
+  // a.href = URL.createObjectURL(file);
+  // a.download = name;
+// }
+
+function clientSideInclude(id, url) {
+  var req = false;
+  // For Safari, Firefox, and other non-MS browsers
+  if (window.XMLHttpRequest) {
+    try {
+      req = new XMLHttpRequest();
+    	} 
+	  catch (e) {
+      req = false;
+    	}
+  } 
+	else if (window.ActiveXObject) {
+    // For Internet Explorer on Windows
+    try {
+      req = new ActiveXObject("Msxml2.XMLHTTP");
+    	} 
+		catch (e) {
+      try {
+        req = new ActiveXObject("Microsoft.XMLHTTP");
+      	} 
+			catch (e) {
+        	req = false;
+      		}
+    	}
+  }
+ var element = document.getElementById(id);
+ var str = "";
+ if (!element) {
+  alert("Bad id " + id + 
+   "passed to clientSideInclude." +
+   "You need a div or span element " +
+   "with this id in your page.");
+  return;
+ }
+  if (req) {
+    // Synchronous request, wait till we have it all
+    req.open('GET', url, false);
+    req.send(null);
+    str = req.responseText;
+	str=str.replace(/\\&#39;/g,"'");
+	str=str.replace(/\\'/g,"'");
+	str=str.replace(/\\"/g,'"');
+	str=str.replace(/\\\\/g,'\\');
+	str=str.replace(/\\0/g,'\0');
+  element.innerHTML = str;
+  } else {
+    element.innerHTML =
+   " -- ";
+  }
+}
+
+//Working with file//////////////////////////////////////////
 function checkfileType(sender) {
-    //check text file type. only ".txt", ".xml" are valid
-	$('#dvLoading').show();
     var validExts = new Array(".txt", ".xml");
     var fileExt = sender.value;
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
@@ -64,19 +202,14 @@ function checkfileType(sender) {
     }
     else
 	{	
-		emptyParameters(); 
-		showfileName();        
-        var fileToLoad = document.getElementById("uploadbtn").files[0];        
-        document.getElementById("demo").innerHTML = "("+ document.getElementById("demo").innerHTML + ") - ( File Size : "+ getFile_Size(document.getElementById("uploadbtn")) + ")";;
-		loadFileAsText(fileToLoad);
+		showfileName(); emptyParameters(); loadFileAsText();
+		return true;
 	}
-	$('#dvLoading').hide();
-	return true;
 }
 
 function showfileName()
 {
-	//displays the filename of in "uploadbtn" in label "demo".
+	//displays the filename of anything uploaded through button "uploadbtn" in label "demo". happens onchange of "uploadbtn"
 	var x = document.getElementById("uploadbtn");
 	var txt = "";
 	if ('files' in x) 
@@ -98,55 +231,8 @@ function showfileName()
 	document.getElementById("demo").innerHTML = txt;
 }
 
-function getFile_Size(sender)
-{
-    // return file size
-    var _size = sender.files[0].size;
-    var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
-    i=0;
-    while(_size>900){_size/=1024;i++;}
-    var exactSize = (Math.round(_size*100)/100)+' '+fSExt[i];
-    return exactSize;
-}
-
-function loadFileAsText(fileToLoad)
-{
-	// loads the file uploaded through "uploadbtn" into the "content1" and "txaxml"    
-	var fileReader = new FileReader();
-	fileReader.onload = function(fileLoadedEvent)
-	{
-		textFromFileLoaded = fileLoadedEvent.target.result;
-        //converts textfile into array of lines cutting whenever "\n" is in the file
-		textByLines = textFromFileLoaded.split('\n');
-		document.getElementById("content1").innerHTML = textByLines[0];
-		document.getElementById("txaxml").value = textByLines[0];
-        // and updates the "count" label.
-		document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
-		colorize();
-		
-	};			
-	fileReader.readAsText(fileToLoad, "UTF-8");
-}
-
-//save file//////////////////////////////////////////
 function saveTextAsFile()
 {
-	if (document.getElementById("txaxml").value != "")
-	{
-        //1
-		var textToWrite = getxaxmlText();
-        //2
-        var fileNameToSaveAs = getFileName();
-        //3
-		download(textToWrite, fileNameToSaveAs);
-	}
-    else
-        alert('No File Selected OR Text is Empty ');
-}
-
-function getxaxmlText()
-{
-    //return text To Write
 	if (document.getElementById("txaxml").value != "")
 	{
 		textByLines[currentLine] = document.getElementById("txaxml").value;
@@ -155,24 +241,21 @@ function getxaxmlText()
 		document.getElementById("txaxml").value = textByLines[currentLine];	
 	
 		var textToWrite = textFromFileLoaded;
-		return textToWrite;
-	} else
-    return "";
-}
-
-function getFileName()
-{
-    //get file name
-    var fullPath = document.getElementById('uploadbtn').value;
-    if (fullPath) {
-        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-        var filename = fullPath.substring(startIndex);
-        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1).split('.')[0];
-        }
-    }
-    var fileNameToSaveAs = filename + ".xml";
-    return fileNameToSaveAs;
+		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+		//get file name
+		var fullPath = document.getElementById('uploadbtn').value;
+		if (fullPath) {
+			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+			var filename = fullPath.substring(startIndex);
+			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+				filename = filename.substring(1).split('.')[0];
+			}
+		}
+		var fileNameToSaveAs = filename + ".xml";
+		
+		download(textToWrite, fileNameToSaveAs);
+	}else
+	alert('No File Selected');
 }
 
 function download(data, filename) {
@@ -194,65 +277,57 @@ function download(data, filename) {
 }
 
 //Navigate between Lines/////////////////////////////////////
-function gotoline()
+function emptyParameters()
 {
-    //Saves the current txaxml content into textFromFileLoaded. 
-    //Cycles backwards through the lines of an uploaded file updating label "count" and "content1"+"txaxml".happens onclick of "prev"
-	textByLines[currentLine] = document.getElementById("txaxml").value;
-	textFromFileLoaded = textByLines.toString();	
-	if(currentLine > 0)	currentLine = currentLine -1;
-	else currentLine = textByLines.length-1;
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
-	document.getElementById("txaxml").value = textByLines[currentLine];
-	var line = currentLine+1;
-	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
-	colorize();    
+	textFromFileLoaded = "";
+	textByLines = "";
+	currentLine = 0;
 }
 
-function gotofirstLine()
-{
-    currentLine = 1;	
-    gotoline(currentLine);
-}
+
 
 function gotoprevLine()
 {
-    gotoline(currentLine);
-}
-
-function gotolastLine()
-{
-    currentLine = textByLines.length-1;
-    document.getElementById("txaxml").value = textByLines[currentLine];
-	textFromFileLoaded = textByLines.toString();	
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
+	//Saves the current txaxml content into textFromFileLoaded. Cycles backwards through the lines of an uploaded file updating label "count" and "content1"+"txaxml".happens onclick of "prev"
+	textByLines[currentLine] = document.getElementById("txaxml").value;
+	textFromFileLoaded = textByLines.toString();
+	
+	
+	if(currentLine > 0)	currentLine = currentLine -1;
+	else currentLine = textByLines.length-1;
+	
+	document.getElementById("content1").innerHTML = textByLines[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
-	var line = currentLine+1;
+	var line = currentLine+1
 	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
 	colorize();
+	//document.getElementById("tatest").value = textFromFileLoaded;
 }
 
 function gotonextLine()
 {
 	//Saves the current txaxml content into textFromFileLoaded. Cycles forwards through the lines of an uploaded file updating label "count" and "content1"+"txaxml". happens onclick of "next"
 	textByLines[currentLine] = document.getElementById("txaxml").value;
-	textFromFileLoaded = textByLines.toString();	
+	textFromFileLoaded = textByLines.toString();
+	
 	if(textByLines.length-1 > currentLine) 
 		currentLine = currentLine +1;	
-	else currentLine = 0;
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
+	else
+		currentLine = 0;
+	document.getElementById("content1").innerHTML = textByLines[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
 	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
-	colorize();    
+	colorize();
+	
+	//document.getElementById("tatest").value = textFromFileLoaded;
 }
 
 //change color in plain text and translate to tags in textarea////////
 function changeColor2(sender) 
 {
-    // Get Selection
+	// Get Selection
 	var text1 = document.getElementById("content1").innerHTML;
-    //alert(text1);
 	if (document.getElementById("content1").innerHTML == "")
 	{ 
 		alert('Please Select a file');
@@ -263,28 +338,8 @@ function changeColor2(sender)
     
 	sel = window.getSelection();
 	var selectedtext = sel.toString();	
-    /* for test
-    //alert(selectedtext);
-    //alert(sel.anchorNode.parentElement.toString());
-    
-    var authorCloseTag = '<span style="background-color: rgb\(255, 150, 129\);">(.*?)\</span>';
-    var textCopy =[];
-	textCopy[currentLine] = document.getElementById("content1").innerHTML;
-    //alert(textCopy[currentLine].search(authorCloseTag));
-    if(textCopy[currentLine].search(authorCloseTag) != -1 )
-        alert("finddddd");*/
-        
-    
-    if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]")
-	{
-		if (tagname =="btnsurname" || tagname =="btnfirstname")
-        {
-            alert("Adding First Name and Surname only in Author tag is possible.");
-            return;
-        }
-	}
 	var text11 = text1.substr(0, text1.indexOf(sel)) ;	
-	//alert(text11);
+	
     if (sel.rangeCount && sel.getRangeAt) {
         range = sel.getRangeAt(0);
     }
@@ -296,28 +351,26 @@ function changeColor2(sender)
     }
 	
     //Colorize text	
-	if( tagname =="btnauthor"){
+	if( tagname =="au"){
 		document.execCommand("HiliteColor", false, "#ff9681");
 	}
 	else if(tagname =="btnsurname"){
-		/*text11 = text11 + '<span style="background-color: rgb(255, 206, 48);">';
+		text11 = text11 + '<span style="background-color: rgb(255, 135, 48);">';
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
 		text12 = '</span>' + text12;
-        var aaaa = text11 + selectedtext + text12
-		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
-		document.execCommand("HiliteColor", false, "#ffce30");
+		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;
+		//document.execCommand("HiliteColor", false, "#ff8730");
 	}
 	else if(tagname == "btnfirstname"){
-		/*text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
+		text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
 		text12 = '</span>' + text12;
-        var aaaa = text11 + selectedtext + text12
-        document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
-		document.execCommand("HiliteColor", false, "#aabb30");
+		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;
+		//document.execCommand("HiliteColor", false, "#aabb30");
 	}
-	else if(tagname =="btnyear"){
+	else if(tagname =="ye"){
 		document.execCommand("HiliteColor", false, "#bfb1d5");		
 	}
 	else if(tagname =="ti"){
@@ -338,6 +391,7 @@ function changeColor2(sender)
     // Set design mode to off
     document.designMode = "off";
 	translateColor(sender);
+    
 }
 
 function translateColor(sender)
@@ -347,14 +401,17 @@ function translateColor(sender)
 	var textCopy =[];
 	textCopy[currentLine] = document.getElementById("content1").innerHTML;
 	var tagname = sender.value;
+	
+	var flagsurname = false;
+	var flagfirstname = false;
 	var openSpanValue = "";
-		
-	openSpanValue = '<span style="background-color: rgb(255, 206, 48);">';	
+	
+	openSpanValue = '<span style="background-color: rgb(255, 135, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
+		flagsurname = true;
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
-		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length);
-        text2 = text2.replace("</span>", "</surname>");
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</surname>");
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<surname>');
 	}
@@ -362,6 +419,7 @@ function translateColor(sender)
 	openSpanValue = '<span style="background-color: rgb(170, 187, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
+		flagfirstname = true;
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
 		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</firstname>");
 		textCopy[currentLine] = text1 + text2;
@@ -406,45 +464,8 @@ function translateColor(sender)
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(244, 133, 142);">', '<other>');
 	}
 	textByLines[currentLine] = textCopy[currentLine];
-	    
-    var text1 = textByLines[currentLine];
-    
-    {
-        var openTag = '</author><surname>';
-        var i = 0
-        while(text1.indexOf(openTag) !==-1)
-        {
-            i++;
-            text1 = text1.replace(openTag, '<surname>');	
-        }
-        //*
-        var CloseTag = '</surname><author>';
-        var j = 0
-        while(text1.indexOf(CloseTag) !==-1)
-        {
-            j++;
-            text1 = text1.replace(CloseTag, '</surname>');	
-        }
-
-        
-        openTag = '</author><firstname>';
-        while(text1.indexOf(openTag) !==-1)
-        {
-            i++;
-            text1 = text1.replace(openTag, '<firstname>');	
-        }
-        //*
-        CloseTag = '</firstname><author>';
-        j = 0
-        while(text1.indexOf(CloseTag) !==-1)
-        {
-            j++;
-            text1 = text1.replace(CloseTag, '</firstname>');	
-        }
-	}
-    
-    textFromFileLoaded = text1;
-    document.getElementById("txaxml").value = text1;
+	document.getElementById("txaxml").value = textByLines[currentLine];
+	textFromFileLoaded = textByLines.join("");
 }
 
 function colorize()
@@ -461,7 +482,7 @@ function colorize()
 	while (textCopy[currentLine].indexOf("<surname>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</surname>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<surname>', '<span style="background-color: rgb(255, 206, 48);">');
+		textCopy[currentLine] = textCopy[currentLine].replace('<surname>', '<span style="background-color: rgb(170, 187, 48);">');
 	}
 	while (textCopy[currentLine].indexOf("<firstname>") !==-1)
 	{
@@ -501,174 +522,13 @@ function colorize()
 var textarea1 = "";
 function preventDeleteChar(event)
 {
-	//alert("hiiiiii");
 	
-	//var textarea1 = document.getElementById("txaxml").value;
-	//var flag = deletechar(event);
-	//if (flag == false)
-	//{
-	//	document.getElementById("txaxml").value = textarea1;
-	//	textarea1 = "";
-	//}
-	//alert(textarea1);
-	
-	event.preventDefault()
-	//if (event.which==8 || event.which==46) 
-	//{	
-		//}
-		//else
-		//{
-			//alert(event.which);
-			//event.preventDefault()
-		//}
-}
-
-function getBrowserInfo()
-{
-	var nVer = navigator.appVersion;
-	var nAgt = navigator.userAgent;
-	var browserName  = navigator.appName;
-	var fullVersion  = ''+parseFloat(navigator.appVersion); 
-	var majorVersion = parseInt(navigator.appVersion,10);
-	var nameOffset,verOffset,ix;
-	
-	// In Opera, the true version is after "Opera" or after "Version"
-	if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
-	 browserName = "Opera";
-	 fullVersion = nAgt.substring(verOffset+6);
-	 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
-	   fullVersion = nAgt.substring(verOffset+8);
-	}
-	// In MSIE, the true version is after "MSIE" in userAgent
-	else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
-	 browserName = "Microsoft Internet Explorer";
-	 fullVersion = nAgt.substring(verOffset+5);
-	}
-	// In Chrome, the true version is after "Chrome" 
-	else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
-	 browserName = "Chrome";
-	 fullVersion = nAgt.substring(verOffset+7);
-	}
-	// In Safari, the true version is after "Safari" or after "Version" 
-	else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
-	 browserName = "Safari";
-	 fullVersion = nAgt.substring(verOffset+7);
-	 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
-	   fullVersion = nAgt.substring(verOffset+8);
-	}
-	// In Firefox, the true version is after "Firefox" 
-	else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
-	 browserName = "Firefox";
-	 fullVersion = nAgt.substring(verOffset+8);
-	}
-	// In most other browsers, "name/version" is at the end of userAgent 
-	else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
-			  (verOffset=nAgt.lastIndexOf('/')) ) 
-	{
-	 browserName = nAgt.substring(nameOffset,verOffset);
-	 fullVersion = nAgt.substring(verOffset+1);
-	 if (browserName.toLowerCase()==browserName.toUpperCase()) {
-	  browserName = navigator.appName;
-	 }
-	}
-	// trim the fullVersion string at semicolon/space if present
-	if ((ix=fullVersion.indexOf(";"))!=-1)
-	   fullVersion=fullVersion.substring(0,ix);
-	if ((ix=fullVersion.indexOf(" "))!=-1)
-	   fullVersion=fullVersion.substring(0,ix);
-
-	majorVersion = parseInt(''+fullVersion,10);
-	if (isNaN(majorVersion)) {
-	 fullVersion  = ''+parseFloat(navigator.appVersion); 
-	 majorVersion = parseInt(navigator.appVersion,10);
-	}
-	return browserName;
-	//document.write(''
-	 //+'Browser name  = '+browserName+'<br>'
-	 //+'Full version  = '+fullVersion+'<br>'
-	 //+'Major version = '+majorVersion+'<br>'
-	 //+'navigator.appName = '+navigator.appName+'<br>'
-	 //+'navigator.userAgent = '+navigator.userAgent+'<br>');
-	
-}
-
-function RemoveTag(sender)
-{
-	sel = window.getSelection();
-	if (sel == "")
-	{
-		alert('No Selection');
-		return;
-	}
-	//alert(sel.anchorNode.parentElement.toString());
-	if (sel.anchorNode.parentElement.toString()== "[object HTMLSpanElement]")
-	{
-		//alert('yes');
-		$(sel.anchorNode.parentElement).contents().unwrap();
-		translateColor(sender);
-	}
-	//alert(sel);
-}
-function RemoveTagold(sender)
-{
-	sel = window.getSelection();
-	//var selectedTag = getSelectionParentElement().toString();
-	//var selectedTagLen = selectedTag.length;
-	//getSelectionParentElement().removeChild();
-	
-	//sel.anchorNode.parentElement.remove();
-	//$(sel).css({"color": "red", "border": "2px solid red"});
-	//alert();
-	//$(sel).remove();
-	//alert(.parent());
-
-	var selectedtext = sel.toString();	
-	var parentTag = $("#delbtn").parent();
-	//alert(parentTag);
-	
-    if (sel.rangeCount && sel.getRangeAt) {
-        range = sel.getRangeAt(0);
-    }
-    // Set design mode to on
-    document.designMode = "on";
-    if (range) {
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-	if (getBrowserInfo() == "Chrome")
-	{
-		document.execCommand("removeFormat", false, "foreColor");
-	}
-		
-	else if (getBrowserInfo() == "Firefox")
-	{
-		document.execCommand("removeFormat",false,"foreColor");
-		
-	}
-	document.designMode = "off";
-	translateColor(sender);	
-}
-
-function getSelectionParentElement() {
-    var parentEl = null, sel;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.rangeCount) {
-            parentEl = sel.getRangeAt(0).commonAncestorContainer;
-            if (parentEl.nodeType != 1) {
-                parentEl = parentEl.parentNode;
-            }
-        }
-    } else if ( (sel = document.selection) && sel.type != "Control") {
-        parentEl = sel.createRange().parentElement();
-    }
-	//alert(arentEl);
-    return parentEl.outerHTML;
+	var textarea1 = document.getElementById("txaxml").value;
 }
 
 function deletechar(event)
 {
-	//alert(textarea1);
+	alert(textarea1);
 	var x = event.which || event.keyCode;
 	
 	var flag = false;
@@ -794,9 +654,9 @@ function deleteTagsfun(openTag, closeTag,closeTag2, openTagRegExp, closeTagRegEx
 		return;
 	if (textCopy[currentLine].search(openTagRegExp) !==-1 && foundOpenTag == 0 )
 	{
-		var OpenTagPosition = textCopy[currentLine].search(openTagRegExp);					
-		var text1 = textCopy[currentLine].substr(0, OpenTagPosition);
-		var text2 = textCopy[currentLine].substr( OpenTagPosition, textCopylength);
+		var authorOpenTagPosition = textCopy[currentLine].search(openTagRegExp);					
+		var text1 = textCopy[currentLine].substr(0, authorOpenTagPosition);
+		var text2 = textCopy[currentLine].substr(authorOpenTagPosition, textCopylength);
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(closeTag, "")
 		textCopy[currentLine] = textCopy[currentLine].replace(openTagRegExp, "");
@@ -890,116 +750,24 @@ function deleteTags2()
 	
 }
 
-/////popup
- var popUpFlag = false;
- function getSelectionParentElement() {
-    var parentEl = null, sel;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.rangeCount) {
-            parentEl = sel.getRangeAt(0).commonAncestorContainer;
-            if (parentEl.nodeType != 1) {
-                parentEl = parentEl.parentNode;
-            }
-        }
-    } else if ( (sel = document.selection) && sel.type != "Control") {
-        parentEl = sel.createRange().parentElement();
-    }
-    return parentEl;
+function getSelectedText() {
+  t = (document.all) ? document.selection.createRange().text : document.getSelection();
+
+  return t;
 }
 
-$(document).click(function(event){
+$('body').mouseup(function(){
+    var selection = getSelectedText();
+    var selection_text = selection.toString();
     
-    //alert(document.getElementsByClassName("popup").value);
-    var popup = document.getElementById("myPopup");
-    if(popUpFlag == true){
-        popup.classList.toggle("show");
-		popUpFlag = false;
-
-    }
+    // How do I add a span around the selected text?
     
-});
-
-
-
-$("#content1").click(function(event) {
+    var span = document.createElement('SPAN');
+    span.textContent = selection_text;
     
-    //event.stopPropagation(); // i read that this might be harmful to other functions
-    //document.getElementById("myPopup").classList.add('popuphidden');
-    //document.getElementById("myPopup").css("visibility", "hidden");
-    var popup = document.getElementById("myPopup");
-    if(popUpFlag == true){
-        popup.classList.toggle("show");
-		popUpFlag = false;
-
-    }
-});
-
-$("#delbtnno").click(function(event) {
-    //alert($("#popupdiv").is(':visible'))
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
-    popUpFlag = false;
-    //alert($("#popupdiv").is(':visible'));
-});
-
-$("#btntest").click(function(event) {
-    document.getElementById("popupdiv").classList.add('popuphidden');
-    alert($("#popupdiv").is(':visible'))
-    
-});
-
-
-$("#content").mouseup(function(){
-    
-    var popup = document.getElementById("myPopup");
-    
-    sel = window.getSelection();
-	if (sel != "")
-	{        
-        if (sel.anchorNode.parentElement.toString()== "[object HTMLSpanElement]")
-        {
-            //alert(sel);
-            $('#myPopup').css('left',event.pageX-85 ); // -14 and -310 account for the top and left border(maybe there is an other way)
-            $('#myPopup').css('top',event.pageY-85 );
-            $('#myPopup').css('display','inline');     
-            $("#myPopup").css("position", "absolute");
-            popup.classList.toggle("show");
-            if(popUpFlag == false)
-            {
-                popUpFlag= true;
-            }
-            
-        }
-        else if(popUpFlag == true){
-            popup.classList.add('popuphidden');
-            popUpFlag = false;
-        }    
-        //alert("Mouse button released.");
-    }
-});
-
-$("#content1").dblclick(function(event) 
-{
-    var par = getSelectionParentElement().nodeName;
-    var popup = document.getElementById("myPopup");
-    
-    if(par == "SPAN")
-    {
-        $('#myPopup').css('left',event.pageX-120 ); // -14 and -310 account for the top and left border(maybe there is an other way)
-        $('#myPopup').css('top',event.pageY-90 );
-        $('#myPopup').css('display','inline');     
-        $("#myPopup").css("position", "absolute");
-        popup.classList.toggle("show");
-        if(popUpFlag == false)
-        {
-            popUpFlag= true;
-        }     
-    }
-    else if(popUpFlag == true){
-        popup.classList.toggle("show");
-		popUpFlag = false;
-    }    
+    var range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(span);
 });
 
 
