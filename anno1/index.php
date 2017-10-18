@@ -116,7 +116,7 @@
             <div class="panel-heading">
                 <div class="row" id="showTagedTextdiv" style="cursor: pointer;">			
                     <div class="col-md-6" >
-                        <h3 class="panel-title textalignl bold" id="showTagedTextdivHeader">Click here to Show Text with Tags.</h3>
+                        <h3 class="panel-title textalignl bold" id="showTagedTextdivHeader">Click here to Refresh Text with Tags.</h3>
                     </div>
                     <div class="col-md-6" >
                         <!--<button class ="btn btn-primary" type="button" id="btnUpdateTags">Update Tags</button>-->
@@ -124,7 +124,7 @@
                 </div>                                
             </div> 
             <div class="panel-body"> 
-                <div class="row pad-10" id="tagedTextdiv" style="display:none">            
+                <div class="row pad-10" id="tagedTextdiv" >            
                     <div class="col-md-12" style="display : none; ">                    
                         <textarea disabled id="txaxml" class="txaxml" ></textarea>
                     </div>            

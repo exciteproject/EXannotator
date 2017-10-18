@@ -5,7 +5,7 @@ var pdfFileName = "";
 var textFileName = "";
 var cols1 =[];
 var cols2 =[];
-var colorflag = false;
+var colorCounter = 0;
 var showTagDivFlag = false;
 
 function emptyParameters()
@@ -14,6 +14,7 @@ function emptyParameters()
 	textByLines = "";
 	currentLine = 0;
     document.getElementById("errorMsg").innerHTML = "";
+    colorCounter = 0;
     //document.getElementById("txtSize").innerHTML = "";
     //$("#btndeltxt").hide();
     //document.getElementById("content1").innerHTML = "";
@@ -66,19 +67,19 @@ $(document).ready(function()
         }
         if (showTagDivFlag == false)
         {
-            $("#showTagedTextdivHeader").innerHTML = "Click here to close this part.";
-            $("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
+            //$("#showTagedTextdivHeader").innerHTML = "Click here to close this part.";
+            //$("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
             $("#spinner").show("slow", function(){
                 //adding ref Tags to the text accourding colors
                 translateColor_ToTag();
                 $("#spinner").hide("slow");
             });
-            showTagDivFlag = true;
+            //showTagDivFlag = true;
             
         } else
         {
-            $("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
-            showTagDivFlag = false;
+            //$("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
+            //showTagDivFlag = false;
             $("#showTagedTextdivHeader").innerHTML = "Click here to Show Text with Tags.";
         }
     });
@@ -313,15 +314,40 @@ function colorizeText_InLable(temp)
 	while (textCopy.indexOf("<ref>") !==-1)
 	{
 		textCopy = textCopy.replace("</ref>", "</span>");
-        if (colorflag == false)
+        if(colorCounter == 6)
+		{
+			textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(111, 252, 226);">');
+			colorCounter = 0;
+		}
+		else if(colorCounter == 5)
+		{
+			textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(244, 132, 112);">');
+			colorCounter = colorCounter+1;
+		}
+		else if(colorCounter == 4)
+		{
+			textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(135, 245, 168);">');
+			colorCounter = colorCounter+1;
+		}
+		else if(colorCounter == 3)
+		{
+			textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(152, 230, 249);">');
+			colorCounter = colorCounter+1;
+		}
+		else if(colorCounter == 2)
+		{
+			textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(236, 184, 249);">');
+			colorCounter = colorCounter+1;
+		}
+		else if(colorCounter == 1)
+        {
+            textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(252, 201, 108);">');
+            colorCounter = colorCounter+1;
+        }
+		else if(colorCounter == 0)
         {
             textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(255, 255, 153);">');
-            colorflag = true;
-        }
-        else
-        {
-            textCopy = textCopy.replace('<ref>', '<span style="background-color: rgb(135, 245, 168);">');
-            colorflag = false;
+            colorCounter = colorCounter+1;
         }
 	}
     document.getElementById("content1").innerHTML = textCopy;
@@ -427,15 +453,40 @@ function change_TxtColor()
         sel.addRange(range);
     }
     //Colorize text
-    if (colorflag == false)
+    if(colorCounter == 6)
+	{
+		document.execCommand("HiliteColor", false, "#6ffce2");
+		colorCounter = 0;
+	}
+	else if(colorCounter == 5)
+	{
+		document.execCommand("HiliteColor", false, "#f48470");
+		colorCounter = colorCounter+1;
+	}
+	else if(colorCounter == 4)
+	{
+		document.execCommand("HiliteColor", false, "#87f5a8");
+		colorCounter = colorCounter+1;
+	}
+	else if(colorCounter == 3)
+	{
+		document.execCommand("HiliteColor", false, "#98e6f9");
+		colorCounter = colorCounter+1;
+	}
+	else if(colorCounter == 2)
+	{
+		document.execCommand("HiliteColor", false, "#ecb8f9");
+		colorCounter = colorCounter+1;
+	}
+	else if(colorCounter == 1)
+    {
+		document.execCommand("HiliteColor", false, "#fcc96c");
+		colorCounter = colorCounter+1;
+    }
+    else if (colorCounter == 0)
     {
         document.execCommand("HiliteColor", false, "#ffff99");
-        colorflag = true;
-    }
-    else
-    {
-        document.execCommand("HiliteColor", false, "#87F5A8");
-        colorflag = false;
+        colorCounter = colorCounter+1;
     }
     // Set design mode to off
     document.designMode = "off";
@@ -486,24 +537,64 @@ function translateColor_ToTag()
     // ptxaxml cant undrestand <span> tag and <br>
     // replaces the <span> tags with <ref> tag for ptxaxml.
 	var textCopy = document.getElementById("content1").innerHTML;
-	var openSpanValue = '<span style="background-color: rgb(255, 255, 153);">';
-    var openSpanValue2 = '<span style="background-color: rgb(135, 245, 168);">';
+	var openSpanValue0 = '<span style="background-color: rgb(255, 255, 153);">';
+	var openSpanValue1 = '<span style="background-color: rgb(252, 201, 108);">';
+	var openSpanValue2 = '<span style="background-color: rgb(236, 184, 249);">';
+	var openSpanValue3 = '<span style="background-color: rgb(152, 230, 249);">';
+    var openSpanValue4 = '<span style="background-color: rgb(135, 245, 168);">';
+    var openSpanValue5 = '<span style="background-color: rgb(244, 132, 112);">';
+    var openSpanValue6 = '<span style="background-color: rgb(111, 252, 226);">';
     
-    var re = new RegExp(/<span style="background-color: rgb\(255, 150, 129\);"/g);
-	while(textCopy.indexOf(openSpanValue) !==-1)
+    //var re = new RegExp(/<span style="background-color: rgb\(255, 150, 129\);"/g);
+	while(textCopy.indexOf(openSpanValue0) !==-1)
 	{				
-		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue));
-		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue), textCopy.length).replace("</span>", "</ref>");
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue0));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue0), textCopy.length).replace("</span>", "</ref>");
 		textCopy = text1 + text2;
-		textCopy = textCopy.replace(openSpanValue, '<ref>');	
+		textCopy = textCopy.replace(openSpanValue0, '<ref>');	
 	}
     
-    while(textCopy.indexOf(openSpanValue2) !==-1)
+    while(textCopy.indexOf(openSpanValue1) !==-1)
+	{				
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue1));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue1), textCopy.length).replace("</span>", "</ref>");
+		textCopy = text1 + text2;
+		textCopy = textCopy.replace(openSpanValue1, '<ref>');	
+	}
+	while(textCopy.indexOf(openSpanValue2) !==-1)
 	{				
 		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue2));
 		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue2), textCopy.length).replace("</span>", "</ref>");
 		textCopy = text1 + text2;
 		textCopy = textCopy.replace(openSpanValue2, '<ref>');	
+	}
+	while(textCopy.indexOf(openSpanValue3) !==-1)
+	{				
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue3));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue3), textCopy.length).replace("</span>", "</ref>");
+		textCopy = text1 + text2;
+		textCopy = textCopy.replace(openSpanValue3, '<ref>');	
+	}
+	while(textCopy.indexOf(openSpanValue4) !==-1)
+	{				
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue4));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue4), textCopy.length).replace("</span>", "</ref>");
+		textCopy = text1 + text2;
+		textCopy = textCopy.replace(openSpanValue4, '<ref>');	
+	}
+    while(textCopy.indexOf(openSpanValue5) !==-1)
+	{				
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue5));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue5), textCopy.length).replace("</span>", "</ref>");
+		textCopy = text1 + text2;
+		textCopy = textCopy.replace(openSpanValue5, '<ref>');	
+	}
+    while(textCopy.indexOf(openSpanValue6) !==-1)
+	{				
+		var text1 = textCopy.substr(0, textCopy.indexOf(openSpanValue6));
+		var text2 = textCopy.substr(textCopy.indexOf(openSpanValue6), textCopy.length).replace("</span>", "</ref>");
+		textCopy = text1 + text2;
+		textCopy = textCopy.replace(openSpanValue6, '<ref>');	
 	}
     // ptxaxml cant undrestand <br> we should replace it with \n
 	var openTagValue = '<br>';
@@ -569,6 +660,34 @@ function RemoveTagOld0(sender)
 	translateColor_ToTag(sender);	
     
 }
+
+//tripleclick
+window.addEventListener('click', function (evt) {
+    if (evt.detail === 3) {
+        //alert('triple click!');
+        sel = window.getSelection();
+		newNode = document.createElement("p");
+		range = sel.getRangeAt(0);
+        //sel = sel.
+		//range.surroundContents(newNode);//now i would need a new range(i think) 
+		//alert(range.endOffset);
+		//alert(range.commonAncestorContainer);
+		//alert(range.endContainer);
+		if(range.endOffset != 0)
+		{
+			range.setEnd(range.endContainer, range.endOffset - 1);
+		}
+		else
+		{
+			//alert(range.endContainer.previousSibling)
+			range.setEnd(range.endContainer.previousSibling, range.endOffset);
+			//alert(range.endOffset)
+		}
+		//alert(range.endContainer);
+		//alert(sel.rangeCount);
+        change_TxtColor();
+    }
+});
 
 //popup code section /////////////////////////////
 
@@ -658,15 +777,6 @@ $("#content").mouseup(function(){
             popUpFlag = false;
         }    
         //alert("Mouse button released.");
-    }
-});
-
-window.addEventListener('click', function (evt) {
-    if (evt.detail === 3) {
-        //alert('triple click!');
-        sel = window.getSelection();
-        //alert(sel);
-        change_TxtColor();
     }
 });
 

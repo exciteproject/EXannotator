@@ -1,29 +1,36 @@
 
 var textFromFileLoaded = "";
+var textByLines0 = "";
 var textByLines = "";
 var currentLine = 0;
+var lastSessionFlag = false;
 
 function emptyParameters()
 {
 	textFromFileLoaded = "";
 	textByLines = "";
+    textByLines0 = "";
 	currentLine = 0;
 	document.getElementById("txaxml").value = "";
+    document.getElementById("contentForDemo").innerHTML = "";
 	document.getElementById("content1").innerHTML = "";
 	document.getElementById("demo").innerHTML = "";
 }
 
 $(document).ready(function(){
-    $("#btnLoadSession").click(function(){
-        //load lasst saved localstorage
+
+    ////load lasst saved localstorage
+    $("#btnLoadSession").click(function(){        
         if(typeof(Storage)!=="undefined")
         {
-            if (localStorage.getItem("anno1storage") != "")
+            if (localStorage.getItem("anno2lastxmltext") != "")
             {
-                //alert(localStorage.getItem("anno1storage"));                
-                var localStorage1 =  localStorage.getItem("anno1storage");
+                var localStorage1 =  localStorage.getItem("anno2lastxmltext");
                 var file = new Blob([localStorage1], {type:'text/xml'});
                 var fileToLoad = file;
+                document.getElementById("chbCermine").checked = false;
+                if (localStorage.getItem("anno2lastoroginalreftext") != "")
+                    lastSessionFlag = true;
                 loadFileAsText(fileToLoad);                
             }else
                 alert("Sorry! No Data To Load..");
@@ -34,21 +41,35 @@ $(document).ready(function(){
         }
     });
     
+    ////reloade the page and save the changes
     $("#btnReload").click(function(){
-        //reloade the page and save the changes
+        
         var textforSave = getxaxmlText();
         if (textforSave !="")
-            localStorage.setItem("anno1storage", textforSave);        
+            localStorage.setItem("anno2lastxmltext", textforSave);
+        //2
+        var lastoroginalreftext = "";
+        if (textByLines0 !="")
+            lastoroginalreftext = textByLines0.join("\n");
+        localStorage.setItem("anno2lastoroginalreftext", lastoroginalreftext);
         location.reload();        
     });
 });
 
-window.onbeforeunload = function(){ 
 //saved the last changes before closeing
+window.onbeforeunload = function()
+{
     var textforSave = getxaxmlText();
     if (textforSave !="")
-        localStorage.setItem("anno1storage", textforSave);  
-    }
+        localStorage.setItem("anno2lastxmltext", textforSave);  
+    
+    var lastoroginalreftext = "";
+    if (textByLines0 != "")
+    {
+        lastoroginalreftext = textByLines0.join("\n");
+        localStorage.setItem("anno2lastoroginalreftext", lastoroginalreftext);
+    }    
+}
 
 //load File //////////////////////////////////////////
 function checkfileType(sender) {
@@ -59,24 +80,26 @@ function checkfileType(sender) {
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
 	
     if (validExts.indexOf(fileExt) < 0) {
-      alert("Invalid file selected, valid files are of " + validExts.toString() + " types.");
+      alert("No File Selected. Invalid file selected!!");
       return false;
     }
     else
 	{	
 		emptyParameters(); 
 		showfileName();        
-        var fileToLoad = document.getElementById("uploadbtn").files[0];        
-        document.getElementById("demo").innerHTML = "("+ document.getElementById("demo").innerHTML + ") - ( File Size : "+ getFile_Size(document.getElementById("uploadbtn")) + ")";;
+        var fileToLoad = document.getElementById("uploadbtn").files[0];
+        $("infoPanel").show();
+        document.getElementById("demo").innerHTML = "("+ document.getElementById("demo").innerHTML + ") - ( File Size : "+ getFile_Size(document.getElementById("uploadbtn")) + ")";
 		loadFileAsText(fileToLoad);
 	}
 	$('#dvLoading').hide();
 	return true;
 }
 
+//displays the filename of in "uploadbtn" in label "demo".
 function showfileName()
 {
-	//displays the filename of in "uploadbtn" in label "demo".
+	
 	var x = document.getElementById("uploadbtn");
 	var txt = "";
 	if ('files' in x) 
@@ -94,19 +117,111 @@ function showfileName()
 			txt += "The files property is not supported by your browser!";
 			txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
 		}
-	}
-	document.getElementById("demo").innerHTML = txt;
+	}    
+    document.getElementById("demo").innerHTML = txt;
 }
 
+// return file size
 function getFile_Size(sender)
-{
-    // return file size
+{    
     var _size = sender.files[0].size;
     var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
     i=0;
     while(_size>900){_size/=1024;i++;}
     var exactSize = (Math.round(_size*100)/100)+' '+fSExt[i];
     return exactSize;
+}
+
+var annotatorresult = "";
+function AjaxFailed(result){alert(result.status+''+result.statusText);}
+
+function callAnnotatorWebService(a){
+    $.ajax({
+    type:"GET",
+    async:false,
+    url:"http://193.175.238.110:8080/maven-ws-rest-3/webapi/myresource/annotate2/"+a,
+    contentType:"text/plain; charset=utf-8",
+    dataType:"text",
+    processData:true,
+    success:function(result){annotatorresult = result;},
+    eror:AjaxFailed});
+}
+
+function AnnotateText(textByLine, i)
+{
+    var LineText = textByLine;                
+    var LengthOfLine = textByLine.length;
+    var errorMsg = "";
+    var QFlag = false;
+    var SFlag = false;
+    var LFlag = false;
+    
+    if (LengthOfLine > 0)
+    {
+        //Replace ? and ; then call webservice
+        //Refrences with ? and ; have problem to annotate by webservice   
+        while (textByLine.indexOf('?') !==-1)
+        {
+            QFlag = true;
+            textByLine = textByLine.replace('?', 'QUESTIONMARKINTEXT');
+        }     
+        while (textByLine.indexOf(';') !==-1)
+        {
+            SFlag = true;
+            textByLine = textByLine.replace(';', 'SEMICOLONINTEXT');
+        }        
+        while (textByLine.indexOf('/') !==-1)
+        {
+            LFlag = true;
+            textByLine = textByLine.replace('/', 'SLASHINTEXT');
+        }
+
+        callAnnotatorWebService(textByLine);
+        
+        if (QFlag)
+        {
+            while (annotatorresult.indexOf('QUESTIONMARKINTEXT') !==-1)
+            {
+                annotatorresult = annotatorresult.replace('QUESTIONMARKINTEXT', '?');
+            }
+        }
+        if (SFlag)
+        {
+            while (annotatorresult.indexOf('SEMICOLONINTEXT') !==-1)
+            {
+                annotatorresult = annotatorresult.replace('SEMICOLONINTEXT', ';');
+            }
+        }
+        if (LFlag)
+        {
+            while (annotatorresult.indexOf('SLASHINTEXT') !==-1)
+            {
+                annotatorresult = annotatorresult.replace('SLASHINTEXT', '/');
+            }
+        }
+            
+        AnnotatedText = annotatorresult;
+        LengthOfAnnotatedText = annotatorresult.length;
+        textByLine = annotatorresult;                    
+        if (LengthOfAnnotatedText == 0)
+        {                        
+            var l = i+1;
+            document.getElementById("lblerror").style.color = "red";
+            document.getElementById("lblerror").innerHTML += "Error in refnumber " + l + ": Not annotated. </br>";  
+            textByLine = LineText;
+        } else if (LengthOfLine > LengthOfAnnotatedText)
+        {
+            var l = i+1
+            errorMsg = "Error in refnumber " + l;
+            errorMsg += ": Not annotated currectly. -->(";
+            errorMsg += LineText.substring(0, 20) + " ...)";
+            errorMsg += "LenOfOriginalText: " + LengthOfLine + " And LenOfAnnoText: " + LengthOfAnnotatedText+ "</br>";
+            document.getElementById("lblerror").style.color = "red";
+            document.getElementById("lblerror").innerHTML += errorMsg;                        
+        }
+        annotatorresult = "";    
+    }
+    return textByLine;
 }
 
 function loadFileAsText(fileToLoad)
@@ -118,8 +233,35 @@ function loadFileAsText(fileToLoad)
 		textFromFileLoaded = fileLoadedEvent.target.result;
         //converts textfile into array of lines cutting whenever "\n" is in the file
 		textByLines = textFromFileLoaded.split('\n');
+        if (lastSessionFlag == false)
+        {            
+            textByLines0 = textFromFileLoaded.split('\n');
+            document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " - (References Number: " + textByLines.length + " )";
+        }
+        else
+        {
+            textByLines0 = localStorage.getItem("anno2lastoroginalreftext").split('\n');
+            lastSessionFlag = false;
+            document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " Loaded From Last Session - (References Number: " + textByLines.length + " )";            
+        }
+        if ($('#chbCermine').is(":checked"))
+        {                 
+            $("#spinner").show("slow", function(){           
+                for (i=1; i< textByLines.length; i++)
+                {                    
+                    textByLines[i] = AnnotateText(textByLines[i], i);
+                }            
+                $("#spinner").hide("slow");
+            });
+            textByLines[0] = AnnotateText(textByLines[0], 0);
+        }
+        
+        
 		document.getElementById("content1").innerHTML = textByLines[0];
-		document.getElementById("txaxml").value = textByLines[0];
+        document.getElementById("txaxml").value = textByLines[0];        
+    
+        //
+        document.getElementById("contentForDemo").innerHTML = textByLines0[0];
         // and updates the "count" label.
 		document.getElementById("count").innerHTML = 1 + "/" + textByLines.length ;
 		colorize();
@@ -128,7 +270,7 @@ function loadFileAsText(fileToLoad)
 	fileReader.readAsText(fileToLoad, "UTF-8");
 }
 
-//save file//////////////////////////////////////////
+//save file/////////
 function saveTextAsFile()
 {
 	if (document.getElementById("txaxml").value != "")
@@ -160,9 +302,9 @@ function getxaxmlText()
     return "";
 }
 
+//get file name
 function getFileName()
-{
-    //get file name
+{    
     var fullPath = document.getElementById('uploadbtn').value;
     if (fullPath) {
         var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
@@ -203,10 +345,11 @@ function gotoline()
 	if(currentLine > 0)	currentLine = currentLine -1;
 	else currentLine = textByLines.length-1;
     document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
 	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
-	colorize();    
+	colorize();
 }
 
 function gotofirstLine()
@@ -226,6 +369,7 @@ function gotolastLine()
     document.getElementById("txaxml").value = textByLines[currentLine];
 	textFromFileLoaded = textByLines.toString();	
     document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
 	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
@@ -241,6 +385,7 @@ function gotonextLine()
 		currentLine = currentLine +1;	
 	else currentLine = 0;
     document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
 	document.getElementById("count").innerHTML = line + "/" + textByLines.length;
@@ -323,7 +468,7 @@ function changeColor2(sender)
 	else if(tagname =="ti"){
 		document.execCommand("HiliteColor", false, "#adddcf");
 	}
-	else if(tagname =="co"){
+	else if(tagname =="btnsource"){
 		document.execCommand("HiliteColor", false, "#abe1fd");
 	}
 	else if(tagname =="ed"){
@@ -331,6 +476,12 @@ function changeColor2(sender)
 	}
 	else if(tagname =="ot"){
 		document.execCommand("HiliteColor", false, "#f4858e");
+	}
+    else if(tagname =="btnfpage"){
+		document.execCommand("HiliteColor", false, "#ccff66");
+	}
+    else if(tagname =="btnlpage"){
+		document.execCommand("HiliteColor", false, "#ffb3ff");
 	}
 	else{
 		document.getElementById("error").innerHTML = " RadioButton broken!";		
@@ -348,7 +499,12 @@ function translateColor(sender)
 	textCopy[currentLine] = document.getElementById("content1").innerHTML;
 	var tagname = sender.value;
 	var openSpanValue = "";
-		
+	
+    while (textCopy[currentLine].indexOf("SLASHINTEXT") !==-1)
+	{
+        textCopy[currentLine] = textCopy[currentLine].replace("SLASHINTEXT", "/");
+    }
+    
 	openSpanValue = '<span style="background-color: rgb(255, 206, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
@@ -392,14 +548,27 @@ function translateColor(sender)
 	}
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">') !==-1)
 	{
-		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">'), textCopy[currentLine].length).replace("</span>", "</container>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(171, 225, 253);">', '<container>');
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">'), textCopy[currentLine].length).replace("</span>", "</source>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(171, 225, 253);">', '<source>');
 	}
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">'), textCopy[currentLine].length).replace("</span>", "</editor>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(254, 216, 143);">', '<editor>');
 	}
+    //fpage
+    while (textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">') !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">'), textCopy[currentLine].length).replace("</span>", "</fpage>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(204, 255, 102);">', '<editor>');
+	}
+    //lpage
+    while (textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">') !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">'), textCopy[currentLine].length).replace("</span>", "</lpage>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(255, 179, 255);">', '<editor>');
+	}
+    
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">'), textCopy[currentLine].length).replace("</span>", "</other>");
@@ -452,7 +621,10 @@ function colorize()
 	textByLines[currentLine] = document.getElementById("txaxml").value;
 	textFromFileLoaded = textByLines.join("");
 	var textCopy = textByLines;
-	
+	while (textCopy[currentLine].indexOf("SLASHINTEXT") !==-1)
+	{
+        textCopy[currentLine] = textCopy[currentLine].replace("SLASHINTEXT", "/");
+    }
 	while (textCopy[currentLine].indexOf("<author>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</author>", "</span>");
@@ -478,15 +650,27 @@ function colorize()
 		textCopy[currentLine] = textCopy[currentLine].replace("</title>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<title>', '<span style="background-color: rgb(173, 221, 207);">');
 	}
-	while (textCopy[currentLine].indexOf("<container>") !==-1)
+	while (textCopy[currentLine].indexOf("<source>") !==-1)
 	{
-		textCopy[currentLine] = textCopy[currentLine].replace("</container>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<container>', '<span style="background-color: rgb(171, 225, 253);">');
+		textCopy[currentLine] = textCopy[currentLine].replace("</source>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<source>', '<span style="background-color: rgb(171, 225, 253);">');
 	}
 	while (textCopy[currentLine].indexOf("<editor>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</editor>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<editor>', '<span style="background-color: rgb(254, 216, 143);">');
+	}
+    //fpage
+    while (textCopy[currentLine].indexOf("<fpage>") !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</fpage>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<fpage>', '<span style="background-color: rgb(204, 255, 102);">');
+	}
+    //lpage
+    while (textCopy[currentLine].indexOf("<lpage>") !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</lpage>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<lpage>', '<span style="background-color: rgb(255, 179, 255);">');
 	}
 	while (textCopy[currentLine].indexOf("<other>") !==-1)
 	{
@@ -497,11 +681,10 @@ function colorize()
 	
 }
 
-//Deleting Tags/////////////////////////////////////////////////////////////////////////////////////////
+//for Deleting Tags/////////////////////////////////////////////////////////////////////////////////////////
 var textarea1 = "";
 function preventDeleteChar(event)
 {
-	//alert("hiiiiii");
 	
 	//var textarea1 = document.getElementById("txaxml").value;
 	//var flag = deletechar(event);
@@ -701,11 +884,11 @@ function deletechar(event)
 		if (deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp))
 			flag= true;
 		
-		openTag = "<container>";
-		closeTag = "</container>";
-		closeTag2 = "/container>";
-		openTagRegExp = new RegExp('<container(?!>)|(container>)|<containe>|<containr>|<contaier>|<contaner>|<continer>|<conainer>|<cotainer>|<cntainer>|<ontainer>'); //|(?!<)container>;
-		closeTagRegExp = new RegExp('<\/container(?!>)|<\/containe>|<\/containr>|<\/contaier>|<\/contaner>|<\/continer>|<\/conainer>|<\/cotainer>|<\/cntainer>|<\/ontainer>');//|(?!<)/container>
+		openTag = "<source>";
+		closeTag = "</source>";
+		closeTag2 = "/source>";
+		openTagRegExp = new RegExp('<source(?!>)|(source>)|<containe>|<containr>|<contaier>|<contaner>|<continer>|<conainer>|<cotainer>|<cntainer>|<ontainer>'); //|(?!<)source>;
+		closeTagRegExp = new RegExp('<\/source(?!>)|<\/containe>|<\/containr>|<\/contaier>|<\/contaner>|<\/continer>|<\/conainer>|<\/cotainer>|<\/cntainer>|<\/ontainer>');//|(?!<)/source>
 		deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp);
 		if (deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp))
 			flag= true;
@@ -890,7 +1073,7 @@ function deleteTags2()
 	
 }
 
-/////popup
+/////for popup
  var popUpFlag = false;
  function getSelectionParentElement() {
     var parentEl = null, sel;
@@ -919,8 +1102,6 @@ $(document).click(function(event){
     }
     
 });
-
-
 
 $("#content1").click(function(event) {
     
@@ -983,7 +1164,7 @@ $("#content1").dblclick(function(event)
 {
     var par = getSelectionParentElement().nodeName;
     var popup = document.getElementById("myPopup");
-    
+    //alert(par);
     if(par == "SPAN")
     {
         $('#myPopup').css('left',event.pageX-120 ); // -14 and -310 account for the top and left border(maybe there is an other way)
