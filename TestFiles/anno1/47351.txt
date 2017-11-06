@@ -1,0 +1,249 @@
+www.ssoar.info	401.6929931640625	115.6031494140625	18.0	131.21990966796875	0
+Notate der Erinnerungen: Rolf Schwendter	73.69999694824219	204.35015869140625	18.0	363.6719512939453	1
+(1939-2013)	73.69999694824219	225.9501953125	18.0	98.04598999023438	1
+Pabst, Günter	73.69999694824219	246.59381103515625	13.0	80.13198852539062	2
+Veröffentlichungsversion / Published Version	73.69999694824219	276.07562255859375	10.0	197.0399932861328	3
+Nekrolog / nekrology	73.69999694824219	290.90960693359375	10.0	91.66999816894531	4
+Empfohlene Zitierung / Suggested Citation:	59.527000427246094	334.5110778808594	9.0	184.78795623779297	5
+Pabst, Günter: Notate der Erinnerungen: Rolf Schwendter (1939-2013). In: Widersprüche : Zeitschrift für sozialistische	59.527000427246094	345.0755615234375	9.020660400390625	469.28702545166016	5
+Politik im Bildungs-, Gesundheits- und Sozialbereich 33 (2013), 129, pp. 7-12. URN: http://nbn-resolving.de/	59.527000427246094	355.87554931640625	9.020660400390625	428.4090042114258	5
+urn:nbn:de:0168-ssoar-47351-3	59.527000427246094	366.6755676269531	9.0	126.53998565673828	5
+Nutzungsbedingungen:	59.527000427246094	567.9148559570312	8.0	89.22400665283203	6
+Dieser Text wird unter einer Deposit-Lizenz (Keine	59.527000427246094	577.3358764648438	8.0	228.18997955322266	6
+Weiterverbreitung - keine Bearbeitung) zur Verfügung gestellt.	59.527000427246094	586.9358520507812	8.0	228.18799591064453	6
+Gewährt wird ein nicht exklusives, nicht übertragbares,	59.527000427246094	596.535888671875	8.0	228.19001007080078	6
+persönliches und beschränktes Recht auf Nutzung dieses	59.527000427246094	606.1358642578125	8.0	228.19001007080078	6
+Dokuments. Dieses Dokument ist ausschließlich für	59.527000427246094	615.73583984375	8.0	228.18903350830078	6
+den persönlichen, nicht-kommerziellen Gebrauch bestimmt.	59.527000427246094	625.3358764648438	8.0	228.18799591064453	6
+Auf sämtlichen Kopien dieses Dokuments müssen alle	59.527000427246094	634.9358520507812	8.0	228.1860122680664	6
+Urheberrechtshinweise und sonstigen Hinweise auf gesetzlichen	59.527000427246094	644.535888671875	8.0	228.19400787353516	6
+Schutz beibehalten werden. Sie dürfen dieses Dokument	59.527000427246094	654.1358642578125	8.0	228.18399810791016	6
+nicht in irgendeiner Weise abändern, noch dürfen Sie	59.527000427246094	663.73583984375	8.0	228.18900299072266	6
+dieses Dokument für öffentliche oder kommerzielle Zwecke	59.527000427246094	673.3358764648438	8.0	228.1860122680664	6
+vervielfältigen, öffentlich ausstellen, aufführen, vertreiben oder	59.527000427246094	682.9358520507812	8.0	228.18799591064453	6
+anderweitig nutzen.	59.527000427246094	692.535888671875	8.0	69.33599090576172	6
+Mit der Verwendung dieses Dokuments erkennen Sie die	59.527000427246094	702.1358642578125	8.0	228.18500518798828	6
+Nutzungsbedingungen an.	59.527000427246094	711.73583984375	8.0	93.36798858642578	6
+Terms of use:	304.7229919433594	567.9148559570312	8.0	51.824005126953125	7
+This document is made available under Deposit Licence (No	304.7229919433594	577.3358764648438	8.0	228.18399047851562	7
+Redistribution - no modifications). We grant a non-exclusive, non-	304.7229919433594	586.9358520507812	8.0	228.19198608398438	7
+transferable, individual and limited right to using this document.	304.7229919433594	596.535888671875	8.0	228.18405151367188	7
+This document is solely intended for your personal, non-	304.7229919433594	606.1358642578125	8.0	228.18399047851562	7
+commercial use. All of the copies of this documents must retain	304.7229919433594	615.73583984375	8.0	228.18801879882812	7
+all copyright information and other information regarding legal	304.7229919433594	625.3358764648438	8.0	228.18399047851562	7
+protection. You are not allowed to alter this document in any	304.7229919433594	634.9358520507812	8.0	228.19003295898438	7
+way, to copy it for public or commercial purposes, to exhibit the	304.7229919433594	644.535888671875	8.0	228.18997192382812	7
+document in public, to perform, distribute or otherwise use the	304.7229919433594	654.1358642578125	8.0	228.18301391601562	7
+document in public.	304.7229919433594	663.73583984375	8.0	68.88800048828125	7
+By using this particular document, you accept the above-stated	304.7229919433594	673.3358764648438	8.0	228.18399047851562	7
+conditions of use.	304.7229919433594	682.9358520507812	8.0	62.21600341796875	7
+Günter Pabst	261.4750061035156	238.08721923828125	9.5	58.70048522949219	8
+Notate der Erinnerungen: Rolf Schwendter (1939-2013)	144.67498779296875	257.24249267578125	11.5	292.93951416015625	9
+Am 21. Juli 2013, kurz vor seinem 74. Geburtstag, verstarb in Kassel Rolf	133.375	296.8243408203125	10.0	315.3300476074219	10
+Schwendter.	133.875	309.52435302734375	10.0	47.709991455078125	10
+Er wurde am 13. August 1939 in W ien geboren, studierte dort Rechtswis­	144.875	322.724365234375	10.0	303.3300476074219	10
+senschaften, Staatswissenschaften und Philosophie. M it drei Doktoren-Titeln,	133.5749969482422	335.724365234375	10.0	313.83998107910156	10
+1962 zum Dr. jur., 1965 zum Dr. rer.pol. und 1968 zum Dr. phiL, kam er nach	134.5749969482422	348.6243591308594	10.0	312.8500213623047	10
+Deutschland. Er bewegte sich unter den Liedermachern und trat u.a. auch auf	133.77499389648438	362.1243591308594	10.0	314.8800354003906	10
+den Waldeck-Festivals mit seinem schon damals unverwechselbaren Sprechge­	133.77499389648438	375.02435302734375	10.0	314.3299865722656	10
+sang und einer Kindertrommel auf. Von 1971 bis 1974 lehrte er am Institut für	133.5749969482422	388.02435302734375	10.0	313.9800262451172	10
+Politische Wissenschaft der Uni FFeidelberg. 1971 erschien sein umfangreiches	133.875	401.224365234375	10.0	313.75	10
+Werk „Theorie der Subkultur“. Von 1975 bis zur Emeritierung im Jahr 2003 war	133.375	414.1243591308594	10.0	314.280029296875	10
+er Professor für Subkultur-Forschung an der Universität Kassel.	133.5749969482422	426.9243469238281	10.0	250.62998962402344	10
+Rolf Schwendter war eine der seltenen Persönlichkeiten, die ihr Wissen nicht im	133.875	453.02435302734375	10.0	313.71014404296875	11
+Elfenbeinturm einschlossen, sondern auf vielfältige Weise der Gesellschaft im	133.5749969482422	466.224365234375	10.0	314.00999450683594	11
+Allgemeinen und der linken, alternativen politischen Bewegung im Besonderen	133.27499389648438	479.224365234375	10.0	314.4500427246094	11
+zur Verfügung stellten. Sein umfangreiches Wirken kann hier nicht annähernd	133.5749969482422	492.12432861328125	10.0	313.95021057128906	11
+beschrieben werden. M it FFilfe von fünf „Notaten“, ein von Rolf Schwendter oft	133.5749969482422	505.42431640625	10.0	314.6200408935547	11
+verwendetes Stilmittel, versuche ich, spontane Erinnerungen an Rolf festzuhal­	133.27499389648438	518.6243286132812	10.0	314.9302062988281	11
+ten. Das fünfte Notat stammt von Carl W ilhelm (Calle) Macke, der über einige	133.77499389648438	531.5243530273438	10.0	313.82000732421875	11
+Jahre mit mir in der Redaktion der Widersprüche mitarbeitete.	132.6750030517578	544.724365234375	10.0	250.14002990722656	11
+AG SPAKundSB	133.5749969482422	578.187255859375	9.5	73.26399993896484	12
+Im M ai 1972 traf ich Rolf Schwendter zum ersten Mal. Die Arbeitsgemeinschaft	133.77499389648438	596.3243408203125	10.0	314.1200866699219	13
+Sozialpolitischer Arbeitskreise (AG SPAK) hatte mich als Vertreter des Sozialis­	133.77499389648438	609.3243408203125	10.0	314.4299621582031	13
+tischen Büros (SB) zu einem Treffen eingeladen, auf dem über die Formen der	133.77499389648438	622.0242919921875	10.0	313.9800109863281	13
+Zusammenarbeit im Sozialbereich gesprochen werden sollte.	133.5749969482422	635.2243041992188	10.0	238.7100372314453	13
+W idersprüche. Verlag Westfälisches Dampfboot, Heft 129, 33. Jg. 2013, Nr. 3, 7-12	133.5749969482422	665.9156494140625	6.0	258.23988342285156	14
+8	148.1999969482422	161.0196533203125	11.0	4.0149993896484375	15
+Günter Pabst	416.4000244140625	162.2969970703125	7.5	45.92242431640625	16
+Zuvor hatten sich überall in der BRD und Westberlin Sozialarbeitergrup­	159.29998779296875	178.52435302734375	10.0	303.33001708984375	17
+pen gebildet. Höhepunkt und erste überregionale Aktion im Sozialbereich war	147.6999969482422	191.724365234375	10.0	314.3301239013672	17
+der 4. Deutsche Jugendhilfetag 1970 in Nürnberg, zu dem sich auf Initiative	148.1999969482422	204.92437744140625	10.0	313.5701141357422	17
+des Sozialistischen Büros und der „Sozialpädagogischen Korrespondenz“ über	148.1999969482422	217.6243896484375	10.0	313.9299774169922	17
+400 Genossinnen und Genossen in der „Sozialistischen Aktion Jugendhilfetag“	147.6999969482422	230.82440185546875	10.0	315.78013610839844	17
+zusammenschlossen. Diese Aktion sollte nicht verpuffen, daher dieses Treffen.	148.0	243.72442626953125	10.0	309.59002685546875	17
+RolfSchwendter war eben nicht nur Theoretiker, für ihn musste sich die Theorie	159.5	256.72442626953125	10.0	302.6600036621094	17
+in der Praxis bewähren. AG SPAK, das SB und andere Basisarbeitsgruppen verein­	147.89999389648438	269.92437744140625	10.0	314.6799621582031	17
+barten daher eine engere Zusammenarbeit. „Mit der Organisierung der Zusam­	147.89999389648438	282.92437744140625	10.0	314.7300109863281	17
+menarbeit autonomer sozialistischer Gruppen sollten traditionell-bürokratische	147.89999389648438	295.92437744140625	10.0	314.0201416015625	17
+Organisationsvorstellungen überwunden werden.“	148.1999969482422	309.0244140625	10.0	200.71995544433594	17
+Das SB sollte die Organisation der Kooperation übernehmen. Der „Informati­	159.5	322.0244140625	10.0	303.07000732421875	17
+onsdienst Sozialarbeit“ sollte als Instrument der Kommunikation, Koordination	148.1999969482422	335.4244079589844	10.0	313.7500457763672	17
+und Organisation ausgebaut werden.	148.1999969482422	348.1244201660156	10.0	144.6399688720703	17
+Die anfängliche Skepsis, ob m it diesem etwas chaotisch anmutenden Rolf	159.5	361.3244323730469	10.0	303.4801330566406	17
+Schwendter und seiner AG SPAK eine dauerhafte Zusammenarbeit realisiert	148.1999969482422	374.5244445800781	10.0	313.92002868652344	17
+werden konnte, verflog sehr schnell und es entwickelte sich eine über viele Jahre	147.6999969482422	387.5244445800781	10.0	314.11997985839844	17
+gehende, bereichernde Zusammenarbeit.	147.89999389648438	400.7244567871094	10.0	160.09002685546875	17
+Pünktlichkeit, Zuverlässigkeit und handgeschriebene Notate	148.39999389648438	433.8873596191406	9.5	278.1980285644531	18
+Viele Nachrufe folgen Gerald Jatzek (Wiener Zeitung, 22.7. 2013), der Rolf	147.6999969482422	452.12445068359375	10.0	315.3800506591797	19
+Schwendter so beschrieb: „Sozialwissenschaftler, Autor, Organisator, Genießer	148.1999969482422	465.0244445800781	10.0	313.8800506591797	19
+und prinzipiell Unorthodoxer“. Dies stimmt alles, dazu gehörten aber auch die	148.1999969482422	478.22442626953125	10.0	313.8600311279297	19
+Tugenden der Pünktlichkeit und Verlässlichkeit. Rolf war im Umgang ein zu­	147.89999389648438	491.22442626953125	10.0	314.7300720214844	19
+rückhaltender Mensch, der aber auch toben konnte, wenn wir bei einem Re­	147.89999389648438	504.22442626953125	10.0	314.7301940917969	19
+daktionstreffen nach einer durchzechten Nacht nicht pünktlich am nächsten	148.1999969482422	517.1244506835938	10.0	313.80015563964844	19
+Tag mit der Sitzung begannen und wenn wir ihm beim Essen wieder einmal den	147.89999389648438	530.324462890625	10.0	314.35009765625	19
+Brotkorb geleert hatten, ohne für Nachschub beim Kellner zu sorgen.	147.89999389648438	543.5244140625	10.0	274.1900329589844	19
+Und er war ein Ausbund an Verlässlichkeit. Von ihm gegebene Zusagen wurden	159.5	556.5244140625	10.0	302.3700256347656	19
+eingehalten. Für mich als Redaktionssekretär, der oft genug mit der Zeitmoral der	147.89999389648438	569.4244384765625	10.0	314.33001708984375	19
+Genossinnen und Genossen zu kämpfen hatte, war dies eine Wohltat. Allerdings	148.1999969482422	582.6243896484375	9.999992370605469	313.70005798339844	19
+musste man bei Rolf auch notwendige Zugeständnisse machen. Rolfbenutzte nie	147.89999389648438	595.6243896484375	10.0	314.1700439453125	19
+eine Schreibmaschine. Seine handschriftlich geschriebenen Artikel mussten alle	147.89999389648438	608.8244018554688	10.0	313.969970703125	19
+noch einmal abgeschrieben werden. Auch seine Rundbriefe an die Mitglieder	147.89999389648438	621.5244140625	10.0	313.880126953125	19
+der AG SPAK, oft vier bis sechs Seiten umfangreich, waren alle handschriftlich	148.1999969482422	634.724365234375	10.0	313.4499969482422	19
+verfasst.	147.6999969482422	647.9244384765625	10.0	31.729995727539062	19
+Notate der Erinnerungen: R o lf Schwendter (1939-2013)	133.8249969482422	162.2969970703125	7.5	191.9324493408203	20
+9	444.12249755859375	162.93206787109375	7.5	4.739990234375	21
+Vom Hören aufs Papier und dann in die 'Frankfurter Rundschau'	133.52499389648438	179.98724365234375	9.5	294.8040466308594	22
+Ein anderes Phänomen lernte ich bei Rolf nach der Tagung „Humanisierung	133.8249969482422	197.92437744140625	10.0	314.47999572753906	23
+des Gesundheitswesens“ Ende Januar 1979 kennen. Rolf erklärte sich bereit,	134.02499389648438	211.1243896484375	10.0	313.56005859375	23
+die Ergebnisse von 30 Arbeitsgruppen vom Abschlussplenum am Sonntag zu­	134.02499389648438	223.82440185546875	10.0	314.4300842285156	23
+sammenzufassen. A uf der Rückfahrt von Bielefeld nach Frankfurt wollte er	133.8249969482422	237.32440185546875	10.0	314.2801055908203	23
+nicht gestört werden. In sich versunken schrieb er seine Notizen. In Frankfurt	133.8249969482422	250.0244140625	10.0	314.17002868652344	23
+angekommen, übergab er mir die 28 Notate bzw. „Thesen zur Humanisierung	134.02499389648438	263.22442626953125	10.0	314.23004150390625	23
+des Gesundheitswesen“, die sich in die Abschnitte „Die Experten und die Al­	134.02499389648438	276.12445068359375	10.0	314.4299621582031	23
+ternativen“, „Die Institutionen und die Alternativen“ und „Die Ausbildung	134.02499389648438	289.0244140625	10.0	314.280029296875	23
+und die Alternativen“ gliederten. M ir kam die Aufgabe zu, seine handschrift­	134.02499389648438	302.32440185546875	10.0	314.43011474609375	23
+lichen „Notate“ abzuschreiben und sie der Frankfurter Rundschau zum Ab­	133.8249969482422	315.32440185546875	10.0	314.62998962402344	23
+druck anzubieten. Damals stellte die FR noch eine ganze Dokumentations­	134.02499389648438	328.7243957519531	10.0	314.4300537109375	23
+seite zur Verfügung und sie veröffentlichte die von Rolf perfekt formulierten	133.8249969482422	341.7243957519531	10.0	313.80015563964844	23
+Thesen ohne eine Änderung. Für mich, der immer über den Sätzen lange brü­	134.02499389648438	354.4244079589844	10.0	314.4300842285156	23
+tet, war Rolf ein genialer Schreiber und ich kam aus dem Staunen nicht mehr	134.02499389648438	367.6244201660156	10.0	313.8301086425781	23
+heraus.	133.8249969482422	380.8244323730469	10.0	27.639999389648438	23
+Ballade auf dem Pfingstkongress 1976	134.22500610351562	419.6873474121094	9.5	175.55047607421875	24
+Rolf Schwendter war aber nicht nur ein hervorragender Theoretiker und prak­	134.02499389648438	437.72442626953125	10.0	314.4300537109375	25
+tisch politisch Handelnder, sondern auch ein unkonventioneller Liedermacher.	134.02499389648438	450.9244384765625	10.0	313.59002685546875	25
+A uf der legendären Kulturveranstaltung im Rahmen des Pfingstkongresses	133.52499389648438	463.8244323730469	10.0	314.5	25
+„Gegen politische Unterdrückung und ökonomische Ausbeutung“ des Sozialis­	134.02499389648438	477.3244323730469	10.0	314.42999267578125	25
+tischen Büros 1976 in Frankfurt sang Rolf Schwendter vor über 10.000 Men­	134.02499389648438	490.0244140625	10.0	314.4300231933594	25
+schen. Unvergessen sein Lied „Ich bin noch immer unbefriedigt“ oder das Lied	133.8249969482422	502.9244384765625	10.0	314.0401153564453	25
+„Vom buckligen Männlein“ (das heute immer noch von seiner Aktualität nichts	134.02499389648438	516.1243896484375	10.0	313.85009765625	25
+eingebüßt hat). Für mich gehört aber die „Ballade von Rosa Luxemburg im Bo­	133.8249969482422	529.3244018554688	10.0	314.62986755371094	25
+tanischen Garten“ gesungen zur Trommel zum Schönsten, was ich von Rolf ge­	134.02499389648438	542.1243896484375	10.0	314.42999267578125	25
+hört und gelesen habe:	133.8249969482422	555.5244140625	10.0	88.40998840332031	25
+(1) Viele Genossen hör’ ich reden vom Proletariat,	179.625	581.4244384765625	9.999992370605469	199.86007690429688	26
+seh’ ich Papers formulieren und Mao-Tse-tung schrein,	179.125	594.4244384765625	10.0	216.14007568359375	26
+seh’ ich wütend über den, der hat und der nicht hat,	179.125	607.4244384765625	10.0	203.99002075195312	26
+seh’ ich nachts fahl beim Bier und niemals allein.	179.125	620.5244140625	10.0	192.8900146484375	26
+Und währenddessen werden ihre Herzen zu Stein,	179.4250030517578	633.5244140625	10.0	197.69004821777344	26
+währenddessen wird ihr Gesicht zu Stein,	178.9250030517578	646.724365234375	10.000003814697266	163.8400115966797	26
+da fällt mir Rosa Luxemburg ein.	179.4250030517578	659.724365234375	10.0	129.7899627685547	26
+10	148.22500610351562	161.0196533203125	11.0	8.029983520507812	27
+Günter Pabst	415.7250061035156	162.2969970703125	7.5	46.124969482421875	28
+R efrain:	192.625	178.75830078125	10.0	31.290008544921875	29
+R ose L u x em b u rg im B ota n isch en G arten	192.625	191.75830078125	10.0	156.01998901367188	29
+la u sch t m it K a r l L iebk necht d e r N achtigall,	192.625	204.95831298828125	10.0	167.69003295898438	29
+kann d ie B lü te des F aulbaum s kaum erw a rten ,	192.625	217.85833740234375	10.0	179.28997802734375	29
+h ö r t a u f des W endehalses k lagen den Schall:	192.82501220703125	231.05828857421875	10.0	166.23992919921875	29
+G ligligligligliglick , gligligligligliglick .	193.52499389648438	244.05828857421875	10.0	139.239990234375	29
+Rosa L u x em b u rg im B ota n isch en G arten	192.625	256.95831298828125	10.0	157.17001342773438	29
+so ll eu ch ein er m u tig en d es B eisp iel sein,	192.625	270.1583251953125	10.0	149.73995971679688	29
+son st k riegt v o r d e r Z eit eu er B ew u sstsein d ie Scharten,	192.625	283.1583251953125	10.0	208.68994140625	29
+sch ließ t ih r n ich t N atur u n d K u n st u n d L eh en m it ein.	192.625	296.1583251953125	10.0	209.44003295898438	29
+(2) April 1917: in Russland hat unlängst begonnen	193.3249969482422	322.2243957519531	10.0	198.87001037597656	30
+das große Gefecht:	193.02499389648438	335.4244079589844	10.0	73.30999755859375	30
+Rosa hat auch andre Erinnerungen.	193.125	348.1244201660156	10.0	139.53994750976562	30
+Der blühende Tiergarten,	193.125	361.1244201660156	10.0	100.38995361328125	30
+im Südende Maiprachtwonnen,	192.82498168945312	374.3244323730469	10.0	124.94003295898438	30
+Rosa kocht grüne Bohnen ä la Parisienne.	193.125	387.5244445800781	10.0	163.00997924804688	30
+Ein Blumenatlas im Kerker und kein Herz zu Stein,	192.82498168945312	400.5244445800781	10.0	203.74005126953125	30
+Knospen und Schneegraupeln und kein Gesicht zu Stein:	193.125	413.4244384765625	10.0	225.49005126953125	30
+so fällt mir Rosa Luxemburg ein.	192.82498168945312	426.4244384765625	10.0	129.08999633789062	30
+(3) Im Botanischen Garten geht Rosa mit Karl auch	193.32498168945312	452.5244445800781	10.0	204.6199951171875	31
+vorbei unter Silberpappeln und manch’ anderem Baum,	192.625	465.5244445800781	10.0	220.239990234375	31
+die Blaumeise grüßt sie leise und der Ligusterstrauch.	193.125	478.9244384765625	10.0	208.68997192382812	31
+Die jungen Blätter, schreibt sie, stehen voller weißer Flaum.	193.125	491.72442626953125	10.0	233.19003295898438	31
+Samenflaum füllt die Luft wie Schnee, kein Herz zu Stein.	193.125	505.12445068359375	10.0	229.33999633789062	31
+Hundert Krähen zum Schlafbaum: kein Gesicht zu Stein,	193.125	517.824462890625	10.0	228.14004516601562	31
+da fällt mir Rosa Luxemburg ein.	193.125	530.824462890625	10.0	129.78997802734375	31
+K w isch en tex t (R ezitativ):	192.625	557.2583618164062	10.0	97.78997802734375	32
+„Ich h a b e“, sa g t Rosa, „ m a n ch m a l das G efühl,	192.42498779296875	570.1583251953125	10.0	176.53997802734375	32
+ich hin kein rich tig er M ensch, so n d ern a u ch irg en d ein Vogel	192.8249969482422	583.3583374023438	9.999992370605469	228.6599884033203	32
+o d er ein a n d eres T ier in M en sch en gesta lt;	193.125	596.3583374023438	10.0	158.13995361328125	32
+in n erlich f ü h l ’ich m ich im F eld u n ter H u m m eln im Gras	192.8249969482422	609.558349609375	10.0	221.4699249267578	32
+v ie l m eh r in m ein er H eim a t als a u f ein em P arteitag.	193.125	622.558349609375	10.0	199.98992919921875	32
+I h n en Sonja, kann ich j a w o h l das a lles sa gen ;	192.3249969482422	635.4583740234375	10.0	174.58995056152344	32
+Sie wissen, ich w erd e tro tz d em a u f d em P osten sterb en ;	192.8249969482422	648.6583251953125	9.999996185302734	208.5900115966797	32
+in ein er S tra ß en sch la ch t o d er im Z uchthaus.	192.82501220703125	661.6583251953125	10.0	168.8399658203125	32
+Notate der Erinnerungen: R o lf Schwendter (1939-2013)	133.29998779296875	162.2969970703125	7.5	191.98495483398438	33
+11	439.50250244140625	162.93206787109375	7.5	7.98748779296875	34
+A ber m ein inn erstes Ich g e h ö r t m eh r m ein en K oh lm eisen	177.90000915527344	178.75830078125	10.0	217.1200408935547	35
+als den Genossen. “	178.40000915527344	191.95831298828125	10.0	72.3699951171875	35
+(4) Unter den gelben Sternen der Zierjohannisbeere allemal,	179.10000610351562	217.6243896484375	10.0	240.13003540039062	36
+unter der Zierkirsche rötlichem Laub liest Rosa Hölderlin,	178.90000915527344	230.82440185546875	10.0	230.29005432128906	36
+liest Goethe und Dehmel, hört Hugo Wolf,	178.70001220703125	244.0244140625	10.0	171.30999755859375	36
+der Himmel ist aus Opal,	178.90000915527344	257.22442626953125	10.0	99.53999328613281	36
+und Lenin steigt Berge und Mao schwimmt	178.90000915527344	270.12445068359375	10.0	172.7200164794922	36
+ruhig im großen Fluss dahin.	178.70001220703125	282.92437744140625	10.0	114.09002685546875	36
+Und währenddessen werden unsere Herzen zu Stein.	178.90000915527344	296.12445068359375	10.0	207.7899932861328	36
+Und währenddessen wird unser Gesicht zu Stein,	178.90000915527344	309.0244140625	10.0	193.8899688720703	36
+da fällt mir Rosa Luxemburg ein.	178.90000915527344	321.9244079589844	10.0	129.83998107910156	36
+Vom Glück, einen Menschen getroffen zu haben	133.10000610351562	381.7873229980469	9.5	222.79400634765625	37
+Vom Glück, einen Menschen getroffen zu haben ... Das sagt sich so leicht, aber	133.10000610351562	399.72442626953125	10.0	314.5	38
+letztlich gibt es immer nur wenige Menschen, auf die dieses Glücksbekenntnis	133.30001831054688	412.9244384765625	10.0	314.03997802734375	38
+zutrifft. Rolf Schwendter war gewiss so einer. Vielleicht bin ich ihm zwei-, drei	133.30001831054688	425.9244384765625	10.0	314.09002685546875	38
+M al in meinem Leben begegnet und jedes Mal war es so ein Glückserlebnis. Und	133.30001831054688	439.12445068359375	10.0	313.9999694824219	38
+immer war es im Umkreis des ‘Sozialistischen Büros’, dem auch Rolf Schwendter	133.30001831054688	451.824462890625	10.0	314.07000732421875	38
+lange Zeit sehr verbunden gewesen ist. Da siehst du einen Menschen, von dem	133.30001831054688	465.02447509765625	10.0	314.48004150390625	38
+du mit deinem zwanghaft ordentlichen Mittelstandsgeschmack auf den ersten	133.50001525878906	478.02447509765625	10.0	313.9500274658203	38
+Blick denkst: „Den möchte ich lieber nicht in der Dunkelheit treffen.“ Dann be­	133.30001831054688	490.9244384765625	10.0	314.6800842285156	38
+ginnt er zu sprechen und du bemerkst plötzlich, wie deine Vorurteile gegenüber	133.30001831054688	504.4244384765625	10.0	314.25	38
+diesem Menschen vollkommen haltlos werden, fast in einem Augenblick dahin­	133.50001525878906	517.1244506835938	10.0	314.47996520996094	38
+schmelzen. Der Blick seiner Augen hatte tatsächlich etwas kindliches, neugie­	133.30001831054688	530.324462890625	10.0	314.6801452636719	38
+riges, sogar schalkhaftes, das auf seine Gesprächspartner sehr einnehmend sein	133.30001831054688	543.5244140625	10.0	314.06005859375	38
+konnte. Ein dreifach promovierter Intellektueller, der dich nicht von oben mit	133.10000610351562	556.2244262695312	10.0	314.41998291015625	38
+seinem Wissen einschüchtert und zu einem Erstklässler degradiert. Allein diese	133.30001831054688	569.4244384765625	10.0	314.28009033203125	38
+Erfahrung vermittelt dir schon eine Ahnung von Glück. Im Vergleich mit sei­	133.30001831054688	582.4244384765625	9.999992370605469	314.6899719238281	38
+nem Wissen spürst du schnell, wie wenig du ihm doch entgegensetzen kannst,	133.30001831054688	595.4244384765625	10.0	313.7900085449219	38
+und trotzdem sprichst du mit ihm auf Augenhöhe, im besten Sinne von Genosse	133.50001525878906	608.824462890625	10.0	314.17005920410156	38
+zu Genosse. Rolf Schwendter konnte gut zuhören, was im linken intellektuellen	133.30001831054688	621.5244140625	10.0	313.85009765625	38
+M ilieu keineswegs selbstverständlich war - und ist. Er bewegte sich souverän in	133.30001831054688	634.7244262695312	10.0	313.93994140625	38
+allen Epochen der Gastronomie, schien alle Schriften von Ernst Bloch, Thomas	133.50001525878906	647.7244262695312	10.000003814697266	314.15992736816406	38
+Morus, Joachim de Fiore und Franz von Assisi gelesen zu haben, kannte sich	133.30001831054688	660.9244384765625	10.0	314.300048828125	38
+12	148.22500610351562	161.0196533203125	11.0	8.029983520507812	39
+Günter Pabst	412.9250183105469	162.2969970703125	7.5	45.824951171875	40
+aus in der Geschichte des Genossenschaftswesens und der Wiener Arbeiterbe­	147.72500610351562	178.724365234375	10.0	314.4300842285156	41
+wegung, verfolgte mit großer Neugierde und noch mehr Wissen die Diskussio­	147.22500610351562	191.724365234375	10.0	314.9299621582031	41
+nen über Psychiatrie und Anti-Psychiatrie. In der unterdrückten und verfolgten	147.52499389648438	204.62429809570312	10.000030517578125	314.0	41
+Kultur der Landstreicher und Anarchisten kannte er sich aus wie kein zweiter.	147.72500610351562	217.62432861328125	10.0	313.7101135253906	41
+Er war ein Kraftwerk der Phantasie, des Quer- und Vorausdenkens’. „Hoffnung“,	147.4250030517578	230.82440185546875	10.0	314.9900665283203	41
+so habe ich es jüngst in „Bentos Skizzenbuch“von John Berger gelesen, „ist heute	147.4250030517578	243.724365234375	10.0	314.21998596191406	41
+eine Schmuggelware, die von Hand zu Hand und von Geschichte zu Geschichte	147.4250030517578	256.92437744140625	10.0	314.17005920410156	41
+weitergereicht wird. In dem Sinne war Rolf Schwendter ein großer Schmuggler	147.22500610351562	269.92437744140625	10.0	314.280029296875	41
+vor dem Herrn. Solchen Menschen begegnet man nur ganz selten in seinem Le­	147.22500610351562	282.92437744140625	10.0	314.98004150390625	41
+ben, vielleicht nur einmal. Ein Glück, jemand wie ihn gekannt zu haben.	147.52499389648438	296.1243896484375	10.0	285.7400817871094	41
+C arl W ilhelm M acke	148.22500610351562	314.85833740234375	10.0	81.22001647949219	42
+Rolf Schwendter - Ausgewählte Literatur	147.9250030517578	348.18731689453125	9.5	188.0810089111328	43
+1971: Theorie der Subkultur. Frankfurt a.M.	148.4250030517578	365.2869873046875	9.0	159.76797485351562	44
+1976: Rosa Luxemburg im botanischen Garten, gesungen im Kulturzelt aufdem Pfingst­	148.4250030517578	378.1869812011719	9.0	313.7939910888672	44
+kongress, Booklet zur Kassette „Pfingstkongreß 1976“, Sozialistisches Bürol985	158.52499389648438	389.4869689941406	9.0	288.1710510253906	44
+1978/1982: Zur Geschichte der Zukunft. Zukunftsforschung und Sozialismus, Band 1.	148.4250030517578	402.4869689941406	9.0	313.47010803222656	44
+Frankfurt a.M.	158.72500610351562	413.6869812011719	9.0	54.675010681152344	44
+1979: Thesen zur Humanisierung des Gesundheitswesens. In: Eberhard Göpel (Hrsg.):	148.4250030517578	426.6869812011719	9.0	312.62403869628906	44
+Arbeitsfeldmateriahen zum Sozial- und Gesundheitsbereich, Heft 9. Offenbach	158.52500915527344	437.9869689941406	9.0	286.6949920654297	44
+1980: Ich bin immer noch unbefriedigt: Lieder zum freien Gebrauch, Rotbuch Nr. 227.	148.42501831054688	450.6869812011719	9.0	312.9840393066406	44
+Berlin	158.72500610351562	462.18695068359375	8.999984741210938	21.843017578125	44
+1984: Zur Geschichte der Zukunft. Zur Zeitgeschichte der Zukunft, Band 2. Frankfurt	148.42501831054688	474.886962890625	9.0	313.02911376953125	44
+a.M.	159.0250244140625	486.4869689941406	9.0	15.974998474121094	44
+1986: Grundlegungen zur alternativen Ökonomie, mehrere Bände. Steinheim	148.42501831054688	499.18695068359375	9.0	279.3509826660156	44
+1988: Schwendters Kochbuch. Frankfurt a.M.	148.42501831054688	512.0869750976562	9.0	165.5189666748047	44
+1996: Rosa Luxemburg im Botanischen Garten: Neue Lieder zur Kindertrommel,	148.42501831054688	524.886962890625	9.0	312.8310241699219	44
+Grüne Kraft 1996 und die CD zum Buch „Grüne Kraft 2004“	159.0250244140625	536.386962890625	9.0	225.531005859375	44
+1997: 18 Thesen zur Politik des Sozialen. In: Widersprüche Heft 66, Gesellschaft ohne	148.42501831054688	549.0869750976562	9.0	313.0020446777344	44
+Klassen? Politik des Sozialen wider Ausgrenzung und Repression	158.7250213623047	560.386962890625	9.0	233.6940155029297	44
+Weitere Beiträge von Rolf Schwendter in den Widersprüchen von 1983-2006. Online	147.2250213623047	573.2869873046875	9.0	314.0009002685547	44
+unter: w w w .widersprueche-zeitschrift.de	158.7250213623047	584.5869750976562	9.000007629394531	148.95001220703125	44
+C arl W ilhelm M acke, L oth rin ger Straße 11, 81667M ü n chen	148.2250213623047	610.3175048828125	9.0	213.1919708251953	45
+E M a il: civm ack e@ t-online.de	146.72503662109375	621.8175048828125	9.0	109.02601623535156	45
+E lom epage: w w w .jo u rn a listen h elfin .o rg	147.0250244140625	633.1174926757812	9.0	139.6530303955078	45
+G ünter Pabst, Elöhenstr. 14, 65824 Schw albach	148.22503662109375	650.1174926757812	8.999996185302734	166.1039581298828	46
+E -M ail: pahst@ gmx. eu	146.72503662109375	661.717529296875	9.0	83.04298400878906	46
