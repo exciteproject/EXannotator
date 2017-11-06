@@ -32,3 +32,5 @@ The output will be like this:
 <source>European Journal of Finance</source>, Vol. <volume>18</volume>, pp. 
 <fpage>649</fpage>-<lpage>669</lpage>. - Breuer, W./Gürtler, M./Schuhmacher,
 ```
+
+There is a sample file for test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2/17094-6710.txt)
