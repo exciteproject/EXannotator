@@ -1,6 +1,6 @@
 # Annotator Tool One:
 
-This is a ** "Reference String Extraction"**
+This is a **"Reference String Extraction"**
 
 Our assessor tags start and end tokens for each reference strings.
 
@@ -14,9 +14,9 @@ kongress, Booklet zur Kassette „Pfingstkongreß 1976“, Sozialistisches Büro
 <ref>1978/1982: Zur Geschichte der Zukunft. Zukunftsforschung und Sozialismus, Band 1.
 Frankfurt a.M.</ref>
 ```
+There is a sample file for test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1/47351.txt)
 
-
-# AnnotatorToolTwo
+# Annotator Tool Two
 
 This is a **"Meta-data Extraction"**
 
