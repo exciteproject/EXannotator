@@ -1,6 +1,6 @@
-Annotator Tool One:
+# Annotator Tool One:
 
-This is a "Reference String Extraction"
+This is a ** "Reference String Extraction"**
 Our assessor tags start and end tokens for each reference strings.
 The output will be like this:
 
@@ -12,9 +12,9 @@ Frankfurt a.M.</ref>
 
 
 
-AnnotatorToolTwo
+# AnnotatorToolTwo
 MetaDataExtraction
-This is a "Meta-data Extraction"
+This is a **"Meta-data Extraction"**
 This annotator gives our assessors the possibility to tag some metadata in each reference string in a paper
 Meta datas like: author, year, title, container, editorial board and others , ...
 The output will be like this:
