@@ -65,7 +65,7 @@
                             </div>-->
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 margin-bottom-5">
-                                    <input type="checkbox" id="chbCermine" name="chbCermine" value="0" checked>Use Cermine to Tag
+                                    <input type="checkbox" id="chbCermine" name="chbCermine" value="0" >Use Cermine to Tag
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 margin-bottom-5">                                    
                                     <input type="file" accept=".txt, .xml"  id="uploadbtn" style="display: none;" name="ReferenceStringsFile" value="ReferenceStringsFile" onchange="checkfileType(this); "/>
@@ -122,52 +122,55 @@
                                     <label id="content1" class="textLabel textalignl"></label> 
                                 </div>
                                 <div class="row mrg-0 textalignc pad-10 pad-lr-20">
-                                    <div class="col-md-3 col-sm-6 col-xs-12">		
+                                    <div class="col-md-2 col-sm-6 col-xs-12">
                                         <div class="row textalignl pad-b-5">
                                             <button style='background-color: #ff9681; display: none;' id="test" value="test" class="btn btn-default noborderbtn" type="button" onclick="test(this);">test</button>											
-                                            <button style='background-color: #ff9681' id="btnauthor" value="btnauthor" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Author</button>
+                                            <button style='background-color: #ff9681' id="btnauthor" value="btnauthor" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Author</button>
                                         </div>
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #aabb30' id="btnfirstname" value="btnfirstname" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Author First Name</button>
-                                        </div>
-                                        <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #ffce30' id="btnsurname" value="btnsurname" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Author Surname</button>												
+                                            <button style='background-color: #fed88f' id="btneditor" value="btneditor" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Editor</button>																								
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="col-md-2 col-sm-6 col-xs-12">		
+                                        
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #fed88f' id="ed" value="ed" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Editorial board</button>																								
+                                            <button style='background-color: #aabb30' id="btngiven-names" value="btngiven-names" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">First Name</button>
                                         </div>
-                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #ffff99' id="btnedfirstname" value="btnedfirstname" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Editorial board First Name</button>																								
+                                        <div class="row textalignl pad-b-5">
+                                            <button style='background-color: #ffce30' id="btnsurname" value="btnsurname" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Surname</button>												
                                         </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 col-xs-12">
+                                        
                                          <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #ff6600' id="btnedsurname" value="btnedsurname" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Editorial board Surname</button>
+                                            <button style='background-color: #ffff66' id="btnvolume" value="btnvolume" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">volume</button>																								
+                                        </div>
+                                        <div class="row textalignl pad-b-5">
+                                            <button style='background-color: #bfb1d5' id="btnyear" value="btnyear" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Year</button>
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-6 col-xs-12">	
+                                        
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #bfb1d5' id="btnyear" value="btnyear" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Year</button>
+                                            <button style='background-color: #adddcf' id="btntitle" value="btntitle" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Article Title</button>
                                         </div>
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #adddcf' id="ti" value="ti" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Title</button>
-                                        </div>
-                                        <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #abe1fd' id="btnsource" value="btnsource" class="btn btn-default noborderbtn text-wrap" type="button" onclick="changeColor2(this);"><!--<p class="small mrg-0 "></p>-->source</button>												
+                                            <button style='background-color: #abe1fd' id="btnsource" value="btnsource" class="btn btn-default noborderbtn text-wrap" type="button" onclick="ChangeColor_TranslateColor(this);"><!--<p class="small mrg-0 "></p>-->source</button>												
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-6 col-xs-12">
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #ccff66' id="btnfpage" value="btnfpage" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">First Page</button>
+                                            <button style='background-color: #ccff66' id="btnfpage" value="btnfpage" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">First Page</button>
                                         </div>
                                         <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #ffb3ff' id="btnlpage" value="btnlpage" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Last Page</button>
+                                            <button style='background-color: #ffb3ff' id="btnlpage" value="btnlpage" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Last Page</button>
                                         </div>
-                                        <div class="row textalignl pad-b-5">
-                                            <button style='background-color: #f4858e' id="ot" value="ot" class="btn btn-default noborderbtn" type="button" onclick="changeColor2(this);">Others</button>
-                                        </div>
+                                        
                                     </div>
-                                    <div class="col-md-2 col-sm-6 col-xs-12">                                                                               
+                                    <div class="col-md-2 col-sm-6 col-xs-12">
+                                        <div class="row textalignl pad-b-5">
+                                            <button style='background-color: #f4858e' id="btnother" value="btnother" class="btn btn-default noborderbtn" type="button" onclick="ChangeColor_TranslateColor(this);">Others</button>
+                                        </div>                                    
                                         <div class="row textalignl pad-b-5">
                                             <button style='background-color: #ffe1fd' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button" onclick="RemoveTag(this);">Remove Tag</button>
                                         </div>

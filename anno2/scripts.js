@@ -4,6 +4,7 @@ var textByLines0 = "";
 var textByLines = "";
 var currentLine = 0;
 var lastSessionFlag = false;
+var filename = "";
 
 function emptyParameters()
 {
@@ -11,6 +12,7 @@ function emptyParameters()
 	textByLines = "";
     textByLines0 = "";
 	currentLine = 0;
+    filename = "";
 	document.getElementById("txaxml").value = "";
     document.getElementById("contentForDemo").innerHTML = "";
 	document.getElementById("content1").innerHTML = "";
@@ -19,18 +21,46 @@ function emptyParameters()
 
 $(document).ready(function(){
 
+    $('#contentForDemo').attr('unselectable','on')
+            .css({'-moz-user-select':'-moz-none',
+            '-moz-user-select':'none',
+            '-o-user-select':'none',
+            '-khtml-user-select':'none', /* you could also put this in a class */
+            '-webkit-user-select':'none',/* and add the CSS class here instead */
+            '-ms-user-select':'none',
+            'user-select':'none'
+     }).bind('selectstart', function(){ return false; });
+     
+    //2
+    $('#lblerror').attr('unselectable','on')
+        .css({'-moz-user-select':'-moz-none',
+        '-moz-user-select':'none',
+        '-o-user-select':'none',
+        '-khtml-user-select':'none', /* you could also put this in a class */
+        '-webkit-user-select':'none',/* and add the CSS class here instead */
+        '-ms-user-select':'none',
+        'user-select':'none'
+    }).bind('selectstart', function(){ return false; });
+    
     ////load lasst saved localstorage
     $("#btnLoadSession").click(function(){        
         if(typeof(Storage)!=="undefined")
         {
             if (localStorage.getItem("anno2lastxmltext") != "")
             {
+                //1
                 var localStorage1 =  localStorage.getItem("anno2lastxmltext");
                 var file = new Blob([localStorage1], {type:'text/xml'});
                 var fileToLoad = file;
                 document.getElementById("chbCermine").checked = false;
+                //2
                 if (localStorage.getItem("anno2lastoroginalreftext") != "")
                     lastSessionFlag = true;
+                //3
+                if (localStorage.getItem("anno2filename") != "")
+                {
+                    filename = localStorage.getItem("anno2filename");
+                }
                 loadFileAsText(fileToLoad);                
             }else
                 alert("Sorry! No Data To Load..");
@@ -52,6 +82,11 @@ $(document).ready(function(){
         if (textByLines0 !="")
             lastoroginalreftext = textByLines0.join("\n");
         localStorage.setItem("anno2lastoroginalreftext", lastoroginalreftext);
+        //3
+        if (filename != "")
+        {
+            localStorage.setItem("anno2filename", filename);
+        }   
         location.reload();        
     });
 });
@@ -59,15 +94,21 @@ $(document).ready(function(){
 //saved the last changes before closeing
 window.onbeforeunload = function()
 {
+    //1
     var textforSave = getxaxmlText();
     if (textforSave !="")
         localStorage.setItem("anno2lastxmltext", textforSave);  
-    
+    //2
     var lastoroginalreftext = "";
     if (textByLines0 != "")
     {
         lastoroginalreftext = textByLines0.join("\n");
         localStorage.setItem("anno2lastoroginalreftext", lastoroginalreftext);
+    }  
+    //3
+    if (filename != "")
+    {
+        localStorage.setItem("anno2filename", filename);
     }    
 }
 
@@ -107,6 +148,8 @@ function showfileName()
 		for (var i = 0; i < x.files.length; i++) //made for any amount of uploaded files 
 		{  
 			var file = x.files[i];
+            filename = file.name.split('.')[0];
+            //alert(filename);
 			if ('name' in file) txt += "File Name : " + file.name;
 		}
 	}	
@@ -242,7 +285,7 @@ function loadFileAsText(fileToLoad)
         {
             textByLines0 = localStorage.getItem("anno2lastoroginalreftext").split('\n');
             lastSessionFlag = false;
-            document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " Loaded From Last Session - (References Number: " + textByLines.length + " )";            
+            document.getElementById("demo").innerHTML = " Loadeding Data From Last Session:(File Name: "+ filename +")-(References Number: " + textByLines.length + " )";            
         }
         if ($('#chbCermine').is(":checked"))
         {                 
@@ -304,28 +347,31 @@ function getxaxmlText()
 
 //get file name
 function getFileName()
-{    
-    var fullPath = document.getElementById('uploadbtn').value;
-    if (fullPath) {
-        var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-        var filename = fullPath.substring(startIndex);
-        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1).split('.')[0];
-        }
-    }
+{   
+    //alert(filename);
     var fileNameToSaveAs = filename + ".xml";
+    //var fileNameToSaveAs = ""
+    //var fullPath = document.getElementById('uploadbtn').value;
+    //if (fullPath) {
+    //    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+    //    var filename2 = fullPath.substring(startIndex);
+    //    if (filename2.indexOf('\\') === 0 || filename2.indexOf('/') === 0) {
+    //        fileNameToSaveAs = filename2.substring(1).split('.')[0];
+    //    }
+    //}       
+    //fileNameToSaveAs = fileNameToSaveAs + ".xml";
     return fileNameToSaveAs;
 }
 
-function download(data, filename) {
+function download(data, filename1) {
     var file = new Blob([data], {type:'text/xml'});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, filename);
+        window.navigator.msSaveOrOpenBlob(file, filename1);
     else { // Others
         var a = document.createElement("a"),
                 url = URL.createObjectURL(file);
         a.href = url;
-        a.download = filename;
+        a.download = filename1;
         document.body.appendChild(a);
         a.click();
         setTimeout(function() {
@@ -392,8 +438,8 @@ function gotonextLine()
 	colorize();    
 }
 
-//change color in plain text and translate to tags in textarea////////
-function changeColor2(sender) 
+//change color in plain text then call other function to translate tags in textarea ////////
+function ChangeColor_TranslateColor(sender) 
 {
     // Get Selection
 	var text1 = document.getElementById("content1").innerHTML;
@@ -403,9 +449,7 @@ function changeColor2(sender)
 		alert('Please Select a file');
 		return;
 	}
-	var tagname = sender.value;
-	//alert(tagname);
-    
+	var tagname = sender.value;    
 	sel = window.getSelection();
 	var selectedtext = sel.toString();	
     /* for test
@@ -422,9 +466,9 @@ function changeColor2(sender)
     
     if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]")
 	{
-		if (tagname =="btnsurname" || tagname =="btnfirstname")
+		if (tagname =="btnsurname" || tagname =="btngiven-names")
         {
-            alert("Adding First Name and Surname only in Author tag is possible.");
+            alert("Adding First Name and Surname only in Author and Editor tag is possible.");
             return;
         }
 	}
@@ -453,7 +497,7 @@ function changeColor2(sender)
 		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
 		document.execCommand("HiliteColor", false, "#ffce30");
 	}
-	else if(tagname == "btnfirstname"){
+	else if(tagname == "btngiven-names"){
 		/*text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
 		var secondplace = text1.indexOf(sel)+ selectedtext.length;
 		var text12 = text1.substr(secondplace, text1.length);
@@ -465,16 +509,19 @@ function changeColor2(sender)
 	else if(tagname =="btnyear"){
 		document.execCommand("HiliteColor", false, "#bfb1d5");		
 	}
-	else if(tagname =="ti"){
+	else if(tagname =="btntitle"){
 		document.execCommand("HiliteColor", false, "#adddcf");
 	}
 	else if(tagname =="btnsource"){
 		document.execCommand("HiliteColor", false, "#abe1fd");
 	}
-	else if(tagname =="ed"){
+	else if(tagname =="btneditor"){
 		document.execCommand("HiliteColor", false, "#fed88f");
-	}
-	else if(tagname =="ot"){
+	}   
+    else if(tagname =="btnvolume"){
+		document.execCommand("HiliteColor", false, "#ffff66");
+	}  
+	else if(tagname =="btnother"){
 		document.execCommand("HiliteColor", false, "#f4858e");
 	}
     else if(tagname =="btnfpage"){
@@ -488,23 +535,30 @@ function changeColor2(sender)
 	}
     // Set design mode to off
     document.designMode = "off";
+    //2 surname
+    //var textCopy =[];
+	//textCopy[currentLine] = document.getElementById("content1").innerHTML;
+    //while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(255, 206, 48);">') !==-1)
+	//{
+	//	textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(255, 206, 48);">', '<span style="background-color: rgb(255, 206, 48);">');
+	//}
+    //2 given-names
+    //while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(170, 187, 48);">') !==-1)
+	//{
+	//	textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(170, 187, 48);">', '<span style="background-color: rgb(170, 187, 48);">');
+	//}
 	translateColor(sender);
 }
 
 function translateColor(sender)
 {
-	// replaces the manually added tags with colortags for content1. 
+	//replaces the manually added tags with colortags for content1. 
 	//updateText();
 	var textCopy =[];
 	textCopy[currentLine] = document.getElementById("content1").innerHTML;
 	var tagname = sender.value;
 	var openSpanValue = "";
-	
-    while (textCopy[currentLine].indexOf("SLASHINTEXT") !==-1)
-	{
-        textCopy[currentLine] = textCopy[currentLine].replace("SLASHINTEXT", "/");
-    }
-    
+	//for surname
 	openSpanValue = '<span style="background-color: rgb(255, 206, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
@@ -514,16 +568,16 @@ function translateColor(sender)
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<surname>');
 	}
-	
+	//for given-names
 	openSpanValue = '<span style="background-color: rgb(170, 187, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
-		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</firstname>");
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</given-names>");
 		textCopy[currentLine] = text1 + text2;
-		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<firstname>');
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<given-names>');
 	}
-
+    //for author
 	openSpanValue = '<span style="background-color: rgb(255, 150, 129);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{				
@@ -532,7 +586,7 @@ function translateColor(sender)
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author>');	
 	}	
-	
+	//for year
 	openSpanValue = '<span style="background-color: rgb(191, 177, 213);">';
 	while (textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
@@ -541,34 +595,43 @@ function translateColor(sender)
 		textCopy[currentLine] = t1 + t2;
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(191, 177, 213);">', '<year>');
 	}
+    //for title
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(173, 221, 207);">') !==-1)
 	{
-		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(173, 221, 207);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(173, 221, 207);">'), textCopy[currentLine].length).replace("</span>", "</title>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(173, 221, 207);">', '<title>');
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(173, 221, 207);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(173, 221, 207);">'), textCopy[currentLine].length).replace("</span>", "</article-title>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(173, 221, 207);">', '<article-title>');
 	}
+    //for source
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(171, 225, 253);">'), textCopy[currentLine].length).replace("</span>", "</source>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(171, 225, 253);">', '<source>');
 	}
+    //for editor
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(254, 216, 143);">'), textCopy[currentLine].length).replace("</span>", "</editor>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(254, 216, 143);">', '<editor>');
 	}
+    //for volume
+	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 255, 102);">') !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 255, 102);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 255, 102);">'), textCopy[currentLine].length).replace("</span>", "</volume>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(255, 255, 102);">', '<volume>');
+	}
     //fpage
     while (textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(204, 255, 102);">'), textCopy[currentLine].length).replace("</span>", "</fpage>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(204, 255, 102);">', '<editor>');
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(204, 255, 102);">', '<fpage>');//
 	}
     //lpage
     while (textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">'), textCopy[currentLine].length).replace("</span>", "</lpage>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(255, 179, 255);">', '<editor>');
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(255, 179, 255);">', '<lpage>');//
 	}
-    
+    //other
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">') !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">'), textCopy[currentLine].length).replace("</span>", "</other>");
@@ -579,14 +642,59 @@ function translateColor(sender)
     var text1 = textByLines[currentLine];
     
     {
-        var openTag = '</author><surname>';
+        //this part of code solve the problem --> put parent tag begin and end of the whole tag
+        var tag_names = ['author','year','article-title','source','editor','fpage','lpage','volum','other'];
+        var fisrt_last_name_array = ['surname','given-names'];
+        var lenofarray = tag_names.length;
+        for (var k = 0; k<lenofarray; k++)
+        {
+            //alert(tag_names[i]);
+            //1
+            var openTag = '</'+tag_names[k]+'><surname>';
+            var i = 0
+            while(text1.indexOf(openTag) !==-1)
+            {
+                i++;
+                text1 = text1.replace(openTag, '<surname>');	
+            }
+            //*
+            var CloseTag = '</surname><'+tag_names[k]+'>';
+            var j = 0
+            while(text1.indexOf(CloseTag) !==-1)
+            {
+                j++;
+                text1 = text1.replace(CloseTag, '</surname>');	
+            }
+            //2
+            openTag = '</'+tag_names[k]+'><given-names>';
+            while(text1.indexOf(openTag) !==-1)
+            {
+                i++;
+                text1 = text1.replace(openTag, '<given-names>');	
+            }
+            //*
+            CloseTag = '</given-names><'+tag_names[k]+'>';
+            j = 0
+            while(text1.indexOf(CloseTag) !==-1)
+            {
+                j++;
+                text1 = text1.replace(CloseTag, '</given-names>');	
+            }
+        }
+        text1.indexOf(CloseTag)
+        //var TagRegExp = new RegExp('<given-names>(.*?)<\/given-names>(.*?)<other>');
+        //var TagRegExp = new RegExp('<author><given-names>');
+        //if(text1.search(TagRegExp) !==-1 )
+        //    alert('yes');
+        //////////////////////////////////////////
+        /*var openTag = '</author><surname>';
         var i = 0
         while(text1.indexOf(openTag) !==-1)
         {
             i++;
             text1 = text1.replace(openTag, '<surname>');	
         }
-        //*
+        //
         var CloseTag = '</surname><author>';
         var j = 0
         while(text1.indexOf(CloseTag) !==-1)
@@ -596,20 +704,20 @@ function translateColor(sender)
         }
 
         
-        openTag = '</author><firstname>';
+        openTag = '</author><given-names>';
         while(text1.indexOf(openTag) !==-1)
         {
             i++;
-            text1 = text1.replace(openTag, '<firstname>');	
+            text1 = text1.replace(openTag, '<given-names>');	
         }
         //*
-        CloseTag = '</firstname><author>';
+        CloseTag = '</given-names><author>';
         j = 0
         while(text1.indexOf(CloseTag) !==-1)
         {
             j++;
-            text1 = text1.replace(CloseTag, '</firstname>');	
-        }
+            text1 = text1.replace(CloseTag, '</given-names>');	
+        }*/
 	}
     
     textFromFileLoaded = text1;
@@ -620,35 +728,46 @@ function colorize()
 {// replaces the manually added tags with colortags for content1.
 	textByLines[currentLine] = document.getElementById("txaxml").value;
 	textFromFileLoaded = textByLines.join("");
-	var textCopy = textByLines;
-	while (textCopy[currentLine].indexOf("SLASHINTEXT") !==-1)
-	{
-        textCopy[currentLine] = textCopy[currentLine].replace("SLASHINTEXT", "/");
-    }
+	
+    var textCopy = textByLines;
+    //author
 	while (textCopy[currentLine].indexOf("<author>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</author>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<author>', '<span style="background-color: rgb(255, 150, 129);">');
 	}
+    //surname
 	while (textCopy[currentLine].indexOf("<surname>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</surname>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<surname>', '<span style="background-color: rgb(255, 206, 48);">');
 	}
-	while (textCopy[currentLine].indexOf("<firstname>") !==-1)
+    //2
+    while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(255, 206, 48);>') !==-1)
 	{
-		textCopy[currentLine] = textCopy[currentLine].replace("</firstname>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<firstname>', '<span style="background-color: rgb(170, 187, 48);">');
+		textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(255, 206, 48);>', '<span style="background-color: rgb(255, 206, 48);">');
 	}
+    //given-names
+	while (textCopy[currentLine].indexOf("<given-names>") !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</given-names>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<given-names>', '<span style="background-color: rgb(170, 187, 48);">');
+	}
+    //2
+    while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(170, 187, 48);">') !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(170, 187, 48);">', '<span style="background-color: rgb(170, 187, 48);">');
+	}
+    //year
 	while (textCopy[currentLine].indexOf("<year>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</year>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<year>', '<span style="background-color: rgb(191, 177, 213);">');
 	}
-	while (textCopy[currentLine].indexOf("<title>") !==-1)
+	while (textCopy[currentLine].indexOf("<article-title>") !==-1)
 	{
-		textCopy[currentLine] = textCopy[currentLine].replace("</title>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<title>', '<span style="background-color: rgb(173, 221, 207);">');
+		textCopy[currentLine] = textCopy[currentLine].replace("</article-title>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<article-title>', '<span style="background-color: rgb(173, 221, 207);">');
 	}
 	while (textCopy[currentLine].indexOf("<source>") !==-1)
 	{
@@ -660,17 +779,23 @@ function colorize()
 		textCopy[currentLine] = textCopy[currentLine].replace("</editor>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<editor>', '<span style="background-color: rgb(254, 216, 143);">');
 	}
+    //volume
+    while (textCopy[currentLine].indexOf("<volume>") !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</volume>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<volume>', '<span style="background-color: rgb(255, 255, 102);">');
+	}
     //fpage
     while (textCopy[currentLine].indexOf("<fpage>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</fpage>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<fpage>', '<span style="background-color: rgb(204, 255, 102);">');
+		textCopy[currentLine] = textCopy[currentLine].replace('<fpage>', '<span style="background-color: rgb(204, 255, 102);">');//
 	}
     //lpage
     while (textCopy[currentLine].indexOf("<lpage>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</lpage>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<lpage>', '<span style="background-color: rgb(255, 179, 255);">');
+		textCopy[currentLine] = textCopy[currentLine].replace('<lpage>', '<span style="background-color: rgb(255, 179, 255);">');//
 	}
 	while (textCopy[currentLine].indexOf("<other>") !==-1)
 	{
@@ -875,8 +1000,8 @@ function deletechar(event)
 		if (deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp))
 			flag= true;
 		
-		openTag = "<title>";
-		closeTag = "</title>";
+		openTag = "<article-title>";
+		closeTag = "</article-title>";
 		closeTag2 = "/title>";
 		openTagRegExp = new RegExp('<title(?!>)|(title>)|<titl>|<tite>|<tile>|<ttle>|<itle>'); //|(?!<)title>
 		closeTagRegExp = new RegExp('<\/title(?!>)|<\/titl>|<\/tite>|<\/tile>|<\/ttle>|<\/itle>');//|(?!<)/title>
@@ -920,11 +1045,11 @@ function deletechar(event)
 		if (deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp))
 			flag= true;
 	
-		openTag = "<firstname>";
-		closeTag = "</firstname>";
-		closeTag2 = "/firstname>";
-		openTagRegExp = new RegExp('<firstname(?!>)|(firstname>)|<firstnam>|<firstnae>|<firstnme>|<firstame>|<firsname>|<firtname>|<fistname>|<frstname>|<irstname>');
-		closeTagRegExp = new RegExp('<\/firstname(?!>)|<\/firstnam>|<\/firstnae>|<\/firstnme>|<\/firstame>|<\/firsname>|<\/firtname>|<\/fistname>|<\/frstname>|<\/irstname>');
+		openTag = "<given-names>";
+		closeTag = "</given-names>";
+		closeTag2 = "/given-names>";
+		openTagRegExp = new RegExp('<given-names(?!>)|(given-names>)|<firstnam>|<firstnae>|<firstnme>|<firstame>|<firsname>|<firtname>|<fistname>|<frstname>|<irstname>');
+		closeTagRegExp = new RegExp('<\/given-names(?!>)|<\/firstnam>|<\/firstnae>|<\/firstnme>|<\/firstame>|<\/firsname>|<\/firtname>|<\/fistname>|<\/frstname>|<\/irstname>');
 		deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp);
 		if (deleteTagsfun(openTag, closeTag, closeTag2, openTagRegExp, closeTagRegExp))
 			flag= true;
