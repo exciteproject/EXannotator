@@ -1,6 +1,6 @@
 ## Annotator Tool One: Reference String Extraction
 ### General
-The goal of **"Annotator Tool"** One is 
+The goal of **"Annotator Tool One"** is Reference String Extraction. It means that 
 
 Our assessor tags start and end tokens for each reference strings.
 
@@ -8,8 +8,6 @@ Our assessor tags start and end tokens for each reference strings.
 
 ### Output Sample
 The output will be like this:
-
-
 ```javascript
 <ref>1971: Theorie der Subkultur. Frankfurt a.M.</ref>
 <ref>1976: Rosa Luxemburg im botanischen Garten, gesungen im Kulturzelt aufdem Pfingst­
@@ -17,11 +15,12 @@ kongress, Booklet zur Kassette „Pfingstkongreß 1976“, Sozialistisches Büro
 <ref>1978/1982: Zur Geschichte der Zukunft. Zukunftsforschung und Sozialismus, Band 1.
 Frankfurt a.M.</ref>
 ```
+### Sample File To Use
 There is a sample file for test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1/47351.txt)
 
-### Annotator Tool Two: Meta-data Extraction
+## Annotator Tool Two: Meta-data Extraction
 ### General
-The goal of **"Annotator Tool"** One is 
+The goal of **"Annotator Tool Two"** is Meta-data Extraction
 
 This is a **"Meta-data Extraction"**
 
@@ -40,5 +39,5 @@ The output will be like this:
 <source>European Journal of Finance</source>, Vol. <volume>18</volume>, pp. 
 <fpage>649</fpage>-<lpage>669</lpage>. - Breuer, W./Gürtler, M./Schuhmacher,
 ```
-
+### Sample File To Use
 There is a sample file for test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2/17094-6710.txt)
