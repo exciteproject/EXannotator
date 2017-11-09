@@ -2,15 +2,18 @@
 ### General
 The goal of Annotator Tool One is **"Reference String Extraction"**. 
 It means that, Assessors can select reference strings one by one and 
-compare it with the article pdf file (which is available in the same page) 
+compare it with the article pdf file (Which has the ability to be displayed on the same page) 
 then add ```<ref>``` and ```</ref>``` tags to the start and end of each reference.
 
 ### How To Use
 1. put a copy of "Annotatortool1" folder in localhost folder. 
 2. use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
 
+### Sample File To Use
+Here you can find some sample files to test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1)
+
 ### Output Sample
-Output File Format will be in XML. This is a part of references section in output file:
+Output File will be in XML Format. This is a part of references section in output file:
 ```html
 .
 ..
@@ -24,14 +27,12 @@ Frankfurt a.M.</ref>
 ..
 .
 ```
-### Sample File To Use
-Here you can find a sample file to test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1)
 
 ## Annotator Tool Two: Meta-data Extraction
 ### General
 The goal of Annotator Tool Two is **"Meta-data Extraction"**.
-This annotator gives assessors this possibility to tag some metadata in each reference string.
-Meta datas like: ```<author>, <year>, <article-title>, <container>, <source> and others ```.
+This annotator gives assessors this possibility to tag metadata in each reference string.
+Which could include these Meta datas: ```<author>, <year>, <article-title>, <container>, <source> and others ```.
 
 ### How To Use
 There are two ways of using Annotator Tool Two.
