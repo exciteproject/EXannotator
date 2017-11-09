@@ -1,0 +1,125 @@
+<html>
+	<head>
+		<title>GESIS Reference String Extraction Tool</title>
+        <meta charset="utf-8">
+		<link rel="stylesheet" href="style.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/jquery-ui.min.css" rel="stylesheet">
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div class="row textalignc" id="spinner" style="vertical-align: middle;">
+       <!--<img src="images/page-loader.gif" > -->
+    </div>
+	<div class="container-fluid">
+        <div class="popup" id="popupdiv">
+            <span class="popuptext" id="myPopup">
+                <div class="row textalignc">
+                    <div class="row textalignc">
+                        Remove Tag?!
+                    </div>
+                    <div class="row textalignc">                    
+                        <div class="col-md-12" >
+                            <button style='background-color: #C0D4EE' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button" onclick="RemoveTag(this);">Yes</button>                                       
+                            <button style='background-color: #C0D4EE' id="delbtnno" value="delbtnno" class="btn btn-default noborderbtn text-wrap" type="button" onclick="">No</button>                   
+                        </div>                    
+                    </div>
+                </div>
+            </span>
+        </div>
+        
+        <div class="row pad-10 textalignc">            
+            <label id="lblMsg" style="color: red;"></label><br/>&nbsp;<label id="errorMsg" style="color: red;"></label>&nbsp;  
+        </div>
+        <div class="panel panel-default" >
+            <div class="panel-body">               
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
+                        <div class="row">
+                            <div class="col-md-12 pad-b-5" >
+                                <label for="btnUploadText" class="btn btn-success">Choose File (txt/xml)</label>
+                                <input type="file" id="btnUploadText" class="btn btn-default" Text="Choose Text File" accept=".txt, .xml"  onchange="show_TextFile();"/>                        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" >                        
+                                <label id="txtSize" style="color: green;"></label>
+                            </div>
+                            <div class="col-md-6" >                        
+                                <input id="btndeltxt" type="image" src="images/delete.png" alt="Delete Text File" width="24" height="24" style="display : none; ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                        <div class="row">
+                            <label for="btnUploadPdf" class="btn btn-success">Choose File (PDF)</label>
+                            <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" >                        
+                                <label id="pdfSize" style="color: green;"></label>
+                            </div>
+                            <div class="col-md-6" >                        
+                                <input id="btndelpdf" type="image" src="images/delete.png" alt="Delete pdf File" width="24" height="24" style="display : none; ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                    
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                        <button class="btn btn-primary" id="btnRefex" value="au" type="button">get layout text by refex</button>   
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                        <button class ="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export XML File</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                        <button class="btn btn-success" onclick="location.reload();">Reload page</button>									
+                    </div>
+                </div>                
+            </div>
+        </div>        
+            
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 pad-b-5">
+                        <button class="btn btn-info" id="btnInsertTag" value="au" type="button" onclick="change_TxtColor();">insert Tag</button>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+                <div class="row">			
+                    <div class="col-md-6" >
+                        <div class="col-md-12 nowrap" >
+                            <label id="content1" class="textLabel" Style="overflow:scroll;" ></label>	
+                        </div>                            
+                    </div>
+                    <div class="col-md-6" >				
+                        <iframe id="pdfiframe" class="iframecss" width="100%" style="height:100%" align="centert" src=""></iframe>
+                    </div>                    
+                </div>
+                <div class="row">			
+                    <div class="col-md-6" >
+                        <button id="showTagedTextdiv" class="btn btn-success" onclick="">Update Text with Tags</button>
+                    </div> 
+                    <div class="col-md-6" >
+                        
+                    </div>                          
+                </div>
+                <div class="row pad-10" id="tagedTextdiv" >            
+                    <div class="col-md-12" style="display : none; ">                    
+                        <textarea disabled id="txaxml" class="txaxml" ></textarea>
+                    </div>            
+                    <div class="col-md-12 ptxaxmlcss">
+                        <xmp id="ptxaxml"> </xmp>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+    <script type="text/javascript" src="scripts.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

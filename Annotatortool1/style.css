@@ -1,0 +1,164 @@
+body
+{
+    margin1: 0;
+    padding: 0;
+	background: #e5e9f9 !important;
+}
+
+.iframecss{
+    border: 1px solid #779caf !important;
+}
+
+.textLabel {
+	font-family: monospace;
+	font-size: 12px;
+	width: 100%;
+	height: 100%;
+	border: 1px solid #779caf;
+	cursor: text;
+    white-space: nowrap !important;
+    overflow1: scroll;
+}
+
+.txaxml{
+	font-family: monospace;
+	font-size: 12px;
+	width: 95%;
+	height: 100%;
+	border: 1px solid #779caf;
+	cursor: text;
+    
+}
+.ptxaxmlcss
+{
+    overflow:scroll; 
+    width1: 98% !important;
+    text-align1: center;
+    display: table;
+    position: absolute;
+    display: table-cell;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto; 
+    height: 400px;
+    width: 100%;
+    border: 1px solid #779caf;
+    
+}
+
+/*Popup Css*/
+/* Popup container - can be anything you want */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 200px;
+    height: 75px;
+    background-color: #1F4575;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom1: 125%;
+    left1: 50%;
+    margin-left1: -80px;
+    margin: 0px !important;
+}
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left1: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1F4575 transparent transparent transparent;
+}
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+.popuphidden {
+   visibility: hidden;
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+/*Azam Css*/
+#btnUploadText{display: none;}
+#btnUploadPdf{display: none;}
+.pad-10 {
+    padding: 10px;
+}
+.pad-b-5 {
+    padding-bottom: 5px;
+}
+.mrg-0 {
+    margin: 0!important;
+}
+
+.textalignl
+{
+    text-align: left;
+}
+.textalignc
+{
+    text-align: center;
+}
+.margin-bottom-10
+{
+	margin-bottom : 10px;
+}
+.bold
+{
+	font-weight: bold;
+}
+.text-wrap
+{
+	word-wrap: break-word
+}
+.noborderbtn
+{
+	border: 0px !important;
+}
+.nowrap{
+    white-space: nowrap !important;
+    color1: red;
+}
+#spinner {
+    display : none;
+    position : fixed;
+    z-index: 100;
+    background-image : url('images/page-loader.gif');
+    background-color:#666;
+    opacity : 0.4;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+}
+
+
