@@ -32,20 +32,23 @@ Frankfurt a.M.</ref>
 ### General
 The goal of Annotator Tool Two is **"Meta-data Extraction"**.
 This annotator gives assessors this possibility to tag metadata in each reference string.
-Which could include these Meta datas: ```<author>, <year>, <article-title>, <container>, <source> and others ```.
+Which could include these Meta datas: ```<author>, <year>, <article-title>, <volume>, <source> ... ``` .
 
 ### How To Use
 There are two ways of using Annotator Tool Two.
 
 1- Extracting Meta datas automaticly by Using [CERMINE](https://github.com/CeON/CERMINE):
-* Apache Tomcat is needed
-* drop "webservice.war" in the deploy directory in Tomcat.
-* put a copy of "Annotatortool1" folder in in the deploy directory in Tomcat.
-* use the URI ```http://localhost:8080/Annotatortool2/index.html``` and run the tool.
+* in this case Apache Tomcat is needed.
+* drop "webservice.war" file in the deploy directory in Tomcat.
+* put a copy of "Annotatortool2" folder in the deploy directory in Tomcat.
+* use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 2- Extracting Meta datas without CERMINE:
-* put a copy of "Annotatortool1" in localhost folder. 
-* use the URI ```http://localhost:8080/Annotatortool2/index.html``` and run the tool.
+* put a copy of "Annotatortool2" in localhost folder. 
+* use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
+
+### Sample File To Use
+Here you can find some sample files to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
 
 ### Output Sample
 Output File Format will be in XML and this is a part of output for a segmented reference string:
@@ -58,5 +61,3 @@ Output File Format will be in XML and this is a part of output for a segmented r
 <fpage>649</fpage>-<lpage>669</lpage>. - Breuer, W./Gürtler, M./Schuhmacher,
 ...
 ```
-### Sample File To Use
-Here you can find some sample files to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
