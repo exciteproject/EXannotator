@@ -44,7 +44,7 @@ There are two ways of using Annotator Tool Two.
 * use the URI ```http://localhost:8080/Annotatortool2/index.html``` and run the tool.
 
 ### Output Sample
-The output will be like this:
+Output File Format will be in XML and this is a part of output for a segmented reference string:
 
 ```html
 ...
@@ -55,4 +55,4 @@ The output will be like this:
 ...
 ```
 ### Sample File To Use
-Here you can find a sample file to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
+Here you can find some sample files to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
