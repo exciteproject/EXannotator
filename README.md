@@ -6,7 +6,7 @@ compare it with the article pdf file (Which has the ability to be displayed on t
 then add ```<ref>``` and ```</ref>``` tags to the start and end of each reference.
 
 ### How To Use
-1. put a copy of "Annotatortool1" folder in localhost folder. 
+1. put a copy of **"Annotatortool1"** folder in localhost folder. 
 2. use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
 
 ### Sample File To Use
@@ -38,20 +38,20 @@ Which could include these Meta datas: ```<author>, <year>, <article-title>, <vol
 There are two ways of using Annotator Tool Two.
 
 1- Extracting Meta datas automaticly by Using [CERMINE](https://github.com/CeON/CERMINE):
-* in this case Apache Tomcat is needed.
-* drop "webservice.war" file in the deploy directory in Tomcat.
-* put a copy of "Annotatortool2" folder in the deploy directory in Tomcat.
+* in this case **"Apache Tomcat"** is needed.
+* drop **"webservice.war"** file in the deploy directory in Tomcat.
+* put a copy of **"Annotatortool2"** folder in the deploy directory in Tomcat.
 * use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 2- Extracting Meta datas without CERMINE:
-* put a copy of "Annotatortool2" in localhost folder. 
+* put a copy of **"Annotatortool2"** in localhost folder. 
 * use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 ### Sample File To Use
 Here you can find some sample files to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
 
 ### Output Sample
-Output File Format will be in XML and this is a part of output for a segmented reference string:
+Output File will be in XML Format and this is a part of output for a segmented reference string:
 
 ```html
 ...
