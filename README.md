@@ -1,8 +1,6 @@
 ## Annotator Tool One: Reference String Extraction
 ### General
-The goal of **"Annotator Tool One"** is Reference String Extraction. It means that 
-
-Our assessor tags start and end tokens for each reference strings.
+The goal of **"Annotator Tool One"** is Reference String Extraction. It means that Assessor can select reference strings one by one compare it with pdf file and  add <ref> and </ref> tags to start and the end of each references.
 
 ### Usage
 
