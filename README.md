@@ -2,11 +2,13 @@
 ### General
 The goal of **"Annotator Tool One"** is Reference String Extraction. It means that, Assessor can select reference strings one by one and compare it with the pdf file (which is available in the same page) then add <ref> and </ref> tags to start and end of each references.
 
-### Usage
+### How to use
+1- put a copy of "Annotatortool1" folder in localhost. 
+2- call 
 
 ### Output Sample
 The output will be like this:
-```javascript
+```html
 <ref>1971: Theorie der Subkultur. Frankfurt a.M.</ref>
 <ref>1976: Rosa Luxemburg im botanischen Garten, gesungen im Kulturzelt aufdem Pfingst­
 kongress, Booklet zur Kassette „Pfingstkongreß 1976“, Sozialistisches Bürol985</ref>
@@ -26,12 +28,17 @@ This annotator gives our assessors the possibility to tag some metadata in each 
 
 Meta datas like: author, year, title, container, editorial board and others , ...
 
-### Usage
+### How to use
+There are two ways of using Annotator Tool Two.
+1- Using CERMINE to extract the Meta datas automaticly.
+* Apache Tomcat is needed
+* Put "webservice.war" in Apache Tomcat Server
+* put a copy of "Annotatortool1" folder in localhost
 
 ### Output Sample
 The output will be like this:
 
-```javascript
+```html
 <author><surname>er</surname>, W./Gürtler, <given-names>M.</given-names></author> (<year>2006</year>)
 <article-title>: “Performance Evaluation, Portfolio Selection, and HARA Utility”</article-title>, 
 <source>European Journal of Finance</source>, Vol. <volume>18</volume>, pp. 
