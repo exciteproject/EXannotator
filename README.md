@@ -1,9 +1,12 @@
-# Annotator Tool One:
-
-This is a **"Reference String Extraction"**
+## Annotator Tool One: Reference String Extraction
+### General
+The goal of **"Annotator Tool"** One is 
 
 Our assessor tags start and end tokens for each reference strings.
 
+### Usage
+
+### Output Sample
 The output will be like this:
 
 
@@ -16,7 +19,9 @@ Frankfurt a.M.</ref>
 ```
 There is a sample file for test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1/47351.txt)
 
-# Annotator Tool Two
+### Annotator Tool Two: Meta-data Extraction
+### General
+The goal of **"Annotator Tool"** One is 
 
 This is a **"Meta-data Extraction"**
 
@@ -24,6 +29,9 @@ This annotator gives our assessors the possibility to tag some metadata in each 
 
 Meta datas like: author, year, title, container, editorial board and others , ...
 
+### Usage
+
+### Output Sample
 The output will be like this:
 
 ```javascript
