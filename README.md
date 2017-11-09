@@ -2,7 +2,7 @@
 ### General
 The goal of Annotator Tool One is **"Reference String Extraction"**. It means that, Assessor can select reference strings one by one and compare it with the pdf file (which is available in the same page) then add ```<ref>``` and ```</ref>``` tags to start and end of each references.
 
-### How to use
+### How To Use
 1. put a copy of "Annotatortool1" in localhost folder. 
 2. use the URI ```http://localhost:8080/Annotatortool1/index.html``` and run the tool.
 
@@ -26,12 +26,11 @@ Here you can find a sample file to test the annotator tool one : [here](https://
 
 ## Annotator Tool Two: Meta-data Extraction
 ### General
-The goal of **"Annotator Tool Two"** is Meta-data Extraction
-This is a **"Meta-data Extraction"**
-This annotator gives our assessors the possibility to tag some metadata in each reference string in a paper
-Meta datas like: author, year, title, container, editorial board and others , ...
+The goal of Annotator Tool Two is **"Meta-data Extraction"**.
+This annotator gives assessors this possibility to tag some metadata in each reference string.
+Meta datas like: ```<author>, <year>, <article-title>, <container>, <source> and others ```.
 
-### How to use
+### How To Use
 There are two ways of using Annotator Tool Two.
 
 1- Extracting Meta datas automaticly by Using [CERMINE](https://github.com/CeON/CERMINE):
