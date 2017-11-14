@@ -1,19 +1,20 @@
 ## Annotator Tool One: Reference String Extraction
 ### General
 The goal of Annotator Tool One is **"Reference String Extraction"**. 
-It means that, Assessor  is able to select reference strings, one by one, and 
-compare it with related article (Which is displayed on the same page as pdf file) 
-then add ```<ref>``` and ```</ref>``` tags at the start and at the end of each reference.
+It means that the **assessora** are able to select reference strings, one by one, and 
+compare it with the related article (Which is displayed as a pdf file on the same page) 
+then can add these tags (```<ref>``` and ```</ref>```) to the start and end of each reference.
 
 ### How To Use
-1. put a copy of **"Annotatortool1"** folder in localhost folder. 
-2. use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
+1. first put a copy of **"Annotatortool1"** folder in the localhost directory. 
+2. then use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
 
 ### Sample File To Use
-Here you can find some sample files to test the annotator tool one : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1)
+You can find some sample files to test the annotator tool one [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1).
+These samples consists of layout file which extracted from a sample pdf by [Refex] (https://github.com/exciteproject/refext).
 
 ### Output Sample
-Output File will be in XML Format. This is a part of references section in output file:
+Output File will be in XML Format. The following is part of sample output from Annotator Tool One:
 ```html
 .
 ..
@@ -35,23 +36,23 @@ This annotator gives assessors this possibility to tag metadata in each referenc
 Which could include these Meta datas: ```<author>, <year>, <article-title>, <volume>, <source> ... ``` .
 
 ### How To Use
-There are two ways of using Annotator Tool Two.
+There are two ways of using Annotator Tool Two:
 
-1- Extracting Meta datas automaticly by Using [CERMINE](https://github.com/CeON/CERMINE):
-* in this case **"Apache Tomcat"** is needed.
-* drop **"webservice.war"** file in the deploy directory in Tomcat.
-* put a copy of **"Annotatortool2"** folder in the deploy directory in Tomcat.
-* use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
+1- Using [CERMINE](https://github.com/CeON/CERMINE) to extracting Meta datas automaticly. in this case **"Apache Tomcat"** is needed.
+* first drop a copy of **"webservice.war"** file in the deploy directory in Tomcat.
+* next put a copy of **"Annotatortool2"** folder in the deploy directory in Tomcat.
+* then use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
-2- Extracting Meta datas without CERMINE:
-* put a copy of **"Annotatortool2"** in localhost folder. 
+2- Extracting Meta datas without using CERMINE:
+* put a copy of **"Annotatortool2"** in localhost directory. 
 * use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 ### Sample File To Use
-Here you can find some sample files to test the annotator tool Tow : [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
+You can find some sample files to test the annotator tool two [here] [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
+These samples consists of refrence strings which extracted from a sample pdf by [CERMINE](https://github.com/CeON/CERMINE)
 
 ### Output Sample
-Output File will be in XML Format and this is a part of output for a segmented reference string:
+Output File will be in XML Format. The following is part of output for a segmented reference string:
 
 ```html
 ...
