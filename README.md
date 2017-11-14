@@ -1,7 +1,7 @@
 ## Annotator Tool One: Reference String Extraction
 ### General
-The goal of Annotator Tool One is **"Reference String Extraction"**. 
-It means that the **assessora** are able to select reference strings, one by one, and 
+The goal of Annotator Tool One is The following isReference String Extraction"**. 
+It means that the **assessors** are able to select reference strings, one by one, and 
 compare it with the related article (Which is displayed as a pdf file on the same page) 
 then can add these tags (```<ref>``` and ```</ref>```) to the start and end of each reference.
 
@@ -10,11 +10,11 @@ then can add these tags (```<ref>``` and ```</ref>```) to the start and end of e
 2. then use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
 
 ### Sample File To Use
-You can find some sample files to test the annotator tool one [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1).
-These samples consists of layout file which extracted from a sample pdf by [Refex] (https://github.com/exciteproject/refext).
+You can find some sample files to test the **annotator tool one** [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1).
+These samples consists of layout file which extracted from a sample pdf by [Refex](https://github.com/exciteproject/refext).
 
 ### Output Sample
-Output File will be in XML Format. The following is part of sample output from Annotator Tool One:
+Output File will be in XML Format. The following is part of sample output from **Annotator Tool One**:
 ```html
 .
 ..
@@ -33,7 +33,7 @@ Frankfurt a.M.</ref>
 ### General
 The goal of Annotator Tool Two is **"Meta-data Extraction"**.
 This annotator gives assessors this possibility to tag metadata in each reference string.
-Which could include these Meta datas: ```<author>, <year>, <article-title>, <volume>, <source> ... ``` .
+Which could be include these Meta datas: ```<author>, <year>, <article-title>, <volume>, <source> ... ``` .
 
 ### How To Use
 There are two ways of using Annotator Tool Two:
@@ -44,15 +44,15 @@ There are two ways of using Annotator Tool Two:
 * then use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 2- Extracting Meta datas without using CERMINE:
-* put a copy of **"Annotatortool2"** in localhost directory. 
+* put a copy of **"Annotatortool2"** folder in localhost directory. 
 * use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
 
 ### Sample File To Use
-You can find some sample files to test the annotator tool two [here] [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
+You can find some sample files to test the annotator tool two [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
 These samples consists of refrence strings which extracted from a sample pdf by [CERMINE](https://github.com/CeON/CERMINE)
 
 ### Output Sample
-Output File will be in XML Format. The following is part of output for a segmented reference string:
+Output File will be in XML Format. The following is part of output for a segmented reference string by **Annotator Tool Two**:
 
 ```html
 ...
