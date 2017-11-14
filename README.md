@@ -1,9 +1,9 @@
 ## Annotator Tool One: Reference String Extraction
 ### General
 The goal of Annotator Tool One is **"Reference String Extraction"**. 
-It means that, Assessors can select reference strings one by one and 
-compare it with the article pdf file (Which has the ability to be displayed on the same page) 
-then add ```<ref>``` and ```</ref>``` tags to the start and end of each reference.
+It means that, Assessor  is able to select reference strings, one by one, and 
+compare it with related article (Which is displayed on the same page as pdf file) 
+then add ```<ref>``` and ```</ref>``` tags at the start and at the end of each reference.
 
 ### How To Use
 1. put a copy of **"Annotatortool1"** folder in localhost folder. 
