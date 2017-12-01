@@ -1,4 +1,3 @@
-
 var textFromFileLoaded = "";
 var textByLines0 = "";
 var textByLines = "";
@@ -16,14 +15,14 @@ function emptyParameters()
     filename = "";
 	document.getElementById("txaxml").value = "";
     document.getElementById("contentForDemo").innerHTML = "";
-	document.getElementById("content1").innerHTML = "";
+	document.getElementById("lblColoredText").innerHTML = "";
 	document.getElementById("demo").innerHTML = "";
     document.getElementById("lblerror").innerHTML = "";
 }
 
 $(document).ready(function(){
 
-    //to prevent select text in Original Refrence String Area
+    //to prevent select text in "Original Refrence String Area" first lable in the page 
     $('#contentForDemo').attr('unselectable','on')
             .css({'-moz-user-select':'-moz-none',
             '-moz-user-select':'none',
@@ -33,18 +32,7 @@ $(document).ready(function(){
             '-ms-user-select':'none',
             'user-select':'none'
      }).bind('selectstart', function(){ return false; });
-     
-    //2 test
-    $('#lblerror').attr('unselectable','on')
-        .css({'-moz-user-select':'-moz-none',
-        '-moz-user-select':'none',
-        '-o-user-select':'none',
-        '-khtml-user-select':'none', /* you could also put this in a class */
-        '-webkit-user-select':'none',/* and add the CSS class here instead */
-        '-ms-user-select':'none',
-        'user-select':'none'
-    }).bind('selectstart', function(){ return false; });
-    
+        
     //load lasst saved localstorage
     $("#btnLoadSession").click(function(){        
         if(typeof(Storage)!=="undefined")
@@ -128,11 +116,14 @@ function checkfileType(sender) {
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
 	
     if (validExts.indexOf(fileExt) < 0) {
-      alert("No File Selected. Invalid file selected!!");
+      alert("No File Selected OR Invalid file selected!!");
       return false;
     }
     else
 	{	
+        //alert(fileExt);
+        if (fileExt == ".xml")
+            document.getElementById("chbCermine").checked = false;
 		emptyParameters(); 
 		showfileName();        
         var fileToLoad = document.getElementById("uploadbtn").files[0];
@@ -311,7 +302,7 @@ function AnnotateText(textByLine, i)
 
 function loadFileAsText(fileToLoad)
 {
-	// loads the file uploaded through "uploadbtn" into the "content1" and "txaxml"    
+	// loads the file uploaded through "uploadbtn" into the "lblColoredText" and "txaxml"    
 	var fileReader = new FileReader();
 	fileReader.onload = function(fileLoadedEvent)
 	{
@@ -342,7 +333,7 @@ function loadFileAsText(fileToLoad)
         }
         
         
-		document.getElementById("content1").innerHTML = textByLines[0];
+		document.getElementById("lblColoredText").innerHTML = textByLines[0];
         document.getElementById("txaxml").value = textByLines[0];        
     
         //
@@ -390,18 +381,7 @@ function getxaxmlText()
 //get file name
 function getFileName()
 {   
-    //alert(filename);
     var fileNameToSaveAs = filename + ".xml";
-    //var fileNameToSaveAs = ""
-    //var fullPath = document.getElementById('uploadbtn').value;
-    //if (fullPath) {
-    //    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-    //    var filename2 = fullPath.substring(startIndex);
-    //    if (filename2.indexOf('\\') === 0 || filename2.indexOf('/') === 0) {
-    //        fileNameToSaveAs = filename2.substring(1).split('.')[0];
-    //    }
-    //}       
-    //fileNameToSaveAs = fileNameToSaveAs + ".xml";
     return fileNameToSaveAs;
 }
 
@@ -427,12 +407,12 @@ function download(data, filename1) {
 function gotoline()
 {
     //Saves the current txaxml content into textFromFileLoaded. 
-    //Cycles backwards through the lines of an uploaded file updating label "count" and "content1"+"txaxml".happens onclick of "prev"
+    //Cycles backwards through the lines of an uploaded file updating label "count" and "lblColoredText"+"txaxml".happens onclick of "prev"
 	textByLines[currentLine] = document.getElementById("txaxml").value;
 	textFromFileLoaded = textByLines.toString();	
 	if(currentLine > 0)	currentLine = currentLine -1;
 	else currentLine = textByLines.length-1;
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("lblColoredText").innerHTML = textByLines[currentLine];
     document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
@@ -456,7 +436,7 @@ function gotolastLine()
     currentLine = textByLines.length-1;
     document.getElementById("txaxml").value = textByLines[currentLine];
 	textFromFileLoaded = textByLines.toString();	
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("lblColoredText").innerHTML = textByLines[currentLine];
     document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
@@ -466,13 +446,13 @@ function gotolastLine()
 
 function gotonextLine()
 {
-	//Saves the current txaxml content into textFromFileLoaded. Cycles forwards through the lines of an uploaded file updating label "count" and "content1"+"txaxml". happens onclick of "next"
+	//Saves the current txaxml content into textFromFileLoaded. Cycles forwards through the lines of an uploaded file updating label "count" and "lblColoredText"+"txaxml". happens onclick of "next"
 	textByLines[currentLine] = document.getElementById("txaxml").value;
 	textFromFileLoaded = textByLines.toString();	
 	if(textByLines.length-1 > currentLine) 
 		currentLine = currentLine +1;	
 	else currentLine = 0;
-    document.getElementById("content1").innerHTML = textByLines[currentLine];
+    document.getElementById("lblColoredText").innerHTML = textByLines[currentLine];
     document.getElementById("contentForDemo").innerHTML = textByLines0[currentLine];
 	document.getElementById("txaxml").value = textByLines[currentLine];
 	var line = currentLine+1;
@@ -483,38 +463,30 @@ function gotonextLine()
 //change color in plain text then call other function to translate tags in textarea ////////
 function ChangeColor_TranslateColor(sender) 
 {
-    // Get Selection
-	var text1 = document.getElementById("content1").innerHTML;
-    //alert(text1);
-	if (document.getElementById("content1").innerHTML == "")
+    //check text 
+	var coloredText = document.getElementById("lblColoredText").innerHTML;
+	if (coloredText == "")
 	{ 
 		alert('Please Select a file');
 		return;
 	}
-	var tagname = sender.value;    
+    //Get Tag Name
+	var tagname = sender.value;
+    //Get Selection Text 
 	sel = window.getSelection();
 	var selectedtext = sel.toString();	
-    /* for test
-    //alert(selectedtext);
-    //alert(sel.anchorNode.parentElement.toString());
-    
-    var authorCloseTag = '<span style="background-color: rgb\(255, 150, 129\);">(.*?)\</span>';
-    var textCopy =[];
-	textCopy[currentLine] = document.getElementById("content1").innerHTML;
-    //alert(textCopy[currentLine].search(authorCloseTag));
-    if(textCopy[currentLine].search(authorCloseTag) != -1 )
-        alert("finddddd");*/
-        
-    
     if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]")
 	{
-		if (tagname =="btnsurname" || tagname =="btngiven-names")
-        {
-            alert("Adding First Name and Surname only in Author and Editor tag is possible.");
-            return;
-        }
+		//if (tagname =="btnsurname" || tagname =="btngiven-names")
+        //{
+        //    alert("Adding First Name and Surname only in Author and Editor tag is possible.");
+        //    return;
+        //}
 	}
-	var text11 = text1.substr(0, text1.indexOf(sel)) ;	
+    //
+    var a = coloredText.indexOf(selectedtext);
+    var b = coloredText.lastIndexOf(selectedtext);
+	var text11 = coloredText.substr(0, coloredText.lastIndexOf(sel));	
 	//alert(text11);
     if (sel.rangeCount && sel.getRangeAt) {
         range = sel.getRangeAt(0);
@@ -532,20 +504,14 @@ function ChangeColor_TranslateColor(sender)
 	}
 	else if(tagname =="btnsurname"){
 		/*text11 = text11 + '<span style="background-color: rgb(255, 206, 48);">';
-		var secondplace = text1.indexOf(sel)+ selectedtext.length;
-		var text12 = text1.substr(secondplace, text1.length);
+		var secondplace = coloredText.indexOf(sel)+ selectedtext.length;
+		var text12 = coloredText.substr(secondplace, coloredText.length);
 		text12 = '</span>' + text12;
         var aaaa = text11 + selectedtext + text12
-		document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
+		document.getElementById("lblColoredText").innerHTML = text11 + selectedtext + text12;*/
 		document.execCommand("HiliteColor", false, "#ffce30");
 	}
 	else if(tagname == "btngiven-names"){
-		/*text11 = text11 + '<span style="background-color: rgb(170, 187, 48);">';
-		var secondplace = text1.indexOf(sel)+ selectedtext.length;
-		var text12 = text1.substr(secondplace, text1.length);
-		text12 = '</span>' + text12;
-        var aaaa = text11 + selectedtext + text12
-        document.getElementById("content1").innerHTML = text11 + selectedtext + text12;*/
 		document.execCommand("HiliteColor", false, "#aabb30");
 	}
 	else if(tagname =="btnyear"){
@@ -572,32 +538,30 @@ function ChangeColor_TranslateColor(sender)
     else if(tagname =="btnlpage"){
 		document.execCommand("HiliteColor", false, "#ffb3ff");
 	}
+    else if(tagname =="btnPublisher"){
+		document.execCommand("HiliteColor", false, "#79d279");
+	}
 	else{
 		document.getElementById("error").innerHTML = " RadioButton broken!";		
 	}
     // Set design mode to off
     document.designMode = "off";
-    //2 surname
-    //var textCopy =[];
-	//textCopy[currentLine] = document.getElementById("content1").innerHTML;
-    //while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(255, 206, 48);">') !==-1)
-	//{
-	//	textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(255, 206, 48);">', '<span style="background-color: rgb(255, 206, 48);">');
-	//}
-    //2 given-names
-    //while (textCopy[currentLine].indexOf('</span><span style="background-color: rgb(170, 187, 48);">') !==-1)
-	//{
-	//	textCopy[currentLine] = textCopy[currentLine].replace('</span><span style="background-color: rgb(170, 187, 48);">', '<span style="background-color: rgb(170, 187, 48);">');
-	//}
+
+    var currentText = document.getElementById("lblColoredText").innerHTML;
+    //author red <span style="background-color: rgb(255, 150, 129);">
+    //surname yellow <span style="background-color: rgb(255, 206, 48);">    
+    //firstname green <span style="background-color: rgb(170, 187, 48);">
+       
+    document.getElementById("lblColoredText").innerHTML = currentText;
 	translateColor(sender);
 }
 
 function translateColor(sender)
 {
-	//replaces the manually added tags with colortags for content1. 
-	//updateText();
+	//replaces the manually added tags with colortags in lblColoredText. 
+    //lblColoredText Contains <span tags>
 	var textCopy =[];
-	textCopy[currentLine] = document.getElementById("content1").innerHTML;
+	textCopy[currentLine] = document.getElementById("lblColoredText").innerHTML;
 	var tagname = sender.value;
 	var openSpanValue = "";
 	//for surname
@@ -606,19 +570,19 @@ function translateColor(sender)
 	{
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
 		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length);
-        text2 = text2.replace("</span>", "</surname>");
+        text2 = text2.replace("</span>", "</surname></author>");
 		textCopy[currentLine] = text1 + text2;
-		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<surname>');
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author><surname>');
 	}
 	//for given-names
 	openSpanValue = '<span style="background-color: rgb(170, 187, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
 	{
 		var text1 = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf(openSpanValue));
-		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</given-names>");
+		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</given-names></author>");
 		textCopy[currentLine] = text1 + text2;
-		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<given-names>');
-	}
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author><given-names>');
+	}  
     //for author
 	openSpanValue = '<span style="background-color: rgb(255, 150, 129);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
@@ -627,6 +591,21 @@ function translateColor(sender)
 		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</author>");
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author>');	
+	}	
+    //for <\/author>\\s*<author> 
+    // remove extra author tags after surname and given name color changing
+    var regExp1 = new RegExp('<\/author>\\s*<author>');
+    while(textCopy[currentLine].search(regExp1) !==-1)
+    {
+        //alert('<\/author>\\s*<author>');
+        var detectedText = regExp1.exec(textCopy[currentLine])[0];
+        var w = detectedText.replace('</author>','').replace('<author>','');
+        textCopy[currentLine] = textCopy[currentLine].replace(detectedText,w);
+    }    
+    openSpanValue = '</author><author>';	
+	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
+	{				
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '');	
 	}	
 	//for year
 	openSpanValue = '<span style="background-color: rgb(191, 177, 213);">';
@@ -673,6 +652,12 @@ function translateColor(sender)
 		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(255, 179, 255);">'), textCopy[currentLine].length).replace("</span>", "</lpage>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(255, 179, 255);">', '<lpage>');//
 	}
+    //btnPublisher
+    while (textCopy[currentLine].indexOf('<span style="background-color: rgb(121, 210, 121);">') !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].substr(0, textCopy[currentLine].indexOf('<span style="background-color: rgb(121, 210, 121);">')) + textCopy[currentLine].substr(textCopy[currentLine].indexOf('<span style="background-color: rgb(121, 210, 121);">'), textCopy[currentLine].length).replace("</span>", "</publisher>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(121, 210, 121);">', '<publisher>');//
+	}
     //other
 	while (textCopy[currentLine].indexOf('<span style="background-color: rgb(244, 133, 142);">') !==-1)
 	{
@@ -680,94 +665,19 @@ function translateColor(sender)
 		textCopy[currentLine] = textCopy[currentLine].replace('<span style="background-color: rgb(244, 133, 142);">', '<other>');
 	}
 	textByLines[currentLine] = textCopy[currentLine];
-	    
-    var text1 = textByLines[currentLine];
     
-    {
-        //this part of code solve the problem --> put parent tag begin and end of the whole tag
-        var tag_names = ['author','year','article-title','source','editor','fpage','lpage','volum','other'];
-        var fisrt_last_name_array = ['surname','given-names'];
-        var lenofarray = tag_names.length;
-        for (var k = 0; k<lenofarray; k++)
-        {
-            //alert(tag_names[i]);
-            //1
-            var openTag = '</'+tag_names[k]+'><surname>';
-            var i = 0
-            while(text1.indexOf(openTag) !==-1)
-            {
-                i++;
-                text1 = text1.replace(openTag, '<surname>');	
-            }
-            //*
-            var CloseTag = '</surname><'+tag_names[k]+'>';
-            var j = 0
-            while(text1.indexOf(CloseTag) !==-1)
-            {
-                j++;
-                text1 = text1.replace(CloseTag, '</surname>');	
-            }
-            //2
-            openTag = '</'+tag_names[k]+'><given-names>';
-            while(text1.indexOf(openTag) !==-1)
-            {
-                i++;
-                text1 = text1.replace(openTag, '<given-names>');	
-            }
-            //*
-            CloseTag = '</given-names><'+tag_names[k]+'>';
-            j = 0
-            while(text1.indexOf(CloseTag) !==-1)
-            {
-                j++;
-                text1 = text1.replace(CloseTag, '</given-names>');	
-            }
-        }
-        text1.indexOf(CloseTag)
-        //var TagRegExp = new RegExp('<given-names>(.*?)<\/given-names>(.*?)<other>');
-        //var TagRegExp = new RegExp('<author><given-names>');
-        //if(text1.search(TagRegExp) !==-1 )
-        //    alert('yes');
-        //////////////////////////////////////////
-        /*var openTag = '</author><surname>';
-        var i = 0
-        while(text1.indexOf(openTag) !==-1)
-        {
-            i++;
-            text1 = text1.replace(openTag, '<surname>');	
-        }
-        //
-        var CloseTag = '</surname><author>';
-        var j = 0
-        while(text1.indexOf(CloseTag) !==-1)
-        {
-            j++;
-            text1 = text1.replace(CloseTag, '</surname>');	
-        }
-
-        
-        openTag = '</author><given-names>';
-        while(text1.indexOf(openTag) !==-1)
-        {
-            i++;
-            text1 = text1.replace(openTag, '<given-names>');	
-        }
-        //*
-        CloseTag = '</given-names><author>';
-        j = 0
-        while(text1.indexOf(CloseTag) !==-1)
-        {
-            j++;
-            text1 = text1.replace(CloseTag, '</given-names>');	
-        }*/
-	}
+	var currentText = textByLines[currentLine];
+    //
     
-    textFromFileLoaded = text1;
-    document.getElementById("txaxml").value = text1;
+    
+    //
+    textFromFileLoaded = currentText;
+    textCopy[currentLine] = currentText;
+    document.getElementById("txaxml").value = currentText;
 }
 
 function colorize()
-{// replaces the manually added tags with colortags for content1.
+{// replaces the manually added tags with colortags for lblColoredText.
 	textByLines[currentLine] = document.getElementById("txaxml").value;
 	textFromFileLoaded = textByLines.join("");
 	
@@ -839,12 +749,18 @@ function colorize()
 		textCopy[currentLine] = textCopy[currentLine].replace("</lpage>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<lpage>', '<span style="background-color: rgb(255, 179, 255);">');//
 	}
+    //lpage
+    while (textCopy[currentLine].indexOf("<publisher>") !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace("</publisher>", "</span>");
+		textCopy[currentLine] = textCopy[currentLine].replace('<publisher>', '<span style="background-color: rgb(121, 210, 121);">');//
+	}
 	while (textCopy[currentLine].indexOf("<other>") !==-1)
 	{
 		textCopy[currentLine] = textCopy[currentLine].replace("</other>", "</span>");
 		textCopy[currentLine] = textCopy[currentLine].replace('<other>', '<span style="background-color: rgb(244, 133, 142);">');
 	}
-	document.getElementById("content1").innerHTML = textCopy[currentLine];
+	document.getElementById("lblColoredText").innerHTML = textCopy[currentLine];
 	
 }
 
@@ -1270,7 +1186,7 @@ $(document).click(function(event){
     
 });
 
-$("#content1").click(function(event) {
+$("#lblColoredText").click(function(event) {
     
     //event.stopPropagation(); // i read that this might be harmful to other functions
     //document.getElementById("myPopup").classList.add('popuphidden');
@@ -1327,7 +1243,7 @@ $("#content").mouseup(function(){
     }
 });
 
-$("#content1").dblclick(function(event) 
+$("#lblColoredText").dblclick(function(event) 
 {
     var par = getSelectionParentElement().nodeName;
     var popup = document.getElementById("myPopup");

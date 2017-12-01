@@ -3,6 +3,11 @@ body
     margin1: 0;
     padding: 0;
 	background: #e5e9f9 !important;
+    font-size: medium !important;
+}
+.btn
+{
+    font-size: medium !important;
 }
 
 .iframecss{
@@ -11,7 +16,7 @@ body
 
 .textLabel {
 	font-family: monospace;
-	font-size: 12px;
+	font-size: medium;
 	width: 100%;
 	height: 100%;
 	border: 1px solid #779caf;
@@ -22,7 +27,7 @@ body
 
 .txaxml{
 	font-family: monospace;
-	font-size: 12px;
+	font-size: medium;
 	width: 95%;
 	height: 100%;
 	border: 1px solid #779caf;
@@ -32,6 +37,7 @@ body
 .ptxaxmlcss
 {
     overflow:scroll; 
+    font-size: medium;
     width1: 98% !important;
     text-align1: center;
     display: table;

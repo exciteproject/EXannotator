@@ -439,7 +439,8 @@ function change_TxtColor()
 		alert('Please Select Text');
 		return;        
     }
-    
+    alert(selectedtext);
+    alert(selectedtext.split("\n").length);
     if (sel.rangeCount && sel.getRangeAt) 
     {
         range = sel.getRangeAt(0);

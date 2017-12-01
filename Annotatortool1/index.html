@@ -2,6 +2,7 @@
 	<head>
 		<title>GESIS Reference String Extraction Tool</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="style.css">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/jquery-ui.min.css" rel="stylesheet">
@@ -38,7 +39,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
                         <div class="row">
                             <div class="col-md-12 pad-b-5" >
-                                <label for="btnUploadText" class="btn btn-success">Choose File (txt/xml)</label>
+                                <label for="btnUploadText" class="btn btn-primary">Choose File (txt/xml)</label>
                                 <input type="file" id="btnUploadText" class="btn btn-default" Text="Choose Text File" accept=".txt, .xml"  onchange="show_TextFile();"/>                        
                             </div>
                         </div>
@@ -51,10 +52,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
                         <div class="row">
-                            <label for="btnUploadPdf" class="btn btn-success">Choose File (PDF)</label>
-                            <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf"/>
+                            <div class="col-md-12 pad-b-5" >
+                                <label for="btnUploadPdf" class="btn btn-primary">Choose File (PDF)</label>
+                                <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf"/>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6" >                        
@@ -69,7 +72,7 @@
                     
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
-                        <button class="btn btn-primary" id="btnRefex" value="au" type="button">get layout text by refex</button>   
+                        <!--<button class="btn btn-primary" id="btnRefex" value="au" type="button">get layout text by refex</button>-->
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
                         <button class ="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export XML File</button>

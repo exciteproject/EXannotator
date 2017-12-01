@@ -3,6 +3,11 @@ body
     margin1: 0;
     padding: 0;
 	background: #efefdf !important;
+    font-size: medium !important;
+}
+.btn
+{
+    font-size: small !important;
 }
 
 .fileName{
@@ -11,7 +16,7 @@ body
 	width1: 200px;
 	height1: 18px;
 	color: #135D9C;
-    font-size: 14px;
+    font-size: medium;
 }
 
 .headerDivider {
@@ -24,7 +29,7 @@ body
 	appearance: none;
 	border:none;
 	border-radius: 0;
-	font-size: 1em;
+	font-size: medium;
 	width: 100%
 }
 input[type='radio'] {
@@ -82,7 +87,7 @@ input[type='radio']:checked  + label::before {
 
 .textLabel {
 	font-family: monospace;
-	font-size: 13px;
+	font-size: medium;
     background-color: #f7f9fd;
 	width: 95%;
 	height: 100px;
@@ -94,7 +99,7 @@ input[type='radio']:checked  + label::before {
 
 .textLabel2 {
 	font-family: monospace;
-	font-size: 13px;
+	font-size: medium;
     background-color: #f0f5f5;
 	width: 95%;
 	height: 100px;
@@ -120,7 +125,7 @@ input[type='radio']:checked  + label::before {
 }
 .txaxml{
     font-family: monospace;
-	font-size: 13px;
+	font-size: medium;
 	width: 95%;
 	height: 120px;
     background-color: #f8f8f8 !important;
@@ -143,8 +148,11 @@ input[type='radio']:checked  + label::before {
 .pad-b-5 {
     padding-bottom: 5px;
 }
+.pad-t-10 {
+    padding-top: 10px !important;
+}
 .mrg-0 {
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 .textalignl
@@ -167,6 +175,10 @@ input[type='radio']:checked  + label::before {
 .margin-bottom-5
 {
 	margin-bottom : 5px;
+}
+.margin-top-5
+{
+	margin-top : 5px;
 }
 .bold
 {
