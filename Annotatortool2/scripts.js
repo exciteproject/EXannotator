@@ -181,7 +181,7 @@ function callAnnotatorWebService(a){
     $.ajax({
     type:"GET",
     async:false,
-    url:"http://193.175.238.110:8080/webservice/webapi/myresource/annotate2/"+a,// a is ref string
+    url:"http://141.26.208.55:8080/webservice/webapi/myresource/annotate2/"+a,// a is ref string
     contentType:"text/plain; charset=utf-8",
     dataType:"text",
     processData:true,
@@ -564,6 +564,9 @@ function translateColor(sender)
 	textCopy[currentLine] = document.getElementById("lblColoredText").innerHTML;
 	var tagname = sender.value;
 	var openSpanValue = "";
+
+	
+	
 	//for surname
 	openSpanValue = '<span style="background-color: rgb(255, 206, 48);">';	
 	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
@@ -591,7 +594,7 @@ function translateColor(sender)
 		var text2 = textCopy[currentLine].substr(textCopy[currentLine].indexOf(openSpanValue), textCopy[currentLine].length).replace("</span>", "</author>");
 		textCopy[currentLine] = text1 + text2;
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author>');	
-	}	
+	}
     //for <\/author>\\s*<author> 
     // remove extra author tags after surname and given name color changing
     var regExp1 = new RegExp('<\/author>\\s*<author>');
@@ -607,6 +610,19 @@ function translateColor(sender)
 	{				
 		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '');	
 	}	
+
+	//
+	openSpanValue = '<author><author>';	
+	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '<author>');
+	}
+	openSpanValue = '</author></author>';	
+	while(textCopy[currentLine].indexOf(openSpanValue) !==-1)
+	{
+		textCopy[currentLine] = textCopy[currentLine].replace(openSpanValue, '</author>');
+	}
+
 	//for year
 	openSpanValue = '<span style="background-color: rgb(191, 177, 213);">';
 	while (textCopy[currentLine].indexOf(openSpanValue) !==-1)
