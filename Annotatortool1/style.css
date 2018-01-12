@@ -3,11 +3,11 @@ body
     margin1: 0;
     padding: 0;
 	background: #e5e9f9 !important;
-    font-size: medium !important;
+    /* font-size: small !important; */
 }
 .btn
 {
-    font-size: medium !important;
+    font-size: small !important;
 }
 
 .iframecss{
@@ -128,6 +128,10 @@ body
 {
     text-align: left;
 }
+.textalignr
+{
+    text-align: right;
+}
 .textalignc
 {
     text-align: center;
@@ -154,18 +158,47 @@ body
 }
 #spinner {
     display : none;
-    position : fixed;
-    z-index: 100;
+    position : absolute;
+    z-index: 1001;
     background-image : url('images/page-loader.gif');
     background-color:#666;
-    opacity : 0.4;
+    -moz-opacity: 0.4;
+    opacity: .40;
+    filter: alpha(opacity=40);
     background-repeat : no-repeat;
     background-position : center;
-    left : 0;
-    bottom : 0;
-    right : 0;
-    top : 0;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
 }
+/* help ppoup css */
+.black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.4;
+    opacity: .40;
+    filter: alpha(opacity=40);
+  }
+  .white_content {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    border: 1px solid rgb(114, 113, 177);
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+  }
 
 /* fixed scroll */
 .top {

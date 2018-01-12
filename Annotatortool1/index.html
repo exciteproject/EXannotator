@@ -11,6 +11,63 @@
 </head>
 
 <body>
+    <div id="light" class="white_content">
+        <div class="row textalignr">
+            <div class="col-md-12">
+                <a href="javascript:void(0)" id="btnClose">Close</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    <strong>File opening</strong>
+                </p>
+                <ul>
+                    <li>To open layout file click on
+                        <strong>&lsquo;choose (txt/xml)&rsquo;</strong> button file and start annotating.</li>
+                    <li>To open a saved xml files click on
+                        <strong>&lsquo;choose (txt/xml)&rsquo;</strong> button and continue the previous work (editing).</li>
+                    <li>To open pdf file click on
+                        <strong>&lsquo;choose PDF&rsquo;</strong> button.</li>
+                    <li>To Export output to xml file after you are finished annotating click on
+                        <strong>&lsquo;Export to XML&rsquo;</strong> button.</li>
+                </ul>
+                <p>
+                    <strong>Insert Tag</strong>
+                </p>
+                <ul>
+                    <li>Triple click on one line (for one line references).</li>
+                    <li>Select part of reference lines by mouse (you can select one, two or more lines) and click on
+                        <strong>&lsquo;Insert Tag&rsquo;</strong> button or press
+                        <strong>&lsquo;I&rsquo;</strong> key on keyboard. In this case more than two words should be selected each
+                        time.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Delete tag</strong>
+                </p>
+                <ul>
+                    <li>Double click on one world in reference and click on
+                        <strong> &lsquo;yes&rsquo;</strong> button in popup.</li>
+                    <li>Select a part of line click on
+                        <strong>&lsquo;Remove Tag&rsquo;</strong> button or press
+                        <strong>&lsquo;R&rsquo;</strong> key on keyboard.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    <div id="fade" class="black_overlay"></div>
+
+    <!-- <div class="row textalignc" id="helpdiv" style="vertical-align: middle;">
+        <p>
+        How insert ref Tag: 1- Select part of line (more than 2 words) and click on "Inser Tag" button. 2- triple click on line 3-
+        Select more than one line and click on "Inser Tag" button How Delete ref : 1- Double Click on colored refrence
+        </p>
+
+    </div> -->
     <div class="row textalignc" id="spinner" style="vertical-align: middle;">
         <!--<img src="images/page-loader.gif" > -->
     </div>
@@ -24,7 +81,22 @@
                     <div class="row textalignc">
                         <div class="col-md-12">
                             <button style='background-color: #C0D4EE' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button"
-                                onclick="RemoveTag(this);">Yes</button>
+                                onclick="RemoveTag();">Yes</button>
+                            <button style='background-color: #C0D4EE' id="delbtnno" value="delbtnno" class="btn btn-default noborderbtn text-wrap" type="button"
+                                onclick="">No</button>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <span class="popuptext" id="myPopup2">
+                <div class="row textalignc">
+                    <div class="row textalignc">
+                        Insert Tag?!
+                    </div>
+                    <div class="row textalignc">
+                        <div class="col-md-12">
+                            <button style='background-color: #C0D4EE' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button"
+                                onclick="RemoveTag();">Yes</button>
                             <button style='background-color: #C0D4EE' id="delbtnno" value="delbtnno" class="btn btn-default noborderbtn text-wrap" type="button"
                                 onclick="">No</button>
                         </div>
@@ -35,19 +107,27 @@
 
         <div class="row pad-10 textalignc">
             <label id="lblMsg" style="color: red;"></label>
-
             <label id="errorMsg" style="color: red;"></label>&nbsp;
         </div>
         <div class="panel panel-default top">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
-                        <button class="btn btn-success" id="btnInsertTag" value="au" type="button" onclick="change_TxtColor();">insert Tag</button>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <button class="btn btn-primary" id="btnInsertTag" value="au" type="button" onclick="change_TxtColor();">
+                            <u>
+                                <strong>I</strong>
+                            </u>nsert Tag</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
+                        <button class="btn btn-primary" id="btnInsertTag" value="au" type="button" onclick="RemoveTag();">
+                            <u>
+                                <strong>R</strong>
+                            </u>emove Tag</button>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
                         <div class="row">
                             <div class="col-md-12 pad-b-5">
-                                <label for="btnUploadText" class="btn btn-primary">Choose File (txt / xml)</label>
+                                <label for="btnUploadText" class="btn btn-primary">Choose(txt/xml)</label>
                                 <input type="file" id="btnUploadText" class="btn btn-default" Text="Choose Text File" accept=".txt, .xml" onchange="show_TextFile();"
                                 />
                             </div>
@@ -64,7 +144,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
                         <div class="row">
                             <div class="col-md-12 pad-b-5">
-                                <label for="btnUploadPdf" class="btn btn-primary">Choose File (PDF)</label>
+                                <label for="btnUploadPdf" class="btn btn-primary">Choose PDF</label>
                                 <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf" />
                             </div>
                         </div>
@@ -77,28 +157,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1  pad-b-5">
                         <button class="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export To XML</button>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
-                        <button class="btn btn-success" onclick="location.reload();">Reload page</button>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <!-- <button id="btnLoadSession" class="btn btn-primary">Load Last Session</button> -->
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignl pad-b-5">
-                        <!--<button class="btn btn-primary" id="btnRefex" value="au" type="button">get layout text by refex</button>-->
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <button id="btnReload" class="btn btn-success ">Reload page</button> 
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignr pad-b-5">
+                        <input id="btnhelp" type="image" src="images/help.png" alt="help" width="24" height="24">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row" style="margin-top: 50px;"> 
+        <div class="row" style="margin-top: 50px;">
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h4 class="alert-info">
-                                    Text File:
-                                </h4>
+                                <p class="alert-info bold">
+                                    &nbsp;Text File:
+                                </p>
                             </div>
                         </div>
                         <div class="row">
@@ -114,9 +197,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <h4 class="alert-info">
-                                    PDF File:
-                                </h4>
+                                <p class="alert-info bold">
+                                    &nbsp;PDF File:
+                                </p>
                             </div>
                         </div>
                         <div class="row">
@@ -128,14 +211,13 @@
                 </div>
             </div>
         </div>
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-2">
-                            <h4 class="alert-info">
-                            Text + XML Tags:
-                        </h4>
+                        <p class="alert-info bold">
+                            &nbsp;Text + XML Tags:
+                        </p>
                     </div>
                     <div class="col-md-5">
                         <button id="showTagedTextdiv" class="btn btn-success" onclick="">Update Text</button>

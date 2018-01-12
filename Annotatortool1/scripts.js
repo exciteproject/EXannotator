@@ -8,31 +8,64 @@ var cols2numbers = [];
 var colorCounter = 0;
 var showTagDivFlag = false;
 
-var openSpanValue_arr =['<span style="background-color: rgb(255, 255, 153);">', 
-'<span style="background-color: rgb(252, 201, 108);">', 
-'<span style="background-color: rgb(236, 184, 249);">',
-'<span style="background-color: rgb(152, 230, 249);">', 
-'<span style="background-color: rgb(135, 245, 168);">', 
-'<span style="background-color: rgb(244, 132, 112);">', 
-'<span style="background-color: rgb(111, 252, 226);">'];
+// array for colors definition
+var openSpanValue_arr = ['<span style="background-color: rgb(255, 255, 153);">',
+    '<span style="background-color: rgb(252, 201, 108);">',
+    '<span style="background-color: rgb(236, 184, 249);">',
+    '<span style="background-color: rgb(152, 230, 249);">',
+    '<span style="background-color: rgb(135, 245, 168);">',
+    '<span style="background-color: rgb(244, 132, 112);">',
+    '<span style="background-color: rgb(111, 252, 226);">'];
 
-var spanColors_arr= ["#ffff99","#fcc96c","#ecb8f9","#98e6f9","#87f5a8","#f48470","#6ffce2"];
+var spanColors_arr = ["#ffff99", "#fcc96c", "#ecb8f9", "#98e6f9", "#87f5a8", "#f48470", "#6ffce2"];
 
+// empty some elements when page is refresh
 function emptyParameters() {
     textFromFileLoaded = "";
     textByLines = "";
     currentLine = 0;
     document.getElementById("errorMsg").innerHTML = "";
     colorCounter = 0;
-    //document.getElementById("txtSize").innerHTML = "";
-    //$("#btndeltxt").hide();
-    //document.getElementById("content1").innerHTML = "";
-    //document.getElementById("ptxaxml").innerHTML = "";
-    //pdfFileName = "";
-    //textFileName = ""
 }
 
+// assign key down to buttons 
+document.addEventListener('keydown', function (event) {
+    sel = window.getSelection();
+    var selectedtext = sel.toString();
+    if (selectedtext == '')
+        return;
+    else if (event.keyCode == 73) {
+        // alert('ii was pressed');
+        change_TxtColor();
+    }else if (event.keyCode == 82) {
+        // alert('rr was pressed');
+        RemoveTag();
+    }
+});
+
+// document.ready functions
 $(document).ready(function () {
+
+    // help show 
+    $("#btnhelp").click(function () {
+        $("#light").show("slow");
+        $("#fade").show("slow");
+        // document.getElementById("light").style.display = 'block';
+        // document.getElementById("fade").style.display = 'block'
+    });
+
+    $("#btnClose").click(function () {
+        $("#light").hide("slow");
+        $("#fade").hide("slow");
+        // document.getElementById('light').style.display='none';
+        // document.getElementById('fade').style.display='none';
+    });
+
+    // reload 
+    $("#btnReload").click(function () {
+		location.reload();
+	});
+
     $("#btnUpdateTags").click(function () {
         $("#spinner").show("slow", function () {
             //adding ref Tags to the text accourding colors
@@ -55,6 +88,7 @@ $(document).ready(function () {
         textFileName = "";
         checkFilesName_Similarity();
     });
+
     $("#btndelpdf").click(function () {
         //for remove the selected file 
         document.getElementById("pdfSize").innerHTML = "";
@@ -92,20 +126,6 @@ $(document).ready(function () {
         //call_refex();
     });
 });
-//call webservice////////////////////////////////////////////////////////////////////////////////////////////////
-function call_refex() {
-    //if (xhr.readyState == XMLHttpRequest.DONE) {
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("content1").innerHTML =
-                this.responseText;
-        }
-    };
-    xhttp.open("GET", "http://193.175.238.110:8080/server-ws-3/webapi/myresource", true);
-    xhttp.send();
-}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 function checkFileAvailability_ReturnFileName(x) {
@@ -149,7 +169,8 @@ function show_FileName() {
         if (x.value == "") txt += "Select one or more files.";
         else {
             txt += "The files property is not supported by your browser!";
-            txt += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+            // If the browser does not support the files property, it will return the path of the selected file instead
+            txt += "<br>The path of the selected file: " + x.value;
         }
     }
     //
@@ -408,23 +429,28 @@ function change_TxtColor() {
         return;
     }
 
+    // alert(content1value);
     var selectedtext2 = selectedtext.replace(/(\r\n|\n|\r)/gm, "<br>");
+    // alert(selectedtext2);
+    if (selectedtext2.split(' ').length < 3) {
+        alert('Please select more than 2 words!!');
+        return;
+    }
     if (content1value.includes(selectedtext2)) {
         var arr = content1value.split(selectedtext2);
         var firstpart = arr.shift().split("<br>").pop()
-        alert(firstpart);
+        // alert(firstpart);
         var secondpart = arr.pop().split("<br>").shift()
-        alert(secondpart);
+        // alert(secondpart);
         var fulltext = firstpart + selectedtext2 + secondpart;
-        alert(fulltext);
-        if (firstpart !="" || secondpart != "")
-        {
+        // alert(fulltext);
+        if (firstpart != "" || secondpart != "") {
             //change color 
 
             if (colorCounter == 6) {
                 var fulltext2 = openSpanValue_arr[6] + fulltext + '</span>';
                 colorCounter = 0;
-            }else if (colorCounter == 5) {
+            } else if (colorCounter == 5) {
                 var fulltext2 = openSpanValue_arr[5] + fulltext + '</span>';
                 colorCounter = colorCounter + 1;
             }
@@ -454,12 +480,11 @@ function change_TxtColor() {
             document.getElementById("content1").innerHTML = content1value2;
         }
         else
-        change_color_bytriple();
+            change_color_bytriple();
     }
 }
 
-function change_color_bytriple()
-{
+function change_color_bytriple() {
     //change color for selected text in lable by execCommand
     // Get Selection
     var content1value = document.getElementById("content1").innerHTML;
@@ -559,13 +584,6 @@ function translateColor_ToTag() {
     // ptxaxml cant undrestand <span> tag and <br>
     // replaces the <span> tags with <ref> tag for ptxaxml.
     var textCopy = document.getElementById("content1").innerHTML;
-    var openSpanValue0 = '<span style="background-color: rgb(255, 255, 153);">';
-    var openSpanValue1 = '<span style="background-color: rgb(252, 201, 108);">';
-    var openSpanValue2 = '<span style="background-color: rgb(236, 184, 249);">';
-    var openSpanValue3 = '<span style="background-color: rgb(152, 230, 249);">';
-    var openSpanValue4 = '<span style="background-color: rgb(135, 245, 168);">';
-    var openSpanValue5 = '<span style="background-color: rgb(244, 132, 112);">';
-    var openSpanValue6 = '<span style="background-color: rgb(111, 252, 226);">';
 
     //var re = new RegExp(/<span style="background-color: rgb\(255, 150, 129\);"/g);
     while (textCopy.indexOf(openSpanValue_arr[0]) !== -1) {
@@ -621,7 +639,7 @@ function translateColor_ToTag() {
     document.getElementById("ptxaxml").innerHTML = textCopy;
 }
 
-function RemoveTag(sender) {
+function RemoveTag() {
     sel = window.getSelection();
     if (sel == "") {
         alert('No Selection');
@@ -672,25 +690,16 @@ function RemoveTagOld0(sender) {
 //tripleclick
 window.addEventListener('click', function (evt) {
     if (evt.detail === 3) {
-        //alert('triple click!');
         sel = window.getSelection();
         newNode = document.createElement("p");
         range = sel.getRangeAt(0);
-        //sel = sel.
-        //range.surroundContents(newNode);//now i would need a new range(i think) 
-        //alert(range.endOffset);
-        //alert(range.commonAncestorContainer);
-        //alert(range.endContainer);
+
         if (range.endOffset != 0) {
             range.setEnd(range.endContainer, range.endOffset - 1);
         }
         else {
-            //alert(range.endContainer.previousSibling)
             range.setEnd(range.endContainer.previousSibling, range.endOffset);
-            //alert(range.endOffset)
         }
-        //alert(range.endContainer);
-        //alert(sel.rangeCount);
         change_color_bytriple();
     }
 });
@@ -727,9 +736,6 @@ $(document).click(function (event) {
 });
 
 $("#content1").click(function (event) {
-    //event.stopPropagation(); // i read that this might be harmful to other functions
-    //document.getElementById("myPopup").classList.add('popuphidden');
-    //document.getElementById("myPopup").css("visibility", "hidden");
     var popup = document.getElementById("myPopup");
     if (popUpFlag == true) {
         popup.classList.toggle("show");
@@ -782,15 +788,7 @@ $("#content").mouseup(function () {
     }
 });
 
-$("#content1").dblclick(function (event) {
-    sel = window.getSelection();
-    //alert(sel);
-    //range = sel.getRangeAt(0).cloneRange();
-    //alert(range.startOffset + range.endOffset);
-    //alert(range.startContainer + range.endContainer);
-    //alert(range.extractContents());
-    //alert(sel.anchorNode.parentElement.parentElement.toString());
-    //alert(sel.anchorNode.parentElement.innerHTML)
+function callmyPopup() {
     var par = getSelectionParentElement().nodeName;
     var popup = document.getElementById("myPopup");
 
@@ -808,5 +806,19 @@ $("#content1").dblclick(function (event) {
         popup.classList.toggle("show");
         popUpFlag = false;
     }
+}
+
+$("#content1").dblclick(function (event) {
+    // sel = window.getSelection();
+    //alert(sel);
+    //range = sel.getRangeAt(0).cloneRange();
+    //alert(range.startOffset + range.endOffset);
+    //alert(range.startContainer + range.endContainer);
+    //alert(range.extractContents());
+    //alert(sel.anchorNode.parentElement.parentElement.toString());
+    //alert(sel.anchorNode.parentElement.innerHTML)
+    callmyPopup();
 });
+
+
 //////////////////////////////////
