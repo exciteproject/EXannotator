@@ -1,4 +1,5 @@
-## Annotator Tool One: Reference String Extraction
+#Annotator tools Introduction
+## Annotator Tool No1: Reference String Extraction
 ### General
 The goal of this Annotator Tool is **"Reference String Extraction"**. 
 It means that the **Assessors** are able to select reference strings from text file and 
@@ -9,11 +10,11 @@ compare it with the related pdf scientific article then can add ```<ref>``` and 
 2. then use this URL ```http://localhost:8080/Annotatortool1/index.html``` to run the tool.
 
 ### Sample File To Use
-You can find some sample files to test the **annotator tool one** [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1).
+You can find some sample files to test the **annotator tool No1** [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno1).
 These samples consists of layout file which extracted from a sample pdf by [Refex](https://github.com/exciteproject/refext).
 
 ### Output Sample
-Output File will be in XML Format. The following is part of sample output from **Annotator Tool One**:
+Output File will be in XML Format. The following is part of sample output from **Annotator Tool No1**:
 ```html
 .
 ..
