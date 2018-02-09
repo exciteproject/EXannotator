@@ -1,4 +1,4 @@
-#Annotator tools Introduction
+# Annotator tools Introduction
 ## Annotator Tool No1: Reference String Extraction
 ### General
 The goal of this Annotator Tool is **"Reference String Extraction"**. 
