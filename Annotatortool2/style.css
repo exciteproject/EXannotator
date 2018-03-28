@@ -3,11 +3,11 @@ body
     margin1: 0;
     padding: 0;
 	background: #efefdf !important;
-    font-size: small !important;
+    font-size: medium !important;
 }
 .btn
 {
-    font-size: small !important;
+    font-size: medium !important;
 }
 
 .headerDivider {

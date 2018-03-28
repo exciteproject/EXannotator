@@ -21,8 +21,8 @@
         <div class="row">
             <div class="col-md-12">
                 <p class="textalignc">
-                    <!-- "Video For Everybody" v0.4.1 by Kroc Camen of Camen Design <camendesign.com/code/video_for_everybody>
-     =================================================================================================================== -->
+                    <!-- "Video For Everybody" v0.4.1 by Kroc Camen of Camen Design <camendesign.com/code/video_for_everybody> -->
+                    <!-- ================================================================================================== -->
                     <!-- first try HTML5 playback: if serving as XML, expand `controls` to `controls="controls"` and autoplay likewise       -->
                     <!-- warning: playback does not work on iPad/iPhone if you include the poster attribute! fixed in iOS4.0                 -->
                     <video width="100%" height="90%" controls preload="none">
@@ -47,7 +47,6 @@
                     <p class="textalignc">
                         <strong>Download Video:</strong>
                         <a href="img/help.mp4">"MP4"</a>
-
                     </p>
                     <!-- <video controls="controls" width="500" height="400" style="border: 1px solid rgb(216, 216, 223);">
                         <source src="img/help.mp4" type="video/amp4"/>
@@ -99,82 +98,60 @@
             <div class="col-md-10">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <!--<div class="row margin-bottom-5">
-                                <div class="col-md-12" >
-                                    <div class="material-switch ">
-                                    &nbsp;  
-                                        <label for="someSwitchOptionDefault" class="label-default"></label>
-                                        <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                                        &nbsp;  
-                                    </div>
-                                </div>
-                                <div class="col-md-4" >
-                                    Use Cermine to Tag References<br/><br/>
-                                                                                                       
-                                </div>
-                                <div class="col-md-2" >
-                                
-                                </div>
-                            </div>-->
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
-                                <input type="checkbox" id="chbCermine" name="chbCermine" value="0" checked>Use Cermine to Tag
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-1 margin-bottom-5">
+                                <button id="btnback" class="btn btn-primary ">Back</button>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
-                                <input type="file" accept=".txt, .xml" id="uploadbtn" style="display: none;" name="ReferenceStringsFile" value="ReferenceStringsFile"
-                                    onchange="checkfileType(this); " />
-                                <input type="button" id="uploasfile" class="btn btn-primary" value="Select File ( txt/xml )" onclick="document.getElementById('uploadbtn').click();"
-                                />
+                                <label>
+                                    <input id="chbCermine" type="checkbox" value="0"> Use Cermine to Tag</label>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
+                                <label for="btnUploadfile" class="btn btn-primary">Choose File (txt/xml)</label>
+                                <input type="file" id="btnUploadfile" class="btn btn-default" onchange="checkfile();this.value=null;return false;" accept="text/plain,.xml"
+                                    style="display: none;" />
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
                                 <button id="btnLoadSession" class="btn btn-primary ">Load Last Session</button>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
-                                <button class="btn btn-primary" type="button" onclick="saveTextAsFile();">Export File as XML</button>
+                                <button class="btn btn-primary" type="button" onclick="saveTextAsFile();">Export to XML</button>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 margin-bottom-5">
                                 <button id="btnReload" class="btn btn-success ">Reload page</button>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignr pad-b-5">
+                            <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 textalignr pad-b-5">
                                 <input id="btnhelp" type="image" src="img/help.png" alt="help" width="24" height="24">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label id="demo" class="alert-success"></label>
-                            </div>
                             <div class="col-md-12">
                                 <label id="lblerror" class="errorCls"></label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-defaul hideclass" id="infoPanel">
-                    <div class="panel-body">
-                        <div class="row">
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <!--<label id="ta1" class="textLabel">Please upload a File</label><!--note that ta1 isn't a textarea (anymore)-->
-                <!--<textarea id="ta1" cols="80" rows="5">Please upload a file</textarea>-->
-
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h4 class="panel-title textalignl bold">Tag Reference String:</h4>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h4 class="panel-title textalignl bold">Tag Reference String:</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <label id="demo" class="alert-success"></label>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="row textalignc">
                             <div class="row mrg-0 OriginalHeaderCls">
-                                <p>Original Reference String</p>
+                                <p class="panel-title textalignl bold">Original Reference String</p>
                             </div>
                             <div class="row mrg-0 textalignc">
-                                <label id="contentForDemo" class="textLabel2 textalignl"></label>
+                                <label id="lblcontentForDemo" class="textLabel2 textalignl"></label>
                             </div>
                             <div class="row mrg-0 OriginalHeaderCls">
-                                <p>Annotated Reference String</p>
+                                <p class="panel-title textalignl bold">Annotated Reference String</p>
                             </div>
                             <div class="row mrg-0 textalignc">
                                 <label id="lblColoredText" class="textLabel textalignl"></label>
@@ -188,15 +165,6 @@
                                                 <b>A</b>
                                             </u>uthor</button>
                                     </div>
-                                    <div class="row textalignl pad-b-5">
-                                        <button style='background-color: #fed88f' id="btneditor" value="btneditor" class="btn btn-default noborderbtn" type="button"
-                                            onclick="ChangeColor_TranslateColor(this);">
-                                            <u>
-                                                <b>E</b>
-                                            </u>ditor</button>
-                                    </div>
-                                </div>
-                                <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
                                     <div class="row textalignl pad-b-5">
                                         <button style='background-color: #aabb30' id="btngiven-names" value="btngiven-names" class="btn btn-default noborderbtn"
                                             type="button" onclick="ChangeColor_TranslateColor(this);">
@@ -214,12 +182,28 @@
                                 </div>
                                 <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
                                     <div class="row textalignl pad-b-5">
-                                        <button style='background-color: #ffff66' id="btnvolume" value="btnvolume" class="btn btn-default noborderbtn" type="button"
+                                        <button style='background-color: #adddcf' id="btntitle" value="btntitle" class="btn btn-default noborderbtn" type="button"
                                             onclick="ChangeColor_TranslateColor(this);">
                                             <u>
-                                                <b>V</b>
-                                            </u>olume</button>
+                                                <b>T</b>
+                                            </u>itle</button>
                                     </div>
+                                    <div class="row textalignl pad-b-5">
+                                        <button style='background-color: #fed88f' id="btneditor" value="btneditor" class="btn btn-default noborderbtn" type="button"
+                                            onclick="ChangeColor_TranslateColor(this);">
+                                            <u>
+                                                <b>E</b>
+                                            </u>ditor</button>
+                                    </div>
+                                    <div class="row textalignl pad-b-5">
+                                        <button style='background-color: #79d279' id="btnPublisher" value="btnPublisher" class="btn btn-default noborderbtn text-wrap"
+                                            type="button" onclick="ChangeColor_TranslateColor(this);">
+                                            <u>
+                                                <b>P</b>
+                                            </u>ublisher</button>
+                                    </div>
+                                </div>
+                                <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
                                     <div class="row textalignl pad-b-5">
                                         <button style='background-color: #bfb1d5' id="btnyear" value="btnyear" class="btn btn-default noborderbtn" type="button"
                                             onclick="ChangeColor_TranslateColor(this);">
@@ -227,15 +211,32 @@
                                                 <b>Y</b>
                                             </u>ear</button>
                                     </div>
+                                    <div class="row textalignl pad-b-5">
+                                        <button style='background-color: #ffff66' id="btnvolume" value="btnvolume" class="btn btn-default noborderbtn" type="button"
+                                            onclick="ChangeColor_TranslateColor(this);">
+                                            <u>
+                                                <b>V</b>
+                                            </u>olume</button>
+                                    </div>
+
+                                    <div class="row textalignl pad-b-5">
+                                        <button style='background-color: #659bf2' id="btneditor" value="btnissue" class="btn btn-default noborderbtn" type="button"
+                                            onclick="ChangeColor_TranslateColor(this);">
+                                            <u>
+                                                <b>I</b>
+                                            </u>ssue</button>
+                                    </div>
+
                                 </div>
                                 <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
 
                                     <div class="row textalignl pad-b-5">
-                                        <button style='background-color: #adddcf' id="btntitle" value="btntitle" class="btn btn-default noborderbtn" type="button"
-                                            onclick="ChangeColor_TranslateColor(this);">Article
+                                        <button style='background-color: #d19bf7' id="btnyear" value="btnidentifier" class="btn btn-default noborderbtn" type="button"
+                                            onclick="ChangeColor_TranslateColor(this);">
+                                            I
                                             <u>
-                                                <b>T</b>
-                                            </u>itle</button>
+                                                <b>d</b>
+                                            </u>entifier</button>
                                     </div>
                                     <div class="row textalignl pad-b-5">
                                         <button style='background-color: #abe1fd' id="btnsource" value="btnsource" class="btn btn-default noborderbtn text-wrap"
@@ -243,6 +244,13 @@
                                             <u>
                                                 <b>O</b>
                                             </u>urce</button>
+                                    </div>
+                                    <div class="row textalignl pad-b-5">
+                                        <button style='background-color: #5befdb' id="btnsurname" value="btnurl" class="btn btn-default noborderbtn" type="button"
+                                            onclick="ChangeColor_TranslateColor(this);">
+                                            <u>
+                                                <b>U</b>
+                                            </u>RL</button>
                                     </div>
                                 </div>
                                 <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
@@ -261,14 +269,8 @@
                                             </u>ast Page</button>
                                     </div>
                                 </div>
-                                <div class="col-l-1 col-md-1 col-sm-6 col-xs-6">
-                                    <div class="row textalignl pad-b-5">
-                                        <button style='background-color: #79d279' id="btnPublisher" value="btnPublisher" class="btn btn-default noborderbtn text-wrap"
-                                            type="button" onclick="ChangeColor_TranslateColor(this);">
-                                            <u>
-                                                <b>P</b>
-                                            </u>ublisher</button>
-                                    </div>
+                                <div class="col-l-1 col-md-2 col-sm-6 col-xs-6">
+
                                     <div class="row textalignl pad-b-5">
                                         <button style='background-color: #f4858e' id="btnother" value="btnother" class="btn btn-default noborderbtn" type="button"
                                             onclick="ChangeColor_TranslateColor(this);">Ot
@@ -276,8 +278,6 @@
                                                 <b>h</b>
                                             </u>ers</button>
                                     </div>
-                                </div>
-                                <div class="col-l-1 col-md-1 col-sm-6 col-xs-6">
                                     <div class="row textalignl pad-b-5">
                                         <button style='background-color: #ffe1fd' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button"
                                             onclick="RemoveTag();">
@@ -286,6 +286,7 @@
                                             </u>emove Tag</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -302,19 +303,19 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-xs-12 margin-top-5">
                                     <div class="margin-bottom-10" style="display: inline-block !important;">
-                                        <button type="button" id="btnfirst" class="btn btn-primary" onclick="gotofirstLine();">First</button>&nbsp;
+                                        <button type="button" id="btnfirst" class="btn btn-primary" onclick="goto_firstLine();">First</button>&nbsp;
                                     </div>
                                     <div class="margin-bottom-10" style="display: inline-block !important;">
-                                        <button type="button" id="prev" class="btn btn-primary" onclick="gotoprevLine();">Prev</button>&nbsp;
+                                        <button type="button" id="prev" class="btn btn-primary" onclick="goto_prevLine();">Prev</button>&nbsp;
                                     </div>
                                     <div class="margin-bottom-10" style="display: inline-block !important;">
                                         <label class="btn btn-default btn-sm" id="count" style="font-weight: bold;"> 0/0 </label>&nbsp;
                                     </div>
                                     <div class="margin-bottom-10" style="display: inline-block !important;">
-                                        <button type="button" id="next" class="btn btn-primary" onclick="gotonextLine();">Next</button>&nbsp;
+                                        <button type="button" id="next" class="btn btn-primary" onclick="goto_nextLine();">Next</button>&nbsp;
                                     </div>
                                     <div class="margin-bottom-10" style="display: inline-block !important;">
-                                        <button type="button" id="btnlast" class="btn btn-primary" onclick="gotolastLine();">Last</button>
+                                        <button type="button" id="btnlast" class="btn btn-primary" onclick="goto_lastLine();">Last</button>
                                     </div>
                                 </div>
                             </div>

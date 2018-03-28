@@ -3,22 +3,32 @@ body
     margin1: 0;
     padding: 0;
 	background: #e5e9f9 !important;
-    /* font-size: small !important; */
+    font-size: medium !important;
 }
+/* .font-size-medium{
+    font-size: medium !important;
+} */
 .btn
+{
+    font-size: medium !important;
+}
+
+.btn2
 {
     font-size: small !important;
 }
 
 .iframecss{
     border: 1px solid #779caf !important;
+    width: 100%;
+	height: 50%;
 }
 
 .textLabel {
 	font-family: monospace;
 	font-size: medium;
 	width: 100%;
-	height: 100%;
+	height: 50%;
 	border: 1px solid #779caf;
 	cursor: text;
     white-space: nowrap !important;
@@ -46,7 +56,7 @@ body
     vertical-align: middle;
     margin-left: auto;
     margin-right: auto; 
-    height: 400px;
+    height: 250px;
     width: 100%;
     border: 1px solid #779caf;
     
@@ -114,6 +124,7 @@ body
 /*Azam Css*/
 #btnUploadText{display: none;}
 #btnUploadPdf{display: none;}
+#btnUploadbothfile{display: none;}
 .pad-10 {
     padding: 10px;
 }

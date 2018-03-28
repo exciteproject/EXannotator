@@ -7,6 +7,7 @@ var cols1text = [];
 var cols2numbers = [];
 var colorCounter = 0;
 var showTagDivFlag = false;
+var webserviceUrl = "http://193.175.238.110:8080";
 
 // array for colors definition
 var openSpanValue_arr = ['<span style="background-color: rgb(255, 255, 153);">',
@@ -25,6 +26,7 @@ function emptyParameters() {
     textByLines = "";
     currentLine = 0;
     document.getElementById("errorMsg").innerHTML = "";
+    // document.getElementById("pdfiframe").src = ""; //No
     colorCounter = 0;
 }
 
@@ -37,7 +39,7 @@ document.addEventListener('keydown', function (event) {
     else if (event.keyCode == 73) {
         // alert('ii was pressed');
         change_TxtColor();
-    }else if (event.keyCode == 82) {
+    } else if (event.keyCode == 82) {
         // alert('rr was pressed');
         RemoveTag();
     }
@@ -63,8 +65,8 @@ $(document).ready(function () {
 
     // reload 
     $("#btnReload").click(function () {
-		location.reload();
-	});
+        location.reload();
+    });
 
     $("#btnUpdateTags").click(function () {
         $("#spinner").show("slow", function () {
@@ -81,7 +83,6 @@ $(document).ready(function () {
         textFromFileLoaded = "";
         textByLines = "";
         currentLine = 0;
-        document.getElementById("btnUploadText").value = "";
         document.getElementById("content1").innerHTML = "";
         document.getElementById("ptxaxml").innerHTML = "";
         document.getElementById("errorMsg").innerHTML = "";
@@ -94,14 +95,14 @@ $(document).ready(function () {
         document.getElementById("pdfSize").innerHTML = "";
         $("#btndelpdf").hide();
         document.getElementById("btnUploadPdf").value = "";
-        document.getElementById("pdfiframe").src = "";
+        document.getElementById("pdfiframe").src = 'about:blank';
         document.getElementById("errorMsg").innerHTML = "";
         pdfFileName = "";
         checkFilesName_Similarity();
     });
 
     $("#showTagedTextdiv").click(function () {
-        if (textFileName == "") {
+        if (document.getElementById("content1").innerHTML == "") {
             alert("No Text to Show!");
             return;
         }
@@ -128,16 +129,17 @@ $(document).ready(function () {
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 function checkFileAvailability_ReturnFileName(x) {
     //check FileAvailability and ReturnFileName
-    //var x = document.getElementById("btnUploadText");
-    var filename = "";
+    var filename = [];
     var txt = "";
     if ('files' in x) {
         for (var i = 0; i < x.files.length; i++) {
             var file = x.files[i];
             if ('name' in file) txt += "File Name : " + file.name;
-            filename = file.name;
+            filename.push(file.name);
         }
     }
     else {
@@ -149,7 +151,7 @@ function checkFileAvailability_ReturnFileName(x) {
         }
         alert(txt);
     }
-    return filename.split('.')[0];
+    return filename;
 }
 
 function show_FileName() {
@@ -181,8 +183,8 @@ function checkFilesName_Similarity() {
     //announce user to upload a correct files
     //Check if the name of files is same or not
     if (textFileName == "") {
-        alert("Please Select a Text File.");
-        document.getElementById("errorMsg").innerHTML = "Please Select a Text File.";
+        // alert("Please Select a Text File.");
+        document.getElementById("errorMsg").innerHTML = "Please Select a Text/XML File.";
         return;
     }
     if (pdfFileName == "") {
@@ -190,14 +192,14 @@ function checkFilesName_Similarity() {
         document.getElementById("errorMsg").innerHTML = "Please Select a PDF File.";
         return;
     }
-    else if (textFileName != pdfFileName) {
+    else if (textFileName.split('.')[0] != pdfFileName.split('.')[0]) {
         alert("Text File AND PDF File are Different.");
-        document.getElementById("errorMsg").innerHTML = "Text File AND PDF File are Different.";
+        document.getElementById("errorMsg").innerHTML = "Text/XML File AND PDF File are Different.";
     }
 }
 
-function getFile_Size(sender) {
-    var _size = sender.files[0].size;
+function getFile_Size(filesize) {
+    var _size = filesize;
     var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
         i = 0;
     while (_size > 900) { _size /= 1024; i++; }
@@ -211,7 +213,6 @@ function show_PdfFile() {
     //Check Availibality
     var x = document.getElementById("btnUploadPdf");
     pdfFileName = checkFileAvailability_ReturnFileName(x);
-    //alert(pdfFileName);
     if (pdfFileName == "") {
         alert("No File Selected!!!");
         return false;
@@ -234,7 +235,6 @@ function show_PdfFile() {
     $("#btndelpdf").show();
     //check pdf and pdf Similarity
     checkFilesName_Similarity();
-
 }
 
 function show_TextFile() {
@@ -263,7 +263,8 @@ function show_TextFile() {
 
     //Show Text in page 
     $("#spinner").show("slow", function () {
-        loadFile_AsText();
+        var fileToLoad = document.getElementById("btnUploadText").files[0];
+        loadFile_AsText(fileToLoad);
         $("#spinner").hide("slow");
     });
 
@@ -272,11 +273,71 @@ function show_TextFile() {
 
 }
 
-function loadFile_AsText() {
-    //loads the file into the textareas "content1" and "ptxaxml"
-    var fileToLoad = document.getElementById("btnUploadText").files[0];
-    var fileReader = new FileReader();
+function show_bothFile() {
+    emptyParameters();
+    var x = document.getElementById("btnUploadbothfile");
+    // check file type and return names as an array
+    filenames = checkFileAvailability_ReturnFileName(x);
+    textFileName = filenames;
+    var arrayLength = filenames.length;
+    if (arrayLength > 2) {
+        alert('Please choose less than 3 file.');
+        return false;
+    }
+    if (arrayLength == 0) {
+        alert("No File Selected!!!");
+        return false;
+    }
 
+    //Check File Type again by code
+    var validExts = new Array("pdf", "txt", "xml");
+    for (var i = 0; i < arrayLength; i++) {
+        var fileExt = filenames[i].split('.')[1];
+        if (!validExts.includes(fileExt))
+            alert(fileExt + " --> is Invalid type, valid types are [" + validExts.toString() + "].!!! ");
+        else {
+            if (fileExt == 'pdf')
+                document.getElementById("pdfSize").innerHTML = filenames[i];
+            else if (fileExt == 'txt' || fileExt == 'xml')
+                document.getElementById("txtSize").innerHTML = filenames[i];
+            textFileName = filenames[i];
+            // alert(filename);
+        }
+    }
+    checkFilesName_Similarity();
+    if ('files' in x) {
+        for (var i = 0; i < x.files.length; i++) {
+            var file = x.files[i];
+            var fileExts = file.name.split('.')[1]
+            if (fileExts == 'pdf') {
+                //Show File 
+                var file = x.files[i];
+                var tmppath = URL.createObjectURL(file);
+                document.getElementById('pdfiframe').src = "web/viewer.html?file=" + tmppath;
+                $("#btndelpdf").show();
+                document.getElementById("pdfSize").innerHTML += ' (' + getFile_Size(file.size) + ')';
+            }
+            if (fileExts == 'txt' || fileExts == 'xml') {
+                // alert(fileExts);
+                var file = x.files[i];
+                //Show Text in page 
+                $("#spinner").show("slow", function () {
+                    loadFile_AsText(file);
+                    $("#spinner").hide("slow");
+                });
+                $("#btndeltxt").show();
+                document.getElementById("txtSize").innerHTML += ' (' + getFile_Size(file.size) + ')';
+            }
+        }
+    }
+}
+
+function loadFile_AsText(fileToLoad) {
+    document.getElementById("content1").innerHTML = "";
+    document.getElementById("ptxaxml").innerHTML = "";
+    textFromFileLoaded = "";
+    //loads the file into the textareas "content1" and "ptxaxml"
+    var fileReader = new FileReader();
     fileReader.onload = function (fileLoadedEvent) {
         textFromFileLoaded = fileLoadedEvent.target.result;
         //converts textfile into array of lines cutting whenever "\n" is in the file
@@ -293,8 +354,7 @@ function loadFile_AsText() {
             //put first part in first item of array. we will show this part
             cols1text[i] = arrayofcolumn[0];
             //second part will added to first part in saving file as xml
-            cols2numbers[i] = textByLines[i].split(cols1text[i])[1]
-
+            cols2numbers[i] = textByLines[i].split(cols1text[i])[1];
             //var sss = cols1text[i] + cols2numbers[i];
             //content1 as a lable cant undrestand "\n". we should add <br> at the end of each line			
             if (i == textByLines.length - 1)
@@ -302,9 +362,6 @@ function loadFile_AsText() {
             else temp = temp + cols1text[i] + '<br>';
         }
 
-        //document.getElementById("content1").innerHTML = temp;
-        //document.getElementById("ptxaxml").innerHTML = temp;
-        //document.getElementById("lblMsg").innerHTML = document.getElementById("lblMsg").innerHTML +  cols1text.length + " " + cols2numbers.length;
         colorizeText_InLable(temp);
     };
     fileReader.readAsText(fileToLoad, "UTF-8");
@@ -356,31 +413,84 @@ function colorizeText_InLable(temp) {
     document.getElementById("ptxaxml").innerHTML = temp;
 }
 
+function saveText_AsXmlFile_transferto_tool2() {
+    result = saveText_AsXmlFile()
+    if (confirm('Are you sure you want to contiue?'))
+        window.location.href = webserviceUrl + '/Annotatortool2/index.html';
+    // window.location.href = webserviceUrl + '/Annotatortool2/index.html';
+    // if (result == false)
+    //     if (confirm('Are you sure you want to contiue?'))
+    //         window.location.href = webserviceUrl + '/Annotatortool2/index.html';
+    // else 
+    //     window.location.href = webserviceUrl + '/Annotatortool2/index.html';
+}
+
+function html_charachter_fixing(textforfix) {
+    textforfix = textforfix.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ")
+    return textforfix;
+}
+
 function saveText_AsXmlFile() {
     if (document.getElementById("content1").innerHTML == "") {
         alert('No File Selected');
-        return;
+        return false;
     }
 
     $("#spinner").show("slow", function () {
         translateColor_ToTag();
+        var xmlText = document.getElementById("ptxaxml").innerHTML;
 
-        var textToWrite = document.getElementById("ptxaxml").innerHTML.split('\n');
-
+        var textToWrite = xmlText.split('\n');
+        //////////////////////////////////////////////////////////////////////////////
         var textToWrite2 = [];
-
+        var rowFirstColumn = '';
+        var allFirstColumns = '';
+        start = '<ref>'
+        suffix = '</ref>'
         for (var i = 0; i < textToWrite.length; i++) {
-            if (i == textToWrite.length - 1)
-                textToWrite2[i] = textToWrite[i] + cols2numbers[i];
+            // allFirstColumns needed for extracting references part (only references)
+            rowFirstColumn = textToWrite[i];
+            // add one space to the end of line if it is multi line ref and doesn't have hyphen or dash at end
+            if (!(rowFirstColumn.substr(-suffix.length) === suffix))
+                if (!(rowFirstColumn.substr(-'-'.length) === '-'))
+                    if (!(rowFirstColumn.substr(-'.'.length) === '.'))
+                        rowFirstColumn = rowFirstColumn + ' ';
+            allFirstColumns = allFirstColumns + rowFirstColumn;
+            // textToWrite2 is all layout with numbers
+            if (i == textToWrite.length - 1) {
+                // alert(cols2numbers[i]);
+                // no \n for last line
+                if (typeof cols2numbers[i] != 'undefined')
+                    textToWrite2[i] = textToWrite[i] + cols2numbers[i];
+                else
+                    textToWrite2[i] = textToWrite[i] + '\n'
+            }
             else
                 textToWrite2[i] = textToWrite[i] + cols2numbers[i] + '\n';
         }
-        //document.getElementById("lblMsg").innerHTML = textToWrite2.join("");
+        // listOfRefs is splited by '<ref>'
+        var listOfRefs = allFirstColumns.split(start);
+        var j = 1;
+        allrefs = ''
+        for (var i = 0; i < listOfRefs.length; i++) {
+            var ref = '';
+            // first and last item in list are not reference so we dont need them
+            if (j > 1 && j != listOfRefs.length) {
+                ref = listOfRefs[i].replace(suffix, '') + '\n';
+            }
+            else if (j == listOfRefs.length) {
+                ref = listOfRefs[i].split(suffix)[0];
+            }
+            // replasce html signs in references
+            allrefs = allrefs + ref;
+            j = j + 1;
+        }
+        ////////////////////////////////////////////////////////////////////////////////
         textToWrite2 = textToWrite2.join("");
         var textFileAsBlob = new Blob([textToWrite2], { type: 'text/plain' });
         //get file name
-        var fullPath = document.getElementById('btnUploadText').value;
-
+        var fullPath = document.getElementById('btnUploadbothfile').value;
+        var filename = '';
         if (fullPath) {
             var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
             var filename = fullPath.substring(startIndex);
@@ -388,15 +498,18 @@ function saveText_AsXmlFile() {
                 filename = filename.substring(1).split('.')[0];
             }
         }
-        var fileNameToSaveAs = filename + ".xml";
+        var fileNameToSaveAs = textFileName.split('.')[0] + ".xml";
 
-        download(textToWrite2, fileNameToSaveAs);
+        download(html_charachter_fixing(textToWrite2.trim()), fileNameToSaveAs);
+        // download(allrefs, fileNameToSaveAs);
+        // save allrefs in a session and use them in next annotator tool 
+        localStorage.setItem("allrefs", allrefs);
         $("#spinner").hide("slow");
     });
 }
 
 function download(data, filename) {
-    var file = new Blob([data], { type: 'text/xml' });
+    var file = new Blob([data], { type: 'text/xml;charset=utf-8;' });
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
@@ -410,28 +523,36 @@ function download(data, filename) {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);
+
+        // var element = document.createElement('a');
+        // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+        // element.setAttribute('download', filename);
+        // element.style.display = 'none';
+        // document.body.appendChild(element);
+        // element.click();
+        // document.body.removeChild(element);
     }
 }
 
 function change_TxtColor() {
-    //change color for selected text in lable by execCommand
+    // change color for selected text in lable by execCommand
     // Get Selection
     var content1value = document.getElementById("content1").innerHTML;
     if (content1value == "") {
         alert('Please Select a file');
         return;
-    }
+    } else
+        // remove all html code from text
+        content1value = html_charachter_fixing(content1value);
 
-    sel = window.getSelection();
+        sel = window.getSelection();
     var selectedtext = sel.toString();
     if (selectedtext == "") {
         alert('Please Select Text');
         return;
     }
 
-    // alert(content1value);
     var selectedtext2 = selectedtext.replace(/(\r\n|\n|\r)/gm, "<br>");
-    // alert(selectedtext2);
     if (selectedtext2.split(' ').length < 3) {
         alert('Please select more than 2 words!!');
         return;
@@ -648,7 +769,8 @@ function RemoveTag() {
     //alert(sel.anchorNode.parentElement.toString());
     if (sel.anchorNode.parentElement.toString() == "[object HTMLSpanElement]") {
         $(sel.anchorNode.parentElement).contents().unwrap();
-        document.getElementById("myPopup").classList.toggle("show");
+        if (popUpFlag == true)
+            document.getElementById("myPopup").classList.toggle("show");
         popUpFlag = false;
     }
     //alert(sel);

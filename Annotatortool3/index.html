@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Annotator Tool 3</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">&nbsp;&nbsp;</div>
+
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;&nbsp;
+            </div>
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="file" accept=".xlsx, .csv, .txt" id="btnuploadfile" name="ReferenceStringsFile" value="ReferenceStringsFile"
+                                    class="btn btn-default" />
+                            </div>
+                            <div class="col-md-6">
+                                <label id="demo" class="alert-warning"></label>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label id="lblerror" class="errorCls"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row textalignc">
+                            <div class="col-lg-12 col-md-12 col-xs-12 margin-top-5">
+                                <div class="margin-bottom-10" style="display: inline-block !important;">
+                                    <button type="button" id="btnfirst" class="btn btn-primary" onclick="gotofirstLine();">First</button>&nbsp;
+                                </div>
+                                <div class="margin-bottom-10" style="display: inline-block !important;">
+                                    <button type="button" id="prev" class="btn btn-primary" onclick="gotoprevLine();">Prev</button>&nbsp;
+                                </div>
+                                <div class="margin-bottom-10" style="display: inline-block !important;">
+                                    <label id="count" class="btn btn-default btn-sm" style="font-weight: bold;"> 0/0 </label>&nbsp;
+                                </div>
+                                <div class="margin-bottom-10" style="display: inline-block !important;">
+                                    <button type="button" id="next" class="btn btn-primary" onclick="gotonextLine();">Next</button>&nbsp;
+                                </div>
+                                <div class="margin-bottom-10" style="display: inline-block !important;">
+                                    <button type="button" id="btnlast" class="btn btn-primary" onclick="gotolastLine();">Last</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mrg-0 textalignc">
+                            <!-- ;0;1;Match id;Authors;year;title;list_of_dublication;F_D;comment -->
+                            <div class="col-md-2 alert alert-success pad-1">
+                                <h4>reftext</h4>
+                            </div>
+                            <div class="col-md-2 alert alert-success pad-1">
+                                <h4> Match id</h4>
+                            </div>
+                            <div class="col-md-2 alert alert-success pad-1">
+                                <h4>Authors</h4>
+                            </div>
+                            <div class="col-md-1 alert alert-success pad-1">
+                                <h4>year</h4>
+                            </div>
+                            <div class="col-md-2 alert alert-success pad-1">
+                                <h4>title</h4>
+                            </div>
+                            <div class="col-md-2 alert alert-warning pad-1">
+                                <h4>list_of_dublication</h4>
+                            </div>
+                        </div>
+                        <div class="row mrg-0 textalignl">
+                            <!-- ;0;1;Match id;Authors;year;title;list_of_dublication;F_D;comment -->
+                            <div class="col-md-2 alert alert-info pad-1 fixheight">
+                                <label id="lblreftext" class="notbold"></label>
+                            </div>
+                            <div class="col-md-2 alert alert-info pad-1 fixheight">
+                                <label id="lblMatch_id" class="notbold"></label>
+                            </div>
+                            <div class="col-md-2 alert alert-info pad-1 fixheight">
+                                <label id="lblAuthors" class="notbold"></label>
+                            </div>
+                            <div class="col-md-1 alert alert-info pad-1 fixheight">
+                                <label id="lblyear" class="notbold"></label>
+                            </div>
+                            <div class="col-md-2 alert alert-info pad-1 fixheight">
+                                <label id="lbltitle" class="notbold"></label>
+                            </div>
+                            <div class="col-md-2 alert alert-warning pad-1 fixheight" id="divdublicate">
+                                <label id="list_of_dublication" class="notbold"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1">
+                &nbsp;&nbsp;
+            </div>
+        </div>
+
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="scripts.js"></script>
+</body>
+
+</html>

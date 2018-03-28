@@ -88,21 +88,6 @@
                     </div>
                 </div>
             </span>
-            <span class="popuptext" id="myPopup2">
-                <div class="row textalignc">
-                    <div class="row textalignc">
-                        Insert Tag?!
-                    </div>
-                    <div class="row textalignc">
-                        <div class="col-md-12">
-                            <button style='background-color: #C0D4EE' id="delbtn" value="delbtn" class="btn btn-default noborderbtn text-wrap" type="button"
-                                onclick="RemoveTag();">Yes</button>
-                            <button style='background-color: #C0D4EE' id="delbtnno" value="delbtnno" class="btn btn-default noborderbtn text-wrap" type="button"
-                                onclick="">No</button>
-                        </div>
-                    </div>
-                </div>
-            </span>
         </div>
 
         <div class="row pad-10 textalignc">
@@ -112,61 +97,42 @@
         <div class="panel panel-default top">
             <div class="panel-body">
                 <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
+                        <label for="btnUploadbothfile" class="btn btn-primary">Choose Files (Text OR Pdf)</label>
+                        <input type="file" id="btnUploadbothfile" class="btn btn-default" onchange="show_bothFile();this.value=null;return false;" accept="text/plain, application/pdf,.xml"
+                            multiple/>
+                        <!-- <input class="btn2" type="checkbox" id="chbupload" name="chbupload" value="0" checked>Upload Both -->
+                    </div>
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <label for="btnUploadText" class="btn btn-primary">Choose(txt/xml)</label>
+                        <input type="file" id="btnUploadText" class="btn btn-default" Text="Choose Text File" accept=".txt, .xml" onchange="show_TextFile();"
+                        />
+                    </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
-                        <button class="btn btn-primary" id="btnInsertTag" value="au" type="button" onclick="change_TxtColor();">
+                        <div class="col-md-12 pad-b-5">
+                            <label for="btnUploadPdf" class="btn btn-primary">Choose PDF</label>
+                            <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf" />
+                        </div>
+                    </div> -->
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <button class="btn btn-success" id="btnInsertTag" value="btnInsertTag" type="button" onclick="change_TxtColor();">
                             <u>
-                                <strong>I</strong>
-                            </u>nsert Tag</button>
+                                I</u>nsert Tag</button>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
-                        <button class="btn btn-primary" id="btnInsertTag" value="au" type="button" onclick="RemoveTag();">
-                            <u>
-                                <strong>R</strong>
-                            </u>emove Tag</button>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
-                        <div class="row">
-                            <div class="col-md-12 pad-b-5">
-                                <label for="btnUploadText" class="btn btn-primary">Choose(txt/xml)</label>
-                                <input type="file" id="btnUploadText" class="btn btn-default" Text="Choose Text File" accept=".txt, .xml" onchange="show_TextFile();"
-                                />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label id="txtSize" class="alert-warning" style="color: green;"></label>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="btndeltxt" type="image" src="images/delete.png" alt="Delete Text File" width="24" height="24" style="display : none; ">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 pad-b-5">
-                        <div class="row">
-                            <div class="col-md-12 pad-b-5">
-                                <label for="btnUploadPdf" class="btn btn-primary">Choose PDF</label>
-                                <input type="file" id="btnUploadPdf" class="btn btn-default" onchange="show_PdfFile();" accept=".pdf" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label id="pdfSize" class="alert-warning" style="color: green;"></label>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="btndelpdf" type="image" src="images/delete.png" alt="Delete pdf File" width="24" height="24" style="display : none; ">
-                            </div>
-                        </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
+                        <button class="btn btn-danger" id="btnRemoveTag" value="btnRemoveTag" type="button" onclick="RemoveTag();">
+                            <u>R</u>emove Tag</button>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1  pad-b-5">
                         <button class="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export To XML</button>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
-                        <!-- <button id="btnLoadSession" class="btn btn-primary">Load Last Session</button> -->
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2  pad-b-5">
+                        <button class="btn btn-primary" type="button" onclick="saveText_AsXmlFile_transferto_tool2();">Export to XML And Go to Tool 2</button>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1 pad-b-5">
-                        <button id="btnReload" class="btn btn-success ">Reload page</button> 
+                        <button class="btn btn-primary" id="btnReload" >Reload page</button>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2 textalignr pad-b-5">
+                    <div class="col-xs-12 col-sm-6 col-md-2 col-lg-3 textalignr pad-b-5">
                         <input id="btnhelp" type="image" src="images/help.png" alt="help" width="24" height="24">
                     </div>
                 </div>
@@ -177,12 +143,17 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="alert-info bold">
-                                    &nbsp;Text File:
-                                </p>
+                        <div class="row alert-info bold">
+                            <div class="col-md-2 ">
+                                &nbsp;Text File:
                             </div>
+                            <div class="col-md-3">
+                                <label id="txtSize"></label>
+                            </div>
+                            <div class="col-md-2">
+                                <input id="btndeltxt" type="image" src="images/delete2.png" alt="Delete Text File" width="24" height="24" style="display : none; ">
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="col-md-12 nowrap">
@@ -195,16 +166,20 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="alert-info bold">
-                                    &nbsp;PDF File:
-                                </p>
+                        <div class="row alert-info bold">
+                            <div class="col-md-2">
+                                &nbsp;PDF File:
+                            </div>
+                            <div class="col-md-3">
+                                <label id="pdfSize"></label>
+                            </div>
+                            <div class="col-md-2">
+                                <input id="btndelpdf" type="image" src="images/delete2.png" alt="Delete pdf File" width="24" height="24" style="display : none; ">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 nowrap">
-                                <iframe id="pdfiframe" class="iframecss" width="100%" style="height:100%" align="centert" src=""></iframe>
+                                <iframe id="pdfiframe" class="iframecss" align="centert" src=""></iframe>
                             </div>
                         </div>
                     </div>
@@ -216,7 +191,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <p class="alert-info bold">
-                            &nbsp;Text + XML Tags:
+                            &nbsp;Preview section (Text + XML Tags):
                         </p>
                     </div>
                     <div class="col-md-5">
