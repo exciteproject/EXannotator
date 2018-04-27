@@ -3,7 +3,8 @@ var arrayOfLines = "";
 var currentLine = 0;
 var lastSessionFlag = false;
 var filename = "";
-var webserviceUrl = "http://193.175.238.110:8080";
+var serverip = 'http://141.26.208.55'
+var webserviceUrl = serverip + ":8080";
 
 function emptyParameters() {
 	//this parameter should be empty At each start 
@@ -47,7 +48,7 @@ $(document).ready(function () {
 		}).bind('selectstart', function () { return false; });
 
 	$("#btnback").click(function () {
-		window.location.href = webserviceUrl + '/Annotatortool1/index.html';
+		window.location.href = serverip + ':8081/annohome';
 	});
 
 
@@ -296,10 +297,6 @@ function AnnotateText_ByCallingCERMINE(LineOfArray, i) {
 		while (LineOfArray.indexOf('#') !== -1) {
 			SHFlag = true;
 			LineOfArray = LineOfArray.replace('#', 'SHARPINTEXT');
-		}
-		while (LineOfArray.indexOf('"') !== -1) {
-			QtFlag = true;
-			LineOfArray = LineOfArray.replace('"', 'QUTATIONINTEXT');
 		}
 		while (LineOfArray.indexOf('"') !== -1) {
 			QtFlag = true;

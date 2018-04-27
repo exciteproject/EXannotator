@@ -7,7 +7,8 @@ var cols1text = [];
 var cols2numbers = [];
 var colorCounter = 0;
 var showTagDivFlag = false;
-var webserviceUrl = "http://193.175.238.110:8080";
+var serverip = 'http://141.26.208.55'
+var webserviceUrl = serverip + ":8080";
 
 // array for colors definition
 var openSpanValue_arr = ['<span style="background-color: rgb(255, 255, 153);">',
@@ -48,6 +49,9 @@ document.addEventListener('keydown', function (event) {
 // document.ready functions
 $(document).ready(function () {
 
+    $("#btnback").click(function () {
+		window.location.href = serverip + ':8081/annohome';
+	});
     // help show 
     $("#btnhelp").click(function () {
         $("#light").show("slow");
@@ -107,29 +111,16 @@ $(document).ready(function () {
             return;
         }
         if (showTagDivFlag == false) {
-            //$("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
             $("#spinner").show("slow", function () {
                 //adding ref Tags to the text accourding colors
                 translateColor_ToTag();
                 $("#spinner").hide("slow");
             });
-            //showTagDivFlag = true;
 
-        } else {
-            //$("#tagedTextdiv").toggle("slide", { direction: "down" }, 1000);
-            //showTagDivFlag = false;
-        }
-    });
-
-    $("#btnRefex").click(function () {
-        var path = "PDF/9180-46915.pdf";
-        document.getElementById('pdfiframe').src = "web/viewer.html?file=" + path;
-        //call_refex();
+        } 
     });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 function checkFileAvailability_ReturnFileName(x) {
     //check FileAvailability and ReturnFileName
@@ -154,41 +145,14 @@ function checkFileAvailability_ReturnFileName(x) {
     return filename;
 }
 
-function show_FileName() {
-    //return the filename of anything uploaded through button "btnUploadText" 
-    var x = document.getElementById("btnUploadText");
-    var filename = "";
-    var txt = "";
-    if ('files' in x) {
-        for (var i = 0; i < x.files.length; i++) //made for any amount of uploaded files 
-        {
-            var file = x.files[i];
-            if ('name' in file) txt += "File Name : " + file.name;
-            filename = file.name;
-        }
-    }
-    else {
-        if (x.value == "") txt += "Select one or more files.";
-        else {
-            txt += "The files property is not supported by your browser!";
-            // If the browser does not support the files property, it will return the path of the selected file instead
-            txt += "<br>The path of the selected file: " + x.value;
-        }
-    }
-    //
-    return filename;
-}
-
 function checkFilesName_Similarity() {
     //announce user to upload a correct files
     //Check if the name of files is same or not
     if (textFileName == "") {
-        // alert("Please Select a Text File.");
         document.getElementById("errorMsg").innerHTML = "Please Select a Text/XML File.";
         return;
     }
     if (pdfFileName == "") {
-        //alert("Please Select a PDF File.");
         document.getElementById("errorMsg").innerHTML = "Please Select a PDF File.";
         return;
     }
@@ -205,72 +169,6 @@ function getFile_Size(filesize) {
     while (_size > 900) { _size /= 1024; i++; }
     var exactSize = (Math.round(_size * 100) / 100) + ' ' + fSExt[i];
     return exactSize;
-}
-
-function show_PdfFile() {
-    emptyParameters();
-
-    //Check Availibality
-    var x = document.getElementById("btnUploadPdf");
-    pdfFileName = checkFileAvailability_ReturnFileName(x);
-    if (pdfFileName == "") {
-        alert("No File Selected!!!");
-        return false;
-    }
-
-    //Check Type
-    var validExts = new Array(".pdf");
-    var fileExt = x.value;
-    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
-    if (validExts.indexOf(fileExt) < 0) {
-        alert("Invalid file selected, valid files are of " + validExts.toString() + " types.!!! ");
-        return false;
-    }
-    document.getElementById("pdfSize").innerHTML = getFile_Size(x);
-
-    //Show File 
-    var file = x.files[0];
-    var tmppath = URL.createObjectURL(file);
-    document.getElementById('pdfiframe').src = "web/viewer.html?file=" + tmppath;
-    $("#btndelpdf").show();
-    //check pdf and pdf Similarity
-    checkFilesName_Similarity();
-}
-
-function show_TextFile() {
-    emptyParameters();
-
-    //Check Availibality
-    var x = document.getElementById("btnUploadText");
-    textFileName = checkFileAvailability_ReturnFileName(x);
-    if (textFileName == "") {
-        alert("No File Selected!!!");
-        return false;
-    }
-
-    //Check Type
-    var validExts = new Array(".txt", ".xml");
-    var fileExt = x.value;
-    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
-    if (validExts.indexOf(fileExt) < 0) {
-        alert("Invalid file selected, valid files are of " + validExts.toString() + " types.");
-        return false;
-    }
-    //show File Size
-    document.getElementById("txtSize").innerHTML = getFile_Size(x);
-
-    $("#btndeltxt").show();
-
-    //Show Text in page 
-    $("#spinner").show("slow", function () {
-        var fileToLoad = document.getElementById("btnUploadText").files[0];
-        loadFile_AsText(fileToLoad);
-        $("#spinner").hide("slow");
-    });
-
-    //check Similarity of pdf and text files
-    checkFilesName_Similarity();
-
 }
 
 function show_bothFile() {
@@ -310,7 +208,7 @@ function show_bothFile() {
             var file = x.files[i];
             var fileExts = file.name.split('.')[1]
             if (fileExts == 'pdf') {
-                //Show File 
+                //Show pdf File 
                 var file = x.files[i];
                 var tmppath = URL.createObjectURL(file);
                 document.getElementById('pdfiframe').src = "web/viewer.html?file=" + tmppath;
@@ -318,7 +216,6 @@ function show_bothFile() {
                 document.getElementById("pdfSize").innerHTML += ' (' + getFile_Size(file.size) + ')';
             }
             if (fileExts == 'txt' || fileExts == 'xml') {
-                // alert(fileExts);
                 var file = x.files[i];
                 //Show Text in page 
                 $("#spinner").show("slow", function () {
@@ -357,6 +254,7 @@ function loadFile_AsText(fileToLoad) {
             cols2numbers[i] = textByLines[i].split(cols1text[i])[1];
             //var sss = cols1text[i] + cols2numbers[i];
             //content1 as a lable cant undrestand "\n". we should add <br> at the end of each line			
+            cols1text[i] = cols1text[i].replace("<http", "&lt;http")
             if (i == textByLines.length - 1)
                 temp = temp + cols1text[i];
             else temp = temp + cols1text[i] + '<br>';
@@ -402,7 +300,7 @@ function colorizeText_InLable(temp) {
         }
     }
     document.getElementById("content1").innerHTML = textCopy;
-    //ptxaxml as a lable cant undrestand "br". we should add <\n> at the end of each line
+    //ptxaxml as a lable cant undrestand "br". we should add "\n" at the end of each line
     openSpanValue = '<br>';
     var i = 0
     var ptxaxmltext = ""
@@ -417,16 +315,11 @@ function saveText_AsXmlFile_transferto_tool2() {
     result = saveText_AsXmlFile()
     if (confirm('Are you sure you want to contiue?'))
         window.location.href = webserviceUrl + '/Annotatortool2/index.html';
-    // window.location.href = webserviceUrl + '/Annotatortool2/index.html';
-    // if (result == false)
-    //     if (confirm('Are you sure you want to contiue?'))
-    //         window.location.href = webserviceUrl + '/Annotatortool2/index.html';
-    // else 
-    //     window.location.href = webserviceUrl + '/Annotatortool2/index.html';
 }
 
 function html_charachter_fixing(textforfix) {
-    textforfix = textforfix.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ")
+    textforfix = textforfix.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
+    textforfix = textforfix.replace("<http", "&lt;http");
     return textforfix;
 }
 
@@ -500,7 +393,9 @@ function saveText_AsXmlFile() {
         }
         var fileNameToSaveAs = textFileName.split('.')[0] + ".xml";
 
-        download(html_charachter_fixing(textToWrite2.trim()), fileNameToSaveAs);
+        textToWrite2 = textToWrite2.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
+
+        download(textToWrite2.trim(), fileNameToSaveAs);
         // download(allrefs, fileNameToSaveAs);
         // save allrefs in a session and use them in next annotator tool 
         localStorage.setItem("allrefs", allrefs);
@@ -542,10 +437,11 @@ function change_TxtColor() {
         alert('Please Select a file');
         return;
     } else
+    {
         // remove all html code from text
         content1value = html_charachter_fixing(content1value);
-
-        sel = window.getSelection();
+    }
+    sel = window.getSelection();
     var selectedtext = sel.toString();
     if (selectedtext == "") {
         alert('Please Select Text');
@@ -556,6 +452,11 @@ function change_TxtColor() {
     if (selectedtext2.split(' ').length < 3) {
         alert('Please select more than 2 words!!');
         return;
+    }
+    if (selectedtext2.indexOf('<http') > -1)
+    {
+        alert(selectedtext2);
+        selectedtext2 = selectedtext2.replace("<http", "&lt;http");
     }
     if (content1value.includes(selectedtext2)) {
         var arr = content1value.split(selectedtext2);
