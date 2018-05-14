@@ -72,14 +72,6 @@ $(document).ready(function () {
         location.reload();
     });
 
-    $("#btnUpdateTags").click(function () {
-        $("#spinner").show("slow", function () {
-            //adding ref Tags to the text accourding colors
-            translateColor_ToTag();
-            $("#spinner").hide("slow");
-        });
-    });
-
     $("#btndeltxt").click(function () {
         //for remove the selected file 
         document.getElementById("txtSize").innerHTML = "";
@@ -562,7 +554,6 @@ function change_color_bytriple() {
     // Set design mode to off
     document.designMode = "off";
     //translate color to tag will takes time because on \n. we omitted it
-    //translateColor_ToTag();
     /////////////////////////////////////////////////////////
     //var y = document.body.innerHTML; OK
     //var x = document.getElementsByTagName("BODY")[0].innerHTML;  OK
@@ -658,6 +649,8 @@ function translateColor_ToTag() {
         i++;
         textCopy = textCopy.replace(openTagValue, '\n');
     }
+    textCopy = textCopy.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
+
     document.getElementById("ptxaxml").innerHTML = textCopy;
 }
 
@@ -675,39 +668,6 @@ function RemoveTag() {
         popUpFlag = false;
     }
     //alert(sel);
-}
-
-function RemoveTag1(sender) {
-    var par = getSelectionParentElement().nodeName;
-    alert(par);
-    sel = window.getSelection();
-    //alert(sel.anchorNode.parentElement.toString());
-    if (par == "SPAN") {
-        //alert('yes');
-        $(par).contents().unwrap();
-        translateColor_ToTag(sender);
-    }
-    //alert(sel);
-}
-
-function RemoveTagOld0(sender) {
-
-    sel = window.getSelection();
-    var selectedtext = sel.toString();
-
-    if (sel.rangeCount && sel.getRangeAt) {
-        range = sel.getRangeAt(0);
-    }
-    // Set design mode to on
-    document.designMode = "on";
-    if (range) {
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-    document.execCommand("removeFormat", false, "foreColor");
-    document.designMode = "off";
-    translateColor_ToTag(sender);
-
 }
 
 //tripleclick

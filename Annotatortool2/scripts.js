@@ -157,7 +157,7 @@ function checkFileAvailability_ReturnFileName(x) {
 function checke_file_type(filenames)
 {
 	var arrayLength = filenames.length;	
-	var validExts = new Array("txt", "xml");
+	var validExts = new Array("txt", "xml","csv");
 	for (var i = 0; i < arrayLength; i++) {
 		var fileExt = filenames[i].split('.')[1];
 		if (!validExts.includes(fileExt)) {
