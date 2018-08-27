@@ -12,7 +12,7 @@ The goal of this Annotator Tool is **"Reference String Identifying"**.
 3. Then select reference strings in text file, compare it with the original text in pdf and add ```<ref>``` and ```</ref>``` tags to the beginning and the end of each reference by click on related button.
 4. Finlay save it as a XML file.
 #### Sample File To Use
-There are some sample files to test **EXRef-Identifier** [here](https://github.com/exciteproject/EXannotator/tree/master/TestFiles/anno1).
+There are some sample files to test **EXRef-Identifier** [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Segmentation).
 These samples consists of layout file which extracted from a sample pdf by [Refex](https://github.com/exciteproject/refext).
 #### Output Sample
 Output File will be in XML Format. The following is part of sample output from **EXRef-Identifier**:
@@ -32,28 +32,28 @@ Frankfurt a.M.</ref>
 #### General
 The goal of EXRef-Segmentation is **"Meta Data Segmentation"**.
 This annotator gives assessors this possibility to tag meta data in each reference string.
-Which could be include these Meta datas: ```<author>, <surname>, <given-names>, <title>, <editor>, <publisher>, <year>, <volume>, <issue>, <identifier>,
+Which could be include these Meta data: ```<author>, <surname>, <given-names>, <title>, <editor>, <publisher>, <year>, <volume>, <issue>, <identifier>,
              <source>, <url>, <fpage>, <lpage>, <other>,  ... ``` .
 
 #### How To Run
 There are two ways of using EXRef-Segmentation:
 
-1- Using [CERMINE](https://github.com/CeON/CERMINE) to extracting Meta datas automaticly. in this case **"Apache Tomcat"** is needed.
+1- Using [CERMINE](https://github.com/CeON/CERMINE) to extracting Meta data automatically. in this case **"Apache Tomcat"** is needed.
 * first drop a copy of **"webservice.war"** file in the deploy directory in Tomcat.
-* next put a copy of **"Annotatortool2"** folder in the deploy directory in Tomcat.
-* then use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
+* next put a copy of **"EXRef-Segmentation"** folder in the deploy directory in Tomcat.
+* then use this URL ```http://localhost:8080/EXRef-Segmentation/index.html``` to run the tool.
 
 2- Extracting Meta datas without using CERMINE:
-* put a copy of **"Annotatortool2"** folder in localhost directory. 
-* use this URL ```http://localhost:8080/Annotatortool2/index.html``` to run the tool.
+* put a copy of **"EXRef-Segmentation"** folder in localhost directory. 
+* use this URL ```http://localhost:8080/EXRef-Segmentation/index.html``` to run the tool.
 
 #### How To Use
-1. First upload a text file which contain references (each reference should be in one line).
-2. Second select meta data in text and tagged them by click on related buttons.
-3. then navigate between references.
-4. Finlay save it as a XML file.
+1. First: upload a text file which contain references (each reference should be in one line).
+2. Second: select meta data in text and tagged them by click on related buttons.
+3. Then: navigate between references.
+4. Finlay: save it as a XML file.
 #### Sample File To Use
-There are some sample files to test EXRef-Segmentation [here](https://github.com/exciteproject/Annotator_tool/blob/master/TestFiles/anno2)
+There are some sample files to test EXRef-Segmentation [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Identifier)
 These samples consists of reference strings which extracted from a sample pdf by [CERMINE](https://github.com/CeON/CERMINE)
 
 #### Output Sample
