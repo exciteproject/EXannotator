@@ -1,14 +1,10 @@
-var textFromFileLoaded = "";
-var textByLines = "";
-var currentLine = 0;
 var pdfFileName = "";
 var textFileName = "";
 var cols1text = [];
 var cols2numbers = [];
 var colorCounter = 0;
-var showTagDivFlag = false;
-var serverip = 'http://141.26.208.55'
-var webserviceUrl = serverip + ":8080";
+var currentLine = 0;
+var arrayOfLines = "";
 
 // array for colors definition
 var openSpanValue_arr = ['<span style="background-color: rgb(255, 255, 153);">',
@@ -23,12 +19,10 @@ var spanColors_arr = ["#ffff99", "#fcc96c", "#ecb8f9", "#98e6f9", "#87f5a8", "#f
 
 // empty some elements when page is refresh
 function emptyParameters() {
-    textFromFileLoaded = "";
-    textByLines = "";
-    currentLine = 0;
     document.getElementById("errorMsg").innerHTML = "";
-    // document.getElementById("pdfiframe").src = ""; //No
     colorCounter = 0;
+    arrayOfLines = "";
+    currentLine = 0;
 }
 
 // assign key down to buttons 
@@ -37,21 +31,24 @@ document.addEventListener('keydown', function (event) {
     var selectedtext = sel.toString();
     if (selectedtext == '')
         return;
-    else if (event.keyCode == 73) {
+    else if (event.keyCode == 105) {
         // alert('ii was pressed');
-        change_TxtColor();
-    } else if (event.keyCode == 82) {
+        ChangeColor_TranslateColor('ref_line');
+    } else if (event.keyCode == 114) {
         // alert('rr was pressed');
         RemoveTag();
     }
+    else if (event.keyCode == 111) {
+        ChangeColor_TranslateColor('other'); 
+    }
+    else if (event.keyCode == 112) {
+        // alert('ii was pressed');
+        ChangeColor_TranslateColor('ref_part');
+    } 
 });
 
 // document.ready functions
 $(document).ready(function () {
-
-    $("#btnback").click(function () {
-		window.location.href = serverip + ':8081/annohome';
-	});
     // help show 
     $("#btnhelp").click(function () {
         $("#light").show("slow");
@@ -76,9 +73,6 @@ $(document).ready(function () {
         //for remove the selected file 
         document.getElementById("txtSize").innerHTML = "";
         $("#btndeltxt").hide();
-        textFromFileLoaded = "";
-        textByLines = "";
-        currentLine = 0;
         document.getElementById("content1").innerHTML = "";
         document.getElementById("ptxaxml").innerHTML = "";
         document.getElementById("errorMsg").innerHTML = "";
@@ -102,14 +96,16 @@ $(document).ready(function () {
             alert("No Text to Show!");
             return;
         }
-        if (showTagDivFlag == false) {
-            $("#spinner").show("slow", function () {
-                //adding ref Tags to the text accourding colors
-                translateColor_ToTag();
-                $("#spinner").hide("slow");
-            });
-
-        } 
+        $("#spinner").show("slow", function () {
+            //adding ref Tags to the text accourding colors
+            //translateColor_ToTag();
+            translateColor()
+            var temp = document.getElementById("ptxaxml").innerHTML;
+            temp = temp.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
+            //console.log(temp)
+            document.getElementById("ptxaxml").innerHTML = temp;
+            $("#spinner").hide("slow");
+        });
     });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,30 +220,36 @@ function show_bothFile() {
 function loadFile_AsText(fileToLoad) {
     document.getElementById("content1").innerHTML = "";
     document.getElementById("ptxaxml").innerHTML = "";
-    textFromFileLoaded = "";
+    var textFromFileLoaded = "";
     //loads the file into the textareas "content1" and "ptxaxml"
     var fileReader = new FileReader();
     fileReader.onload = function (fileLoadedEvent) {
         textFromFileLoaded = fileLoadedEvent.target.result;
         //converts textfile into array of lines cutting whenever "\n" is in the file
-        textByLines = textFromFileLoaded.split('\n');
+        var text_Lines = textFromFileLoaded.split('\n');
 
         var temp = "";
         var colslen = 0;
 
         var i = 0;
-        for (i = 0; i < textByLines.length; i++) {
+        for (i = 0; i < text_Lines.length; i++) {
             //split every line by tab put in a array
-            var arrayofcolumn = textByLines[i].split('\t');
+            var arrayofcolumn = text_Lines[i].split('\t');
             colslen = arrayofcolumn.length;
             //put first part in first item of array. we will show this part
             cols1text[i] = arrayofcolumn[0];
             //second part will added to first part in saving file as xml
-            cols2numbers[i] = textByLines[i].split(cols1text[i])[1];
-            //var sss = cols1text[i] + cols2numbers[i];
+            // cols2numbers[i] = text_Lines[i].split(cols1text[i])[1];
+            lenofcolone = cols1text[i].length;
+            cols2numbers[i] = text_Lines[i].slice(lenofcolone);
             //content1 as a lable cant undrestand "\n". we should add <br> at the end of each line			
-            cols1text[i] = cols1text[i].replace("<http", "&lt;http")
-            if (i == textByLines.length - 1)
+            cols1text[i] = cols1text[i].replace(/</g, "OPENTAGINTEXT");
+            cols1text[i] = cols1text[i].replace(/\//g, "SLASHINTEXT");
+            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTref>/g, "<ref>");
+            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXTref>/g, "</ref>")
+            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXToth>/g, "<oth>");
+            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXToth>/g, "</oth>")
+            if (i == text_Lines.length - 1)
                 temp = temp + cols1text[i];
             else temp = temp + cols1text[i] + '<br>';
         }
@@ -266,31 +268,18 @@ function colorizeText_InLable(temp) {
             textCopy = textCopy.replace('<ref>', openSpanValue_arr[6]);
             colorCounter = 0;
         }
-        else if (colorCounter == 5) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[5]);
-            colorCounter = colorCounter + 1;
-        }
-        else if (colorCounter == 4) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[4]);
-            colorCounter = colorCounter + 1;
-        }
-        else if (colorCounter == 3) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[3]);
-            colorCounter = colorCounter + 1;
-        }
-        else if (colorCounter == 2) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[2]);
-            colorCounter = colorCounter + 1;
-        }
-        else if (colorCounter == 1) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[1]);
-            colorCounter = colorCounter + 1;
-        }
-        else if (colorCounter == 0) {
-            textCopy = textCopy.replace('<ref>', openSpanValue_arr[0]);
+        else if (colorCounter < 6) {
+            textCopy = textCopy.replace('<ref>', openSpanValue_arr[colorCounter]);
             colorCounter = colorCounter + 1;
         }
     }
+    
+     while (textCopy.indexOf("<oth>") !== -1) {
+        textCopy = textCopy.replace("</oth>", "</span>");
+        textCopy = textCopy.replace('<oth>', '<span style="background-color: rgb(162, 165, 165);">');
+        }
+
+    
     document.getElementById("content1").innerHTML = textCopy;
     //ptxaxml as a lable cant undrestand "br". we should add "\n" at the end of each line
     openSpanValue = '<br>';
@@ -300,19 +289,7 @@ function colorizeText_InLable(temp) {
         i++;
         temp = temp.replace(openSpanValue, '\n');
     }
-    document.getElementById("ptxaxml").innerHTML = temp;
-}
-
-function saveText_AsXmlFile_transferto_tool2() {
-    result = saveText_AsXmlFile()
-    if (confirm('Are you sure you want to contiue?'))
-        window.location.href = webserviceUrl + '/Annotatortool2/index.html';
-}
-
-function html_charachter_fixing(textforfix) {
-    textforfix = textforfix.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
-    textforfix = textforfix.replace("<http", "&lt;http");
-    return textforfix;
+    document.getElementById("ptxaxml").innerHTML = temp.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
 }
 
 function saveText_AsXmlFile() {
@@ -322,7 +299,13 @@ function saveText_AsXmlFile() {
     }
 
     $("#spinner").show("slow", function () {
-        translateColor_ToTag();
+        //translateColor_ToTag();
+        translateColor()
+        var temp = document.getElementById("ptxaxml").innerHTML;
+        temp = temp.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
+        //console.log(temp)
+        document.getElementById("ptxaxml").innerHTML = temp;
+
         var xmlText = document.getElementById("ptxaxml").innerHTML;
 
         var textToWrite = xmlText.split('\n');
@@ -332,14 +315,19 @@ function saveText_AsXmlFile() {
         var allFirstColumns = '';
         start = '<ref>'
         suffix = '</ref>'
+        other_start = '<oth>'
+        other_suffix = '</oth>'
+        
         for (var i = 0; i < textToWrite.length; i++) {
             // allFirstColumns needed for extracting references part (only references)
             rowFirstColumn = textToWrite[i];
             // add one space to the end of line if it is multi line ref and doesn't have hyphen or dash at end
-            if (!(rowFirstColumn.substr(-suffix.length) === suffix))
+            if (!(rowFirstColumn.substr(-suffix.length) === suffix) || (rowFirstColumn.substr(-other_suffix.length) === other_suffix))
                 if (!(rowFirstColumn.substr(-'-'.length) === '-'))
                     if (!(rowFirstColumn.substr(-'.'.length) === '.'))
                         rowFirstColumn = rowFirstColumn + ' ';
+            
+            
             allFirstColumns = allFirstColumns + rowFirstColumn;
             // textToWrite2 is all layout with numbers
             if (i == textToWrite.length - 1) {
@@ -386,7 +374,7 @@ function saveText_AsXmlFile() {
         var fileNameToSaveAs = textFileName.split('.')[0] + ".xml";
 
         textToWrite2 = textToWrite2.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
-
+        textToWrite2 = textToWrite2.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
         download(textToWrite2.trim(), fileNameToSaveAs);
         // download(allrefs, fileNameToSaveAs);
         // save allrefs in a session and use them in next annotator tool 
@@ -421,7 +409,153 @@ function download(data, filename) {
     }
 }
 
-function change_TxtColor() {
+function ReplaceAt(input, search, replace, start, end) {
+    return input.slice(0, start)
+        + input.slice(start, end).replace(search, replace)
+        + input.slice(end);
+}
+
+
+function ChangeColor_TranslateColor(tag_name) {
+	//check text 
+	var coloredText = document.getElementById("content1").innerHTML;
+	if (coloredText == "") {
+		alert('Please Select a file');
+		return;
+	}
+	//Get Selection Text 
+	sel = window.getSelection();
+	var selectedtext = sel.toString();
+    var selectedtext2 = selectedtext.replace(/(\r\n|\n|\r)/gm, "<br>"); 
+    // alert(selectedtext2);
+    // alert(selectedtext2.split(' ').length);
+    // alert(selectedtext.split(' ').length);
+    if (tag_name == "ref_line") {
+        if (selectedtext2.split(' ').length < 3) {
+            alert('Please select more than 2 words!!');
+            return;
+        }
+    }
+    
+    if (tag_name == "ref_part" || tag_name == "other") {
+        if (selectedtext2.trim().split(' ').length < 1) {
+            alert('Please select at least 1 word!!');
+            return;
+        }
+    }
+    
+    if (tag_name == 'ref_line') {
+        if (coloredText.includes(selectedtext2)) {
+
+            var arr = coloredText.split(selectedtext2);
+            var firstpart = arr.shift().split("<br>").pop()
+            // alert(firstpart);
+            var secondpart = arr.pop().split("<br>").shift()
+            // alert(secondpart);
+            var fulltext = firstpart + selectedtext2 + secondpart;
+
+            if (firstpart != "" || secondpart != "") {
+                //change color 
+                if (colorCounter == 6) {
+                    var fulltext2 = openSpanValue_arr[6] + fulltext + '</span>';
+                    colorCounter = 0;
+                } else {
+                    var fulltext2 = openSpanValue_arr[colorCounter] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                // var fulltext2 = '<span style="background-color: rgb(236, 184, 249);">' + fulltext + '</span>';
+                coloredText2 = coloredText.split(fulltext).shift() + fulltext2 + coloredText.split(fulltext).pop();
+                document.getElementById("content1").innerHTML = coloredText2;
+                }
+            }
+        }
+    else {        
+        var text11 = coloredText.substr(0, coloredText.lastIndexOf(sel));
+        if (sel.rangeCount && sel.getRangeAt) {
+            range = sel.getRangeAt(0);
+        }  
+        // Set design mode to on
+        document.designMode = "on";
+        if (range) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        tagname = tag_name
+        if (tagname == "ref_line" || tagname == "ref_part") {
+            document.execCommand("HiliteColor", false, spanColors_arr[colorCounter]);
+           if (colorCounter == 6) { colorCounter = 0;}
+            else{
+                colorCounter = colorCounter +1
+            }
+        }
+        else if (tagname == "other") {
+            document.execCommand("HiliteColor", false, "#a2a5a5");
+        }
+        // Set design mode to off
+        document.designMode = "off";
+        // ?? why??
+        var currentText = document.getElementById("content1").innerHTML;
+        document.getElementById("content1").innerHTML = currentText;
+        console.log(currentText);
+        //translateColor();
+    }
+} 
+
+function translateColor() {
+	//replaces the manually added tags with colortags in lblColoredText. 
+	//lblColoredText Contains <span tags>
+	var arrayCopyOflblText = [];
+	arrayCopyOflblText[currentLine] = document.getElementById("content1").innerHTML;
+	var openSpanValue = "";
+	var tagname = "";
+
+	
+    // iterate of spanColors array and translates spans to <ref< tags 
+    openSpanValue_arr.forEach(function(item){
+
+        openSpanValue = item;
+        while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
+            var t1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
+            var t2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</ref>")
+            arrayCopyOflblText[currentLine] = t1 + t2;
+            arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<ref>');
+        }
+    }); 
+    // translate other
+	openSpanValue = '<span style="background-color: rgb(162, 165, 165);">';
+	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
+		var text1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
+		var text2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</oth>");
+		arrayCopyOflblText[currentLine] = text1 + text2;
+		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<oth>');
+	}
+    current = arrayCopyOflblText[currentLine]
+    var openTagValue = '<br>';
+    var i = 0
+    while (current.indexOf(openTagValue) !== -1) {
+        i++;
+        current = current.replace(openTagValue, '\n');
+    }
+    current = current.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
+
+    document.getElementById("ptxaxml").innerHTML = current;
+    //var currentText = arrayOfLines[currentLine];
+	//arrayCopyOflblText[currentLine] = currentText;
+	//document.getElementById("ptxaxml").innerHTML = current;
+}
+
+function subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname)
+{
+	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
+		var t1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
+		var t2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</"+tagname+">");
+		arrayCopyOflblText[currentLine] = t1 + t2;
+		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<'+tagname+'>');
+	}
+	return arrayCopyOflblText;
+}
+
+function change_TxtColor(whole_line) {
     // change color for selected text in lable by execCommand
     // Get Selection
     var content1value = document.getElementById("content1").innerHTML;
@@ -431,72 +565,127 @@ function change_TxtColor() {
     } else
     {
         // remove all html code from text
-        content1value = html_charachter_fixing(content1value);
+        content1value = content1value.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
+        content1value = content1value.replace("<http", "&lt;http");
     }
     sel = window.getSelection();
+    
     var selectedtext = sel.toString();
     if (selectedtext == "") {
         alert('Please Select Text');
         return;
     }
-
-    var selectedtext2 = selectedtext.replace(/(\r\n|\n|\r)/gm, "<br>");
-    if (selectedtext2.split(' ').length < 3) {
-        alert('Please select more than 2 words!!');
-        return;
+    // alert(selectedtext);
+    
+    var selectedtext2 = selectedtext.replace(/(\r\n|\n|\r)/gm, "<br>"); 
+    // alert(selectedtext2);
+    // alert(selectedtext2.split(' ').length);
+    // alert(selectedtext.split(' ').length);
+    if (whole_line) {
+        if (selectedtext2.split(' ').length < 3) {
+            alert('Please select more than 2 words!!');
+            return;
+        }
     }
+    
     if (selectedtext2.indexOf('<http') > -1)
     {
         alert(selectedtext2);
         selectedtext2 = selectedtext2.replace("<http", "&lt;http");
     }
     if (content1value.includes(selectedtext2)) {
-        var arr = content1value.split(selectedtext2);
-        var firstpart = arr.shift().split("<br>").pop()
-        // alert(firstpart);
-        var secondpart = arr.pop().split("<br>").shift()
-        // alert(secondpart);
-        var fulltext = firstpart + selectedtext2 + secondpart;
-        // alert(fulltext);
-        if (firstpart != "" || secondpart != "") {
-            //change color 
+        if (whole_line) {
+            var arr = content1value.split(selectedtext2);
+            var firstpart = arr.shift().split("<br>").pop()
+            // alert(firstpart);
+            var secondpart = arr.pop().split("<br>").shift()
+            // alert(secondpart);
+            var fulltext = firstpart + selectedtext2 + secondpart;
 
-            if (colorCounter == 6) {
-                var fulltext2 = openSpanValue_arr[6] + fulltext + '</span>';
-                colorCounter = 0;
-            } else if (colorCounter == 5) {
-                var fulltext2 = openSpanValue_arr[5] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
+            if (firstpart != "" || secondpart != "") {
+                //change color 
+                if (colorCounter == 6) {
+                    var fulltext2 = openSpanValue_arr[6] + fulltext + '</span>';
+                    colorCounter = 0;
+                } else if (colorCounter == 5) {
+                    var fulltext2 = openSpanValue_arr[5] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 4) {
+                    var fulltext2 = openSpanValue_arr[4] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 3) {
+                    var fulltext2 = openSpanValue_arr[3] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 2) {
+                    var fulltext2 = openSpanValue_arr[2] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 1) {
+                    var fulltext2 = openSpanValue_arr[1] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 0) {
+                    var fulltext2 = openSpanValue_arr[0] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                // var fulltext2 = '<span style="background-color: rgb(236, 184, 249);">' + fulltext + '</span>';
+                content1value2 = content1value.split(fulltext).shift() + fulltext2 + content1value.split(fulltext).pop();
+                document.getElementById("content1").innerHTML = content1value2;
             }
-            else if (colorCounter == 4) {
-                var fulltext2 = openSpanValue_arr[4] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
-            }
-            else if (colorCounter == 3) {
-                var fulltext2 = openSpanValue_arr[3] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
-            }
-            else if (colorCounter == 2) {
-                var fulltext2 = openSpanValue_arr[2] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
-            }
-            else if (colorCounter == 1) {
-                var fulltext2 = openSpanValue_arr[1] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
-            }
-            else if (colorCounter == 0) {
-                var fulltext2 = openSpanValue_arr[0] + fulltext + '</span>';
-                colorCounter = colorCounter + 1;
-            }
-
-            // var fulltext2 = '<span style="background-color: rgb(236, 184, 249);">' + fulltext + '</span>';
-            content1value2 = content1value.split(fulltext).shift() + fulltext2 + content1value.split(fulltext).pop();
-            document.getElementById("content1").innerHTML = content1value2;
+            else
+                change_color_bytriple();
         }
-        else
-            change_color_bytriple();
+        else {
+                var fulltext = selectedtext2
+                if (colorCounter == 6) {
+                    var fulltext2 = openSpanValue_arr[6] + fulltext + '</span>';
+                    colorCounter = 0;
+                } else if (colorCounter == 5) {
+                    var fulltext2 = openSpanValue_arr[5] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 4) {
+                    var fulltext2 = openSpanValue_arr[4] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 3) {
+                    var fulltext2 = openSpanValue_arr[3] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 2) {
+                    var fulltext2 = openSpanValue_arr[2] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 1) {
+                    var fulltext2 = openSpanValue_arr[1] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                else if (colorCounter == 0) {
+                    var fulltext2 = openSpanValue_arr[0] + fulltext + '</span>';
+                    colorCounter = colorCounter + 1;
+                }
+                // var fulltext2 = '<span style="background-color: rgb(236, 184, 249);">' + fulltext + '</span>';
+                var rng = sel.getRangeAt(0);
+                
+                //doc = document.getElementById("content1").innerHTML;
+                var start_offset = rng['startOffset'];
+                var end_offset = rng['endOffset'];
+                
+                content1value2 = content1value.slice(0,start_offset) + fulltext2 + content1value.slice(end_offset)
+                //rng.deleteContents(selectedtext);
+                //rng.insertNode(document.createElement(fulltext2));
+                //document.getElementById("content1").innerHTML = ReplaceAt(doc, selectedtext, fulltext2, start_offset, end_offset);
+                document.getElementById("content1").innerHTML = content1value2;
+     
+        }
     }
+    else
+        change_color_bytriple();
 }
+
 
 function change_color_bytriple() {
     //change color for selected text in lable by execCommand
@@ -557,38 +746,20 @@ function change_color_bytriple() {
     /////////////////////////////////////////////////////////
     //var y = document.body.innerHTML; OK
     //var x = document.getElementsByTagName("BODY")[0].innerHTML;  OK
-    //var bodyHtml = /<body.*?>([\s\S]*)<\/body>/.exec(entirePageHTML)[1]; Not Check
 
-    var iframe = document.getElementById('pdfiframe');
-    //alert(iframe.src);
-    var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-    if (iframeDocument) {
-        var sss = iframeDocument.body.innerHTML;
-        if (sss != "") {
-            //alert(sss);
-            var eee = iframeDocument.getElementById('viewerContainer').innerHTML
-            //alert(eee);
-            //alert(eee.search(selectedtext));
-            //eee.search(selectedtext).replaceWith("<span class='highlight'>"+selectedtext +"</span>");           
-            //iframeDocument.body.innerHTML = "Hello Pdf";
-            //iframe.src = "";
-            //iframeDocument.location.reload();
-        }
-    }
+    // var iframe = document.getElementById('pdfiframe');
+    // //alert(iframe.src);
+    // var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    // if (iframeDocument) {
+    //     var sss = iframeDocument.body.innerHTML;
+    //     if (sss != "") {
+    //         var eee = iframeDocument.getElementById('viewerContainer').innerHTML
+    //     }
+    // }
 
     //var iBody = $("pdfiframe").contents().find("body");
     //var iBodyhtml = iBody.html;
     //var myContent = iBody.find("viewerContainer");
-
-    //var ssssss = myContent.innerHTML;
-
-    //var iframe = $('pdfiframe').contents();
-    //var iframeInner = $(iframe).find('viewerContainer').contents();
-    //.attr('onclick', null)
-    //.addClass
-    //$(iframe).find('html').replaceWith();
-    //alert(document.getElementById('pdfiframe').innerHTML);
-    //alert(document.getElementById('textLayer').innerHTML);  
     ////////////////////////////////////////////////////////////////////////////
 
 }
