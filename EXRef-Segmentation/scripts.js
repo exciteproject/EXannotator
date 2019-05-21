@@ -101,13 +101,12 @@ $(document).ready(function () {
 
 	//reloade the page and save the changes
 	$("#btnReload").click(function () {
-		savelocalStorage()		
+		savelocalStorage();
 		location.reload();
 	});
 });
 
-function savelocalStorage()
-{
+function savelocalStorage() {
 	//1 save xmltext
 	var textforSave = getxaxmlText();
 	if (textforSave != "")
@@ -126,7 +125,7 @@ function savelocalStorage()
 
 //saved the last changes before closeing
 window.onbeforeunload = function () {
-	savelocalStorage();	
+	savelocalStorage();
 }
 
 //load File functions//////////////////////////////////////////
@@ -154,10 +153,9 @@ function checkFileAvailability_ReturnFileName(x) {
 	return filename;
 }
 
-function checke_file_type(filenames)
-{
-	var arrayLength = filenames.length;	
-	var validExts = new Array("txt", "xml","csv");
+function checke_file_type(filenames) {
+	var arrayLength = filenames.length;
+	var validExts = new Array("txt", "xml", "csv");
 	for (var i = 0; i < arrayLength; i++) {
 		var fileExt = filenames[i].split('.')[1];
 		if (!validExts.includes(fileExt)) {
@@ -206,7 +204,17 @@ function loadFileAsText(fileToLoad) {
 	fileReader.onload = function (fileLoadedEvent) {
 		var strLoadedTextFromFile = fileLoadedEvent.target.result;
 		//converts textfile into array of lines cutting whenever "\n" is in the file
+
+		// alert(strLoadedTextFromFile);
+		String.prototype.replaceAll = function (search, replacement) {
+			var target = this;
+			return target.replace(new RegExp(search, 'g'), replacement);
+		};
+		strLoadedTextFromFile = strLoadedTextFromFile.replaceAll('<author>', '').replaceAll('</author>', '')
+		// alert(strLoadedTextFromFile);
+
 		arrayOfLines = strLoadedTextFromFile.split('\n');
+
 		// chek if it is reading from file or storage
 		if (lastSessionFlag == false) {
 			// get from file
@@ -217,7 +225,7 @@ function loadFileAsText(fileToLoad) {
 		else {
 			// get from localStorage
 			lastSessionFlag = false;
-			OriginalLineArray_forDemo = localStorage.getItem("anno2lastoroginalreftext").split('\n');			
+			OriginalLineArray_forDemo = localStorage.getItem("anno2lastoroginalreftext").split('\n');
 			document.getElementById("demo").innerHTML = " Loadeding Data From Last Session:(File Name: " + filename + ")-(References Number: " + arrayOfLines.length + " )";
 		}
 		// if chbCermine is checked cermein webservice is called
@@ -234,11 +242,12 @@ function loadFileAsText(fileToLoad) {
 		// display in page
 		document.getElementById("lblcontentForDemo").innerHTML = arrayOfLines[0];
 		document.getElementById("lblColoredText").innerHTML = arrayOfLines[0];
-		document.getElementById("txaxml").value = arrayOfLines[0];		
+		document.getElementById("txaxml").value = arrayOfLines[0];
 		// and updates the "count" label.
 		document.getElementById("count").innerHTML = 1 + "/" + arrayOfLines.length;
 
-		colorize();
+		Translate_tags_to_color_span();
+		Translate_color_span_to_tag();
 	};
 	fileReader.readAsText(fileToLoad, "UTF-8");
 }
@@ -247,6 +256,7 @@ function loadFileAsText(fileToLoad) {
 var annotatorresult = "";
 function AjaxFailed(result) { alert(result.status + '' + result.statusText); }
 function callAnnotatorWebService(a) {
+	// alert('annotatorresult')
 	$.ajax({
 		type: "GET",
 		async: false,
@@ -255,7 +265,7 @@ function callAnnotatorWebService(a) {
 		dataType: "text",
 		processData: true,
 		success: function (result) { annotatorresult = result; },
-		eror: AjaxFailed
+		eror: function (result) { alert(result.status + '' + result.statusText); }
 	});
 }
 
@@ -303,7 +313,9 @@ function AnnotateText_ByCallingCERMINE(LineOfArray, i) {
 			LineOfArray = LineOfArray.replace('"', 'QUTATIONINTEXT');
 		}
 		//2 now call webservice
-		callAnnotatorWebService(LineOfArray);
+		// alert(webserviceUrl + '/webservice/webapi/myresource/annotate2/' + LineOfArray)
+		aaa = callAnnotatorWebService(LineOfArray);
+		// alert(aaa)
 		//3 then replace added items with original character again
 		if (QFlag)
 			while (annotatorresult.indexOf('QUESTIONMARKINTEXT') !== -1)
@@ -358,9 +370,10 @@ function AnnotateText_ByCallingCERMINE(LineOfArray, i) {
 function saveTextAsFile() {
 	if (document.getElementById("txaxml").value != "") {
 		//1 get name 
-		var fileNameToSaveAs = filename + ".xml";		
+		var fileNameToSaveAs = filename + ".xml";
 		//2
 		var textToWrite = getxaxmlText();
+		// alert(textToWrite)
 		//3
 		download(textToWrite, fileNameToSaveAs);
 	}
@@ -375,10 +388,22 @@ function getxaxmlText() {
 		// currentLine line in array is need to replace with current value in txtxml
 		// replace \n at the end of line
 		arrayOfLines[currentLine] = document.getElementById("txaxml").value.replace(/\n/g, '');
+		// if user dont click on navigators button so they dont have <author> tag
+		// due to we remove all <author> tags in loading file step
+		// update all items in arrayOfLines with author tag if they dont have it
+		for (i = 0; i < arrayOfLines.length; i++) {			
+			// alert(arrayOfLines[i]);
+			if (arrayOfLines[i].indexOf('<author>') == -1)
+			{
+				//calling add_author_tag to add <author> tag
+				arrayOfLines[i] = add_author_tag(arrayOfLines[i]);
+			}
+		}
+
 		// We use the join() method to display the array elements as a string.
 		var strArrayOfLines = arrayOfLines.join("\n");
 		// special characters translate to html code --> replace them
-		textToWrite = strArrayOfLines.replace(/(&amp;)/gm, "&").replace(/(&gt;)/gm,">").replace(/(&lt;)/gm,"<").replace(/(&quot;)/gm,'"').replace(/(&pos;)/gm,"'");
+		textToWrite = strArrayOfLines.replace(/(&amp;)/gm, "&").replace(/(&gt;)/gm, ">").replace(/(&lt;)/gm, "<").replace(/(&quot;)/gm, '"').replace(/(&pos;)/gm, "'");
 		return textToWrite;
 	} else
 		return "";
@@ -407,15 +432,15 @@ function goto_firstLine() {
 	// Save the current txaxml content into arrayOfLines[currentLine] to keep changes.
 	// replace \n at the end of line
 	arrayOfLines[currentLine] = document.getElementById("txaxml").value.replace(/\n/g, '');
-	currentLine = 0; 
+	currentLine = 0;
 	repeatedline_in_navigation_function();
 }
 
 function goto_prevLine() {
 	arrayOfLines[currentLine] = document.getElementById("txaxml").value.replace(/\n/g, '');
-	if (currentLine > 0) 
+	if (currentLine > 0)
 		currentLine = currentLine - 1;
-	else 
+	else
 		currentLine = arrayOfLines.length - 1;
 	repeatedline_in_navigation_function();
 }
@@ -423,7 +448,7 @@ function goto_prevLine() {
 function goto_lastLine() {
 	arrayOfLines[currentLine] = document.getElementById("txaxml").value.replace(/\n/g, '');
 	currentLine = arrayOfLines.length - 1;
-	repeatedline_in_navigation_function();	
+	repeatedline_in_navigation_function();
 }
 
 function goto_nextLine() {
@@ -433,13 +458,14 @@ function goto_nextLine() {
 	else currentLine = 0;
 	repeatedline_in_navigation_function();
 }
-	
-function repeatedline_in_navigation_function(){
+
+function repeatedline_in_navigation_function() {
 	document.getElementById("lblcontentForDemo").innerHTML = OriginalLineArray_forDemo[currentLine];
-	document.getElementById("lblColoredText").innerHTML = arrayOfLines[currentLine];	
+	document.getElementById("lblColoredText").innerHTML = arrayOfLines[currentLine];
 	document.getElementById("txaxml").value = arrayOfLines[currentLine];
 	document.getElementById("count").innerHTML = (currentLine + 1) + "/" + arrayOfLines.length;
-	colorize();
+	Translate_tags_to_color_span();
+	Translate_color_span_to_tag();
 }
 
 
@@ -489,7 +515,7 @@ document.addEventListener('keydown', function (event) {
 	} else if (event.keyCode == 68) {
 		// alert('dd was pressed');
 		ChangeColor_TranslateColor('btnidentifier');
-	}  else if (event.keyCode == 73) {
+	} else if (event.keyCode == 73) {
 		// alert('ii was pressed');
 		ChangeColor_TranslateColor('btnissue');
 	} else if (event.keyCode == 85) {
@@ -523,13 +549,13 @@ function ChangeColor_TranslateColor(sender) {
 		tagname = sender;
 	//Get Selection Text 
 	sel = window.getSelection();
-	var selectedtext = sel.toString();
+	var selectedtext = sel.toString().trim();
 	// if (sel.anchorNode.parentElement.toString() != "[object HTMLSpanElement]") {
 	// }
 	// var a = coloredText.indexOf(selectedtext);
 	// var b = coloredText.lastIndexOf(selectedtext);
 	var text11 = coloredText.substr(0, coloredText.lastIndexOf(sel));
-	//alert(text11);
+	// alert(text11);
 	if (sel.rangeCount && sel.getRangeAt) {
 		range = sel.getRangeAt(0);
 	}
@@ -593,64 +619,39 @@ function ChangeColor_TranslateColor(sender) {
 	// ?? why??
 	var currentText = document.getElementById("lblColoredText").innerHTML;
 	document.getElementById("lblColoredText").innerHTML = currentText;
-	translateColor();
+	Translate_color_span_to_tag();
+	// Translate_tags_to_color_span();
 }
 
-function translateColor() {
+function Translate_color_span_to_tag() {
 	//replaces the manually added tags with colortags in lblColoredText. 
 	//lblColoredText Contains <span tags>
 	var arrayCopyOflblText = [];
+	document.getElementById("lblColoredText").innerHTML = document.getElementById("lblColoredText").innerHTML.replace(/ <\/span>/gm, "</span> ");
 	arrayCopyOflblText[currentLine] = document.getElementById("lblColoredText").innerHTML;
 	var openSpanValue = "";
 	var tagname = "";
+
+	//replace all 
 
 	//for surname
 	openSpanValue = '<span style="background-color: rgb(255, 206, 48);">';
 	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
 		var text1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
 		var text2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length);
-		text2 = text2.replace("</span>", "</surname></author>");
+		text2 = text2.replace("</span>", "</surname>");
 		arrayCopyOflblText[currentLine] = text1 + text2;
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<author><surname>');
+		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<surname>');
 	}
+
 	//for given-names
 	openSpanValue = '<span style="background-color: rgb(170, 187, 48);">';
 	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
 		var text1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
-		var text2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</given-names></author>");
+		var text2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length);
+		text2 = text2.replace("</span>", "</given-names>");
 		arrayCopyOflblText[currentLine] = text1 + text2;
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<author><given-names>');
-	}
-	//for author
-	openSpanValue = '<span style="background-color: rgb(255, 150, 129);">';
-	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
-		var text1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
-		var text2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</author>");
-		arrayCopyOflblText[currentLine] = text1 + text2;
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<author>');
-	}
-	//for <\/author>\\s*<author> 
-	// remove extra author tags after surname and given name color changing
-	var regExp1 = new RegExp('<\/author>\\s*<author>');
-	while (arrayCopyOflblText[currentLine].search(regExp1) !== -1) {
-		//alert('<\/author>\\s*<author>');
-		var detectedText = regExp1.exec(arrayCopyOflblText[currentLine])[0];
-		var w = detectedText.replace('</author>', '').replace('<author>', '');
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(detectedText, w);
-	}
-	openSpanValue = '</author><author>';
-	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '');
-	}
-
-	//
-	openSpanValue = '<author><author>';
-	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<author>');
-	}
-	openSpanValue = '</author></author>';
-	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '</author>');
+		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<given-names>');
 	}
 
 	//for year
@@ -700,50 +701,115 @@ function translateColor() {
 	//other ================================================================
 	openSpanValue = '<span style="background-color: rgb(244, 133, 142);">';
 	tagname = 'other';
-	arrayCopyOflblText = subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname);
+	arrayCopyOflblText = subfunction_Translate_color_span_to_tag(arrayCopyOflblText, openSpanValue, tagname);
 	arrayOfLines[currentLine] = arrayCopyOflblText[currentLine];
 	//issue ================================================================
 	openSpanValue = '<span style="background-color: rgb(101, 155, 242);">'
 	tagname = 'issue';
-	arrayCopyOflblText = subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname);
+	arrayCopyOflblText = subfunction_Translate_color_span_to_tag(arrayCopyOflblText, openSpanValue, tagname);
 	arrayOfLines[currentLine] = arrayCopyOflblText[currentLine];
 	//url ================================================================
 	openSpanValue = '<span style="background-color: rgb(91, 239, 219);">'
 	tagname = 'url';
-	arrayCopyOflblText = subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname);
+	arrayCopyOflblText = subfunction_Translate_color_span_to_tag(arrayCopyOflblText, openSpanValue, tagname);
 	arrayOfLines[currentLine] = arrayCopyOflblText[currentLine];
 	//identifier ================================================================
 	openSpanValue = '<span style="background-color: rgb(209, 155, 247);">'
 	tagname = 'identifier';
-	arrayCopyOflblText = subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname);
+	arrayCopyOflblText = subfunction_Translate_color_span_to_tag(arrayCopyOflblText, openSpanValue, tagname);
 	arrayOfLines[currentLine] = arrayCopyOflblText[currentLine];
 	// ================================================================
 	var currentText = arrayOfLines[currentLine];
-
 	arrayCopyOflblText[currentLine] = currentText;
+	// ================================================================
+	currentText = add_author_tag(currentText);
 	document.getElementById("txaxml").value = currentText;
 }
 
-function subfunction_translateColor(arrayCopyOflblText, openSpanValue, tagname)
-{
+function add_author_tag(currentText) {
+	arr = []
+	arr_open_surname = getIndicesOf('<surname>', currentText)
+	arr_close_surname = getIndicesOf('</surname>', currentText)
+	arr_open_givennames = getIndicesOf('<given-names>', currentText)
+	arr_close_givennames = getIndicesOf('</given-names>', currentText)
+	len_of_arr_open_surname = arr_open_surname.length
+	len_of_arr_open_givennames = arr_open_givennames.length
+
+	max_number = (len_of_arr_open_surname >= len_of_arr_open_givennames) ? len_of_arr_open_surname : len_of_arr_open_givennames
+
+	String.prototype.splice = function (idx, rem, str) {
+		return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+	};
+
+	for (var i = 0; i < max_number; i++) {
+		arr_open_surname = getIndicesOf('<surname>', currentText)
+		arr_close_surname = getIndicesOf('</surname>', currentText)
+		arr_open_givennames = getIndicesOf('<given-names>', currentText)
+		arr_close_givennames = getIndicesOf('</given-names>', currentText)
+
+		if (arr_open_surname[i] != undefined && arr_open_givennames[i] == undefined) {
+			arr_open_surname = getIndicesOf('<surname>', currentText)
+			currentText = currentText.splice(arr_open_surname[i], 0, "<author>");
+			arr_close_surname = getIndicesOf('</surname>', currentText)
+			currentText = currentText.splice(arr_close_surname[i] + 10, 0, "</author>");
+		}
+		else if (arr_open_givennames[i] != undefined && arr_open_surname[i] == undefined) {
+			arr_open_givennames = getIndicesOf('<given-names>', currentText)
+			currentText = currentText.splice(arr_open_givennames[i], 0, "<author>");
+			arr_close_givennames = getIndicesOf('</given-names>', currentText)
+			currentText = currentText.splice(arr_close_givennames[i] + 14, 0, "</author>");
+		}
+		else {
+			if (arr_open_surname[i] < arr_open_givennames[i]) {
+				// surname is first tag AND givennames is second tag
+				arr_open_surname = getIndicesOf('<surname>', currentText)
+				currentText = currentText.splice(arr_open_surname[i], 0, "<author>");
+				arr_close_givennames = getIndicesOf('</given-names>', currentText)
+				currentText = currentText.splice(arr_close_givennames[i] + 14, 0, "</author>");
+			} else if (arr_open_surname[i] > arr_open_givennames[i]) {
+				// givennames is first tag AND surname is second tag
+				arr_open_givennames = getIndicesOf('<given-names>', currentText)
+				currentText = currentText.splice(arr_open_givennames[i], 0, "<author>");
+				arr_close_surname = getIndicesOf('</surname>', currentText)
+				currentText = currentText.splice(arr_close_surname[i] + 10, 0, "</author>");
+			}
+		}
+	}
+	return currentText;
+}
+
+function getIndicesOf(searchStr, str) {
+	var searchStrLen = searchStr.length;
+	if (searchStrLen == 0) {
+		return [];
+	}
+	var startIndex = 0, index, indices = [];
+	while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+		indices.push(index);
+		startIndex = index + searchStrLen;
+	}
+	return indices;
+}
+
+function subfunction_Translate_color_span_to_tag(arrayCopyOflblText, openSpanValue, tagname) {
 	while (arrayCopyOflblText[currentLine].indexOf(openSpanValue) !== -1) {
 		var t1 = arrayCopyOflblText[currentLine].substr(0, arrayCopyOflblText[currentLine].indexOf(openSpanValue));
-		var t2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</"+tagname+">");
+		var t2 = arrayCopyOflblText[currentLine].substr(arrayCopyOflblText[currentLine].indexOf(openSpanValue), arrayCopyOflblText[currentLine].length).replace("</span>", "</" + tagname + ">");
 		arrayCopyOflblText[currentLine] = t1 + t2;
-		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<'+tagname+'>');
+		arrayCopyOflblText[currentLine] = arrayCopyOflblText[currentLine].replace(openSpanValue, '<' + tagname + '>');
 	}
 	return arrayCopyOflblText;
 }
 
-function colorize() {// replaces the manually added tags with colortags for lblColoredText.
+function Translate_tags_to_color_span() {// replaces the manually added tags with colortags for lblColoredText.
 	arrayOfLines[currentLine] = document.getElementById("txaxml").value;
 
 	var textCopy = arrayOfLines;
-	//author
-	while (textCopy[currentLine].indexOf("<author>") !== -1) {
-		textCopy[currentLine] = textCopy[currentLine].replace("</author>", "</span>");
-		textCopy[currentLine] = textCopy[currentLine].replace('<author>', '<span style="background-color: rgb(255, 150, 129);">');
-	}
+	// //author
+	// while (textCopy[currentLine].indexOf("<author>") !== -1) {
+	// 	textCopy[currentLine] = textCopy[currentLine].replace("</author>", "</span>");
+	// 	textCopy[currentLine] = textCopy[currentLine].replace('<author>', '<span style="background-color: rgb(255, 150, 129);">');
+	// }
 	//surname
 	while (textCopy[currentLine].indexOf("<surname>") !== -1) {
 		textCopy[currentLine] = textCopy[currentLine].replace("</surname>", "</span>");
@@ -831,7 +897,7 @@ function RemoveTag() {
 	}
 	if (sel.anchorNode.parentElement.toString() == "[object HTMLSpanElement]") {
 		$(sel.anchorNode.parentElement).contents().unwrap();
-		translateColor();
+		Translate_color_span_to_tag();
 	}
 }
 
