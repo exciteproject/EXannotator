@@ -11,6 +11,8 @@ The goal of this Annotator Tool is **"Reference String Identifying"**.
 2. Next, you should find the reference section in each file
 3. Then select reference strings in text file, compare it with the original text in pdf and add ```<ref>``` and ```</ref>``` tags to the beginning and the end of each reference by click on related button.
 4. Finlay save it as a XML file.
+5. A live demo is available for this tool in this address: [here](http://excite.west.uni-koblenz.de/refanno/index.html)
+6. Watch our brief video tutorial to learn how to use this tool: [here](https://www.youtube.com/watch?v=QSiqIHts23I&t=21s)
 #### Sample File To Use
 There are some sample files to test **EXRef-Identifier** [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Segmentation).
 These samples consists of layout file which extracted from a sample pdf by [Refex](https://github.com/exciteproject/refext).
@@ -52,6 +54,8 @@ There are two ways of using EXRef-Segmentation:
 2. Second: select meta data in text and tagged them by click on related buttons.
 3. Then: navigate between references.
 4. Finlay: save it as a XML file.
+5. A live demo is available for this tool in this address: [here](http://excite.west.uni-koblenz.de/seganno/index.html)
+6. Watch our brief video tutorial to learn how to use this tool: [here](https://www.youtube.com/watch?v=xwed_XugR7E)
 #### Sample File To Use
 There are some sample files to test EXRef-Segmentation [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Identifier)
 These samples consists of reference strings which extracted from a sample pdf by [CERMINE](https://github.com/CeON/CERMINE)
