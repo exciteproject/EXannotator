@@ -1,23 +1,28 @@
 ## Annotator tools Introduction
 ### EXRef-Identifier: Reference String Identifier
-#### General
-The goal of this Annotator Tool is **"Reference String Identifying"**. 
+The goal of this EXRef-Identifier Tool is **"Reference String Identifying"**. 
 
 #### How To Run
-1. first put a copy of **"EXRef-Identifier"** folder in the localhost directory. 
-2. then use this URL ```http://localhost/EXRef-Identifier/index.html``` to run the tool.
+1. Put a copy of **"EXRef-Identifier"** folder in the localhost directory. 
+2. Use this URL ```http://localhost/EXRef-Identifier/index.html``` to run the tool.
+
 #### How To Use
-1. First you should upload two file. One is a paper in pdf format and second one is layout file in .txt fromat.
-2. Next, you should find the reference section in each file
-3. Then select reference strings in text file, compare it with the original text in pdf and add ```<ref>``` and ```</ref>``` tags to the beginning and the end of each reference by click on related button.
-4. Finlay save it as a XML file.
-5. A live demo is available for this tool in this address: [here](http://excite.west.uni-koblenz.de/refanno/index.html)
-6. Watch our brief video tutorial to learn how to use this tool: [here](https://www.youtube.com/watch?v=QSiqIHts23I&t=21s)
+1. Upload two file. The paper in .pdf format and the layout file in .txt fromat.
+2. Scroll down to find the reference section in both file.
+3. Select reference strings in text file, 
+compare it with the original text in pdf 
+and add ```<ref>``` and ```</ref>``` tags to the beginning and the 
+end of each reference by click on related button.
+4. Finlay save annotated Layout file as a XML file.
+5. A live demo is available [here](http://excite.west.uni-koblenz.de/refanno/index.html)
+6. A video tutorial to learn how to use this tool is available [here](https://www.youtube.com/watch?v=QSiqIHts23I&t=21s)
+
 #### Sample File To Use
-There are some sample files to test **EXRef-Identifier** [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Segmentation).
-These samples consists of layout file which extracted from a sample pdf by [Refex](https://github.com/exciteproject/refext).
+* Sample files to test are available [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Segmentation).
+* The layout file extracted from pdf file by using [Refex](https://github.com/exciteproject/refext).
+
 #### Output Sample
-Output File will be in XML Format. The following is part of sample output from **EXRef-Identifier**:
+Output File will be in XML Format. The following is part of sample output:
 ```html
 .
 ..
@@ -31,7 +36,6 @@ Frankfurt a.M.</ref>
 ```
 
 ### EXRef-Segmentation: Meta Data Segmentation
-#### General
 The goal of EXRef-Segmentation is **"Meta Data Segmentation"**.
 This annotator gives assessors this possibility to tag meta data in each reference string.
 Which could be include these Meta data: ```<author>, <surname>, <given-names>, <title>, <editor>, <publisher>, <year>, <volume>, <issue>, <identifier>,
@@ -40,28 +44,23 @@ Which could be include these Meta data: ```<author>, <surname>, <given-names>, <
 #### How To Run
 There are two ways of using EXRef-Segmentation:
 
-1- Using [CERMINE](https://github.com/CeON/CERMINE) to extracting Meta data automatically. in this case **"Apache Tomcat"** is needed.
-* first drop a copy of **"webservice.war"** file in the deploy directory in Tomcat.
-* next put a copy of **"EXRef-Segmentation"** folder in the deploy directory in Tomcat.
-* then use this URL ```http://localhost:8080/EXRef-Segmentation/index.html``` to run the tool.
-
-2- Extracting Meta datas without using CERMINE:
-* put a copy of **"EXRef-Segmentation"** folder in localhost directory. 
-* use this URL ```http://localhost:8080/EXRef-Segmentation/index.html``` to run the tool.
+* Put a copy of **"EXRef-Segmentation"** folder in localhost directory. 
+* Use this URL ```http://localhost:8080/EXRef-Segmentation/index.html``` to run the tool.
 
 #### How To Use
-1. First: upload a text file which contain references (each reference should be in one line).
-2. Second: select meta data in text and tagged them by click on related buttons.
-3. Then: navigate between references.
-4. Finlay: save it as a XML file.
-5. A live demo is available for this tool in this address: [here](http://excite.west.uni-koblenz.de/seganno/index.html)
-6. Watch our brief video tutorial to learn how to use this tool: [here](https://www.youtube.com/watch?v=xwed_XugR7E)
+1. Upload a text file which contain references (each reference should be in one line).
+2. Select meta data in text and tagged them by click on related buttons.
+3. Navigate between references.
+4. Save it as a XML file.
+5. A live demo is available [here](http://excite.west.uni-koblenz.de/seganno/index.html)
+6. A video tutorial to learn how to use this tool is available [here](https://www.youtube.com/watch?v=xwed_XugR7E)
+
 #### Sample File To Use
-There are some sample files to test EXRef-Segmentation [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Identifier)
-These samples consists of reference strings which extracted from a sample pdf by [CERMINE](https://github.com/CeON/CERMINE)
+* Sample files to test are available [here](https://github.com/exciteproject/EXannotator/tree/master/Files_for_test/EXRef-Identifier)
+* The layout file extracted from pdf file by using [Refex](https://github.com/exciteproject/refext).
 
 #### Output Sample
-Output File will be in XML Format. The following is part of output for a segmented reference string by **EXRef-Segmentation**:
+Output File will be in XML Format. The following is part of output for a segmented reference string:
 
 ```html
 ...
