@@ -14,7 +14,7 @@ compare it with the original text in pdf
 and add ```<ref>``` and ```</ref>``` tags to the beginning and the 
 end of each reference by click on related button.
 4. Finlay save annotated Layout file as a XML file.
-5. A live demo is available [here](http://excite.west.uni-koblenz.de/refanno/index.html)
+5. A live demo is available [here](https://excite.informatik.uni-stuttgart.de/refanno/)
 6. A video tutorial to learn how to use this tool is available [here](https://www.youtube.com/watch?v=QSiqIHts23I&t=21s)
 
 #### Sample File To Use
@@ -52,7 +52,7 @@ There are two ways of using EXRef-Segmentation:
 2. Select meta data in text and tagged them by click on related buttons.
 3. Navigate between references.
 4. Save it as a XML file.
-5. A live demo is available [here](http://excite.west.uni-koblenz.de/seganno/index.html)
+5. A live demo is available [here](https://excite.informatik.uni-stuttgart.de/seganno/)
 6. A video tutorial to learn how to use this tool is available [here](https://www.youtube.com/watch?v=xwed_XugR7E)
 
 #### Sample File To Use
