@@ -176,16 +176,18 @@ function show_bothFile() {
     }
 
     //Check File Type again by code
-    var validExts = new Array("pdf", "txt", "xml");
+    var validExts = new Array("pdf", "txt", "csv", "xml");
     for (var i = 0; i < arrayLength; i++) {
-        var fileExt = filenames[i].split('.')[1];
+        var fileExt = filenames[i].split('.').pop();
         if (!validExts.includes(fileExt))
             alert(fileExt + " --> is Invalid type, valid types are [" + validExts.toString() + "].!!! ");
         else {
-            if (fileExt == 'pdf')
+            if (fileExt == 'pdf') {
                 document.getElementById("pdfSize").innerHTML = filenames[i];
-            else if (fileExt == 'txt' || fileExt == 'xml')
+            }
+            else {
                 document.getElementById("txtSize").innerHTML = filenames[i];
+            }
             textFileName = filenames[i];
             // alert(filename);
         }
@@ -225,30 +227,36 @@ function loadFile_AsText(fileToLoad) {
     var fileReader = new FileReader();
     fileReader.onload = function (fileLoadedEvent) {
         textFromFileLoaded = fileLoadedEvent.target.result;
-        //converts textfile into array of lines cutting whenever "\n" is in the file
-        var text_Lines = textFromFileLoaded.split('\n');
+        // converts textfile into array of lines cutting whenever "\n" is in the file after normalizing \r\n to \n
+        var text_Lines = textFromFileLoaded.replace(/\r/g, "").split('\n');
 
         var temp = "";
         var colslen = 0;
 
         var i = 0;
         for (i = 0; i < text_Lines.length; i++) {
-            //split every line by tab put in a array
+            // split every line by tab put in a array
             var arrayofcolumn = text_Lines[i].split('\t');
             colslen = arrayofcolumn.length;
-            //put first part in first item of array. we will show this part
-            cols1text[i] = arrayofcolumn[0];
-            //second part will added to first part in saving file as xml
-            // cols2numbers[i] = text_Lines[i].split(cols1text[i])[1];
-            lenofcolone = cols1text[i].length;
-            cols2numbers[i] = text_Lines[i].slice(lenofcolone);
-            //content1 as a lable cant undrestand "\n". we should add <br> at the end of each line			
+            // cols1text will contain the text part, tabs replaced by spaces
+            // cols2numbers the layout values, which will be added to the xml
+            if (colslen > 1 && typeof arrayofcolumn[2] == "number") {
+                // if we have a numerical value at the end, save it as prediction value
+                cols1text[i] = arrayofcolumn.slice(0,colslen-1).join(' ');
+                cols2numbers[i] = arrayofcolumn[colslen-1];
+            } else {
+                // otherwise, add tab back in
+                cols1text[i] = arrayofcolumn.join(' ');
+                cols2numbers[i]=""
+            }
+            //content1 as a label cant understand "\n". we should add <br> at the end of each line
             cols1text[i] = cols1text[i].replace(/</g, "OPENTAGINTEXT");
             cols1text[i] = cols1text[i].replace(/\//g, "SLASHINTEXT");
             cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTref>/g, "<ref>");
             cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXTref>/g, "</ref>")
             cols1text[i] = cols1text[i].replace(/OPENTAGINTEXToth>/g, "<oth>");
             cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXToth>/g, "</oth>")
+            cols1text[i] = cols1text[i].replace(/SLASHINTEXT/g, "/");
             if (i == text_Lines.length - 1)
                 temp = temp + cols1text[i];
             else temp = temp + cols1text[i] + '<br>';
@@ -331,7 +339,6 @@ function saveText_AsXmlFile() {
             allFirstColumns = allFirstColumns + rowFirstColumn;
             // textToWrite2 is all layout with numbers
             if (i == textToWrite.length - 1) {
-                // alert(cols2numbers[i]);
                 // no \n for last line
                 if (typeof cols2numbers[i] != 'undefined')
                     textToWrite2[i] = textToWrite[i] + cols2numbers[i];
