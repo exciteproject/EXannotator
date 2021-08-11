@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>GESIS Reference String Extraction Tool</title>
+    <title>Excite Reference String Extraction Tool</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
@@ -154,37 +154,37 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 margin-bottom-5">
-                        <label for="btnUploadbothfile" class="btn btn-primary">Choose Files (.txt/.pdf)</label>
+                        <label for="btnUploadbothfile" class="btn btn-primary">Choose Files (.txt/.pdf/.csv)</label>
                         <input type="file" id="btnUploadbothfile" class="btn btn-default" onchange="show_bothFile();this.value=null;return false;"
-                            accept="text/plain, application/pdf,.xml" multiple/> &nbsp;
+                            accept="text/plain, application/pdf, application/xml, text/csv" multiple/> &nbsp;
 
                         <button class="btn btn-success" id="btnInsertTag" value="btnInsertTag" type="button" onclick="ChangeColor_TranslateColor('ref_line');">
-                            <u>
-                                I</u>nsert Tag (whole line)</button>
+                            <span class="emphasizeLetter">I</span>nsert &lt;ref&gt; (whole line)</button>
                         &nbsp;
                         <button class="btn btn-success" id="btnInsertPartTag" value="btnInsertPartTag" type="button" onclick="ChangeColor_TranslateColor('ref_part');">
                             
-                                Insert Tag (<u>P</u>art)</button>
+                                Insert &lt;ref&gt; (<span class="emphasizeLetter">P</span>art)</button>
                         &nbsp;
                         <button class="btn btn-secondary" id="btnInsertOther" value="btnInsertOther" type="button" onclick="ChangeColor_TranslateColor('other');">
                             
-                                nsert Tag (<u>O</u>ther)</button>
+                                Insert &lt;<span class="emphasizeLetter">O</span>th&gt;</button>
                         &nbsp;
                         <button class="btn btn-danger" id="btnRemoveTag" value="btnRemoveTag" type="button" onclick="RemoveTag();">
-                            <u>R</u>emove Tag</button>
+                            <span class="emphasizeLetter">R</span>emove Tag</button>
                         &nbsp;
-                        <button class="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export To XML</button>
+                        <button class="btn btn-primary" type="button" onclick="saveText_AsXmlFile();">Export Training File</button>
+                        &nbsp;
+                        <button class="btn btn-primary" type="button" onclick="open_in_seganno();">Open in EXRef-Segmentation</button>
                         &nbsp;
 
                         <button class="btn btn-primary" id="btnReload">Reload page</button>
                         &nbsp;
                         <button class="btn btn-primary" id="btnhelp">Help</button>
-                        
                         &nbsp; &nbsp;
-                                <a href="http://excite.west.uni-koblenz.de/samplefile/19943.zip">sample file to test</a>
+                    <a href="https://excite.informatik.uni-stuttgart.de/samplefile/19943.zip">sample file to test</a>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 textalignr">
-                        <a href="http://excite.west.uni-koblenz.de/" target="_blank"><img height="50px" src="images/exCite_logo_150.png"
+                    <a href="https://excite.informatik.uni-stuttgart.de/" target="_blank"><img height="50px" src="images/exCite_logo_150.png"
                                 alt="img"></a>
                                 &nbsp;&nbsp;
                         <p>EXRef-Identifier</p>&nbsp;&nbsp;
