@@ -54,7 +54,11 @@ $(document).ready(function () {
 	});
 
 	$("#btnToRefanno").click(function(){
-		window.location.href = "../EXRef-Identifier";
+		if (window.location.href.includes("localhost")) {
+			window.location.href = "../EXRef-Identifier";
+		} else {
+			window.location.href = "../refanno";
+		}
 	})
 
 
@@ -76,11 +80,10 @@ $(document).ready(function () {
 	//load lasst saved localstorage
 	function loadSession() {
 		if (typeof (Storage) !== "undefined") {
-			var lastxmltext = localStorage.getItem("anno2lastxmltext");
+			const lastxmltext = localStorage.getItem("anno2lastxmltext");
 			if (lastxmltext != "") {
 				//1 load storage to file
-				var file = new Blob([lastxmltext], { type: 'text/xml' });
-				var fileToLoad = file;
+				const fileToLoad = new Blob([lastxmltext], { type: 'text/xml' });
 				// we dont need cermine
 				document.getElementById("chbCermine").checked = false;
 				if (localStorage.getItem("anno2lastoroginalreftext") != "") {
@@ -207,15 +210,16 @@ function checkfile() {
 
 function loadFileAsText(fileToLoad) {
 	// loads the file uploaded through "btnUploadfile" into the "lblColoredText" and "txaxml"  and "lblcontentForDemo" 
-	var fileReader = new FileReader();
+	const fileReader = new FileReader();
 	fileReader.onload = function (fileLoadedEvent) {
-		var text = fileLoadedEvent.target.result;
+		let text = fileLoadedEvent.target.result;
 
 		// monkey-patch string prototype
-		String.prototype.replaceAll = function (search, replacement) {
-			var target = this;
-			return target.replace(new RegExp(search, 'g'), replacement);
-		};
+		if (String.prototype.replaceAll === undefined ) {
+			String.prototype.replaceAll = function (search, replacement) {
+				this.replace(new RegExp(search, 'g'), replacement);
+			};
+		}
 
 		//converts textfile into array of lines cutting whenever "\n" is in the file
 		arrayOfLines = text
@@ -234,11 +238,11 @@ function loadFileAsText(fileToLoad) {
 			// if refanno output
 			arrayOfLines = arrayOfLines
 				// remove layout info
-				.map(line => line.split('\t').slice(0,-6).join('\t'))
+				.map(line => line.split('\t').slice(0,-5).join('\t'))
 				// replace line breaks by spaces
 				.join(' ')
 				// keep only the <ref>...</ref> fragments
-				.match(/\<ref>.*?<\/ref>/g)
+				.match(/\<ref>.*?<\/ref>/g);
 			if (!arrayOfLines) {
 				alert("Data does not contain any reference markup.");
 				return false;

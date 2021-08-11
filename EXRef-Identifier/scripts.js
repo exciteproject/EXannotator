@@ -310,19 +310,19 @@ function getTextToExport() {
       .replace(/SLASHINTEXT/g, "/");
     //console.log(temp)
     document.getElementById("ptxaxml").innerHTML = temp;
-    var xmlText = document.getElementById("ptxaxml").innerHTML;
-    var textToWrite = xmlText.split('\n');
-    var textToWrite2 = [];
-    var rowFirstColumn = '';
-    var allFirstColumns = '';
+    let xmlText = document.getElementById("ptxaxml").innerHTML;
+    let t1 = xmlText.split('\n');
+    let t2 = [];
+    let rowFirstColumn = '';
+    let allFirstColumns = '';
     start = '<ref>'
     suffix = '</ref>'
     other_start = '<oth>'
     other_suffix = '</oth>'
 
-    for (var i = 0; i < textToWrite.length; i++) {
+    for (var i = 0; i < t1.length; i++) {
         // allFirstColumns needed for extracting references part (only references)
-        rowFirstColumn = textToWrite[i];
+        rowFirstColumn = t1[i];
         // add one space to the end of line if it is multi line ref and doesn't have hyphen or dash at end
         if (!(rowFirstColumn.substr(-suffix.length) === suffix) || (rowFirstColumn.substr(-other_suffix.length) === other_suffix))
             if (!(rowFirstColumn.substr(-'-'.length) === '-'))
@@ -332,44 +332,25 @@ function getTextToExport() {
 
         allFirstColumns = allFirstColumns + rowFirstColumn;
         // textToWrite2 is all layout with numbers
-        if (i == textToWrite.length - 1) {
+        if (i == t1.length - 1) {
             // no \n for last line
             if (typeof cols2numbers[i] != 'undefined') {
-                textToWrite2[i] = textToWrite[i] + cols2numbers[i];
+                t2[i] = t1[i] + '\t' + cols2numbers[i];
             } else {
-                textToWrite2[i] = textToWrite[i] + '\n'
+                t2[i] = t1[i] + '\n'
             }
         }
         else {
             if (typeof cols2numbers[i] != 'undefined') {
-                textToWrite2[i] = textToWrite[i] + cols2numbers[i] + '\n';
+                t2[i] = t1[i] + '\t' + cols2numbers[i] + '\n';
             } else {
-                textToWrite2[i] = textToWrite[i] + '\n'
+                t2[i] = t1[i] + '\n'
             }
         }
+    }
 
-    }
-    // listOfRefs is split by '<ref>'
-    var listOfRefs = allFirstColumns.split(start);
-    var j = 1;
-    allrefs = ''
-    for (var i = 0; i < listOfRefs.length; i++) {
-        var ref = '';
-        // first and last item in list are not reference so we dont need them
-        if (j > 1 && j != listOfRefs.length) {
-            ref = listOfRefs[i].replace(suffix, '') + '\n';
-        }
-        else if (j == listOfRefs.length) {
-            ref = listOfRefs[i].split(suffix)[0];
-        }
-        // replasce html signs in references
-        allrefs = allrefs + ref;
-        j = j + 1;
-    }
-    // save allrefs in a session and use them in next annotator tool
-    localStorage.setItem("allrefs", allrefs);
-    // return sanitized text
-    return textToWrite2.join("")
+    // clean up
+    t2 = t2.join("")
       .replace(/&amp;/g, "&")
       .replace(/&gt;/g, ">")
       .replace(/&lt;/g, "<")
@@ -379,6 +360,32 @@ function getTextToExport() {
       .replace(/OPENTAGINTEXT/g, "<")
       .replace(/SLASHINTEXT/g, "/")
       .trim();
+
+    // listOfRefs is split by '<ref>'
+    var listOfRefs = allFirstColumns.split(start);
+    var j = 1;
+    allrefs = ''
+    for (var i = 0; i < listOfRefs.length; i++) {
+        var ref = '';
+        // first and last item in list are not reference so we dont need them
+        if (j > 1 && j != listOfRefs.length) {
+            ref = listOfRefs[i].replace(suffix, '');
+        }
+        else if (j == listOfRefs.length) {
+            ref = listOfRefs[i].split(suffix)[0];
+        }
+        if (ref) {
+            allrefs = allrefs + `<ref>${ref}</ref>\n`;
+        }
+        j = j + 1;
+    }
+    // save allrefs in a session and use them in next annotator tool
+    // todo: use allrefs
+    localStorage.setItem("allrefs", t2);
+    //localStorage.setItem("allrefs", allrefs);
+    //localStorage.setItem("anno2filename", textFileName.split('.').slice(0,-1).join(".") + ".txt")
+    // return sanitized text
+    return t2;
 }
 
 function saveText_AsXmlFile() {
@@ -418,7 +425,12 @@ function download(data, filename) {
 function open_in_seganno() {
     getTextToExport();
     localStorage.setItem("anno2filename", `${textFileName}`);
-    window.location.href = "../EXRef-Segmentation";
+    if (window.location.href.includes("localhost")) {
+        window.location.href = "../EXRef-Segmentation";
+    } else {
+        window.location.href = "../seganno";
+    }
+
 }
 
 function ReplaceAt(input, search, replace, start, end) {
@@ -508,8 +520,6 @@ function ChangeColor_TranslateColor(tag_name) {
         // ?? why??
         var currentText = document.getElementById("content1").innerHTML;
         document.getElementById("content1").innerHTML = currentText;
-        console.log(currentText);
-        //translateColor();
     }
 } 
 
