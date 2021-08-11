@@ -1,10 +1,12 @@
 var pdfFileName = "";
 var textFileName = "";
+var textFileExt = "";
 var cols1text = [];
 var cols2numbers = [];
 var colorCounter = 0;
 var currentLine = 0;
 var arrayOfLines = "";
+
 
 // array for colors definition
 var openSpanValue_arr = ['<span style="background-color: rgb(255, 255, 153);">',
@@ -144,9 +146,13 @@ function checkFilesName_Similarity() {
         document.getElementById("errorMsg").innerHTML = "Please Select a PDF File.";
         return;
     }
-    else if (textFileName.split('.')[0] != pdfFileName.split('.')[0]) {
-        alert("Text File AND PDF File are Different.");
-        document.getElementById("errorMsg").innerHTML = "Text/XML File AND PDF File are Different.";
+    else {
+        let textFileNameWithoutExt = textFileName.split('.').slice(0,-1).join(".");
+        if (textFileNameWithoutExt !== pdfFileName.substr(0, textFileNameWithoutExt.length)) {
+            let message = "Text file and PDF file seem to belong to different documents."
+            alert(message);
+            document.getElementById("errorMsg").innerHTML = message;
+        }
     }
 }
 
@@ -163,7 +169,7 @@ function show_bothFile() {
     emptyParameters();
     var x = document.getElementById("btnUploadbothfile");
     // check file type and return names as an array
-    filenames = checkFileAvailability_ReturnFileName(x);
+    var filenames = checkFileAvailability_ReturnFileName(x);
     textFileName = filenames;
     var arrayLength = filenames.length;
     if (arrayLength > 2) {
@@ -176,11 +182,11 @@ function show_bothFile() {
     }
 
     //Check File Type again by code
-    var validExts = new Array("pdf", "txt", "csv", "xml");
+    var validExts = ["pdf", "txt", "csv"];
     for (var i = 0; i < arrayLength; i++) {
         var fileExt = filenames[i].split('.').pop();
         if (!validExts.includes(fileExt))
-            alert(fileExt + " --> is Invalid type, valid types are [" + validExts.toString() + "].!!! ");
+            alert(fileExt + " has an invalid type, valid types are [" + validExts.toString() + "].");
         else {
             if (fileExt == 'pdf') {
                 document.getElementById("pdfSize").innerHTML = filenames[i];
@@ -196,22 +202,19 @@ function show_bothFile() {
     if ('files' in x) {
         for (var i = 0; i < x.files.length; i++) {
             var file = x.files[i];
-            var fileExts = file.name.split('.')[1]
+            var fileExts = file.name.split('.').pop()
             if (fileExts == 'pdf') {
-                //Show pdf File 
+                //Show pdf File
                 var file = x.files[i];
                 var tmppath = URL.createObjectURL(file);
                 document.getElementById('pdfiframe').src = "web/viewer.html?file=" + tmppath;
                 $("#btndelpdf").show();
                 document.getElementById("pdfSize").innerHTML += ' (' + getFile_Size(file.size) + ')';
-            }
-            if (fileExts == 'txt' || fileExts == 'xml') {
+            } else {
                 var file = x.files[i];
+                textFileExt = fileExts;
                 //Show Text in page 
-                $("#spinner").show("slow", function () {
-                    loadFile_AsText(file);
-                    $("#spinner").hide("slow");
-                });
+                loadFile_AsText(file)
                 $("#btndeltxt").show();
                 document.getElementById("txtSize").innerHTML += ' (' + getFile_Size(file.size) + ')';
             }
@@ -225,46 +228,45 @@ function loadFile_AsText(fileToLoad) {
     var textFromFileLoaded = "";
     //loads the file into the textareas "content1" and "ptxaxml"
     var fileReader = new FileReader();
-    fileReader.onload = function (fileLoadedEvent) {
-        textFromFileLoaded = fileLoadedEvent.target.result;
-        // converts textfile into array of lines cutting whenever "\n" is in the file after normalizing \r\n to \n
-        var text_Lines = textFromFileLoaded.replace(/\r/g, "").split('\n');
-
-        var temp = "";
-        var colslen = 0;
-
-        var i = 0;
-        for (i = 0; i < text_Lines.length; i++) {
-            // split every line by tab put in a array
-            var arrayofcolumn = text_Lines[i].split('\t');
-            colslen = arrayofcolumn.length;
-            // cols1text will contain the text part, tabs replaced by spaces
-            // cols2numbers the layout values, which will be added to the xml
-            if (colslen > 1 && typeof arrayofcolumn[2] == "number") {
-                // if we have a numerical value at the end, save it as prediction value
-                cols1text[i] = arrayofcolumn.slice(0,colslen-1).join(' ');
-                cols2numbers[i] = arrayofcolumn[colslen-1];
-            } else {
-                // otherwise, add tab back in
-                cols1text[i] = arrayofcolumn.join(' ');
-                cols2numbers[i]=""
-            }
-            //content1 as a label cant understand "\n". we should add <br> at the end of each line
-            cols1text[i] = cols1text[i].replace(/</g, "OPENTAGINTEXT");
-            cols1text[i] = cols1text[i].replace(/\//g, "SLASHINTEXT");
-            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTref>/g, "<ref>");
-            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXTref>/g, "</ref>")
-            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXToth>/g, "<oth>");
-            cols1text[i] = cols1text[i].replace(/OPENTAGINTEXTSLASHINTEXToth>/g, "</oth>")
-            cols1text[i] = cols1text[i].replace(/SLASHINTEXT/g, "/");
-            if (i == text_Lines.length - 1)
-                temp = temp + cols1text[i];
-            else temp = temp + cols1text[i] + '<br>';
-        }
-
-        colorizeText_InLable(temp);
-    };
+    fileReader.onload = loadFile_Handler;
     fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+function loadFile_Handler (fileLoadedEvent) {
+    let textFromFileLoaded = fileLoadedEvent.target.result;
+    // converts textfile into array of lines cutting whenever "\n" is in the file after normalizing \r\n to \n
+    var text_Lines = textFromFileLoaded
+      .replace(/\r/g, "")
+      .replace(/\n\n/g,'\n')
+      .replace(/\n\n/g,'\n')
+      .split('\n');
+    var temp = "";
+    var i = 0;
+    for (i = 0; i < text_Lines.length; i++) {
+        if (["tsv", "csv"].includes(textFileExt)) {
+            // we have layout info in the file, remove from text to re-add later
+            let line_parts = text_Lines[i].split('\t');
+            cols2numbers[i] = line_parts.slice(-6).join('\t');
+            cols1text[i] = line_parts.slice(0,-6).join('\t');
+        } else {
+            cols1text[i] = text_Lines[i];
+        }
+        //content1 as a label cant understand "\n". we should add <br> at the end of each line
+        cols1text[i] = cols1text[i]
+          .replace(/</g, "OPENTAGINTEXT")
+          .replace(/\//g, "SLASHINTEXT")
+          .replace(/OPENTAGINTEXTref>/g, "<ref>")
+          .replace(/OPENTAGINTEXTSLASHINTEXTref>/g, "</ref>")
+          .replace(/OPENTAGINTEXToth>/g, "<oth>")
+          .replace(/OPENTAGINTEXTSLASHINTEXToth>/g, "</oth>")
+          .replace(/SLASHINTEXT/g, "/");
+        if (i == text_Lines.length - 1) {
+            temp = temp + cols1text[i];
+        } else {
+            temp = temp + cols1text[i] + '<br>';
+        }
+    }
+    colorizeText_InLable(temp);
 }
 
 function colorizeText_InLable(temp) {
@@ -289,7 +291,7 @@ function colorizeText_InLable(temp) {
 
     
     document.getElementById("content1").innerHTML = textCopy;
-    //ptxaxml as a lable cant undrestand "br". we should add "\n" at the end of each line
+    //ptxaxml as a label cant understand "br". we should add "\n" at the end of each line
     openSpanValue = '<br>';
     var i = 0
     var ptxaxmltext = ""
@@ -300,94 +302,91 @@ function colorizeText_InLable(temp) {
     document.getElementById("ptxaxml").innerHTML = temp.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
 }
 
+function getTextToExport() {
+    translateColor();
+    var temp = document.getElementById("ptxaxml").innerHTML;
+    temp = temp
+      .replace(/OPENTAGINTEXT/g, "<")
+      .replace(/SLASHINTEXT/g, "/");
+    //console.log(temp)
+    document.getElementById("ptxaxml").innerHTML = temp;
+    var xmlText = document.getElementById("ptxaxml").innerHTML;
+    var textToWrite = xmlText.split('\n');
+    var textToWrite2 = [];
+    var rowFirstColumn = '';
+    var allFirstColumns = '';
+    start = '<ref>'
+    suffix = '</ref>'
+    other_start = '<oth>'
+    other_suffix = '</oth>'
+
+    for (var i = 0; i < textToWrite.length; i++) {
+        // allFirstColumns needed for extracting references part (only references)
+        rowFirstColumn = textToWrite[i];
+        // add one space to the end of line if it is multi line ref and doesn't have hyphen or dash at end
+        if (!(rowFirstColumn.substr(-suffix.length) === suffix) || (rowFirstColumn.substr(-other_suffix.length) === other_suffix))
+            if (!(rowFirstColumn.substr(-'-'.length) === '-'))
+                if (!(rowFirstColumn.substr(-'.'.length) === '.'))
+                    rowFirstColumn = rowFirstColumn + ' ';
+
+
+        allFirstColumns = allFirstColumns + rowFirstColumn;
+        // textToWrite2 is all layout with numbers
+        if (i == textToWrite.length - 1) {
+            // no \n for last line
+            if (typeof cols2numbers[i] != 'undefined') {
+                textToWrite2[i] = textToWrite[i] + cols2numbers[i];
+            } else {
+                textToWrite2[i] = textToWrite[i] + '\n'
+            }
+        }
+        else {
+            if (typeof cols2numbers[i] != 'undefined') {
+                textToWrite2[i] = textToWrite[i] + cols2numbers[i] + '\n';
+            } else {
+                textToWrite2[i] = textToWrite[i] + '\n'
+            }
+        }
+
+    }
+    // listOfRefs is split by '<ref>'
+    var listOfRefs = allFirstColumns.split(start);
+    var j = 1;
+    allrefs = ''
+    for (var i = 0; i < listOfRefs.length; i++) {
+        var ref = '';
+        // first and last item in list are not reference so we dont need them
+        if (j > 1 && j != listOfRefs.length) {
+            ref = listOfRefs[i].replace(suffix, '') + '\n';
+        }
+        else if (j == listOfRefs.length) {
+            ref = listOfRefs[i].split(suffix)[0];
+        }
+        // replasce html signs in references
+        allrefs = allrefs + ref;
+        j = j + 1;
+    }
+    // save allrefs in a session and use them in next annotator tool
+    localStorage.setItem("allrefs", allrefs);
+    // return sanitized text
+    return textToWrite2.join("")
+      .replace(/&amp;/g, "&")
+      .replace(/&gt;/g, ">")
+      .replace(/&lt;/g, "<")
+      .replace(/&quot;/g, '"')
+      .replace(/&pos;/g, "'")
+      .replace(/&nbsp;/g, " ")
+      .replace(/OPENTAGINTEXT/g, "<")
+      .replace(/SLASHINTEXT/g, "/")
+      .trim();
+}
+
 function saveText_AsXmlFile() {
     if (document.getElementById("content1").innerHTML == "") {
         alert('No File Selected');
         return false;
     }
-
-    $("#spinner").show("slow", function () {
-        //translateColor_ToTag();
-        translateColor()
-        var temp = document.getElementById("ptxaxml").innerHTML;
-        temp = temp.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
-        //console.log(temp)
-        document.getElementById("ptxaxml").innerHTML = temp;
-
-        var xmlText = document.getElementById("ptxaxml").innerHTML;
-
-        var textToWrite = xmlText.split('\n');
-        //////////////////////////////////////////////////////////////////////////////
-        var textToWrite2 = [];
-        var rowFirstColumn = '';
-        var allFirstColumns = '';
-        start = '<ref>'
-        suffix = '</ref>'
-        other_start = '<oth>'
-        other_suffix = '</oth>'
-        
-        for (var i = 0; i < textToWrite.length; i++) {
-            // allFirstColumns needed for extracting references part (only references)
-            rowFirstColumn = textToWrite[i];
-            // add one space to the end of line if it is multi line ref and doesn't have hyphen or dash at end
-            if (!(rowFirstColumn.substr(-suffix.length) === suffix) || (rowFirstColumn.substr(-other_suffix.length) === other_suffix))
-                if (!(rowFirstColumn.substr(-'-'.length) === '-'))
-                    if (!(rowFirstColumn.substr(-'.'.length) === '.'))
-                        rowFirstColumn = rowFirstColumn + ' ';
-            
-            
-            allFirstColumns = allFirstColumns + rowFirstColumn;
-            // textToWrite2 is all layout with numbers
-            if (i == textToWrite.length - 1) {
-                // no \n for last line
-                if (typeof cols2numbers[i] != 'undefined')
-                    textToWrite2[i] = textToWrite[i] + cols2numbers[i];
-                else
-                    textToWrite2[i] = textToWrite[i] + '\n'
-            }
-            else
-                textToWrite2[i] = textToWrite[i] + cols2numbers[i] + '\n';
-        }
-        // listOfRefs is splited by '<ref>'
-        var listOfRefs = allFirstColumns.split(start);
-        var j = 1;
-        allrefs = ''
-        for (var i = 0; i < listOfRefs.length; i++) {
-            var ref = '';
-            // first and last item in list are not reference so we dont need them
-            if (j > 1 && j != listOfRefs.length) {
-                ref = listOfRefs[i].replace(suffix, '') + '\n';
-            }
-            else if (j == listOfRefs.length) {
-                ref = listOfRefs[i].split(suffix)[0];
-            }
-            // replasce html signs in references
-            allrefs = allrefs + ref;
-            j = j + 1;
-        }
-        ////////////////////////////////////////////////////////////////////////////////
-        textToWrite2 = textToWrite2.join("");
-        var textFileAsBlob = new Blob([textToWrite2], { type: 'text/plain' });
-        //get file name
-        var fullPath = document.getElementById('btnUploadbothfile').value;
-        var filename = '';
-        if (fullPath) {
-            var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-            var filename = fullPath.substring(startIndex);
-            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-                filename = filename.substring(1).split('.')[0];
-            }
-        }
-        var fileNameToSaveAs = textFileName.split('.')[0] + ".xml";
-
-        textToWrite2 = textToWrite2.replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&quot;/g, '"').replace(/&pos;/g, "'").replace(/&nbsp;/g, " ");
-        textToWrite2 = textToWrite2.replace(/OPENTAGINTEXT/g, "<").replace(/SLASHINTEXT/g, "/");
-        download(textToWrite2.trim(), fileNameToSaveAs);
-        // download(allrefs, fileNameToSaveAs);
-        // save allrefs in a session and use them in next annotator tool 
-        localStorage.setItem("allrefs", allrefs);
-        $("#spinner").hide("slow");
-    });
+    download(getTextToExport(), textFileName);
 }
 
 function download(data, filename) {
@@ -414,6 +413,12 @@ function download(data, filename) {
         // element.click();
         // document.body.removeChild(element);
     }
+}
+
+function open_in_seganno() {
+    getTextToExport();
+    localStorage.setItem("anno2filename", `${textFileName}`);
+    window.location.href = "../EXRef-Segmentation";
 }
 
 function ReplaceAt(input, search, replace, start, end) {

@@ -1,17 +1,19 @@
-var OriginalLineArray_forDemo = "";
-var arrayOfLines = "";
-var currentLine = 0;
-var lastSessionFlag = false;
-var filename = "";
-var serverip = 'http://141.26.208.55'
-var webserviceUrl = serverip + ":8080";
+let OriginalLineArray_forDemo;
+let arrayOfLines;
+let currentLine = 0;
+let lastSessionFlag = false;
+let filename;
+let fileExt;
+const serverip = 'http://141.26.208.55';
+const webserviceUrl = serverip + ":8080";
 
 function emptyParameters() {
 	//this parameter should be empty At each start 
-	arrayOfLines = "";
-	OriginalLineArray_forDemo = "";
+	arrayOfLines = [];
+	OriginalLineArray_forDemo = [];
 	currentLine = 0;
 	filename = "";
+	fileExt ="";
 	document.getElementById("txaxml").value = "";
 	document.getElementById("lblcontentForDemo").innerHTML = "";
 	document.getElementById("lblColoredText").innerHTML = "";
@@ -51,6 +53,10 @@ $(document).ready(function () {
 		window.location.href = serverip + ':8081/annohome';
 	});
 
+	$("#btnToRefanno").click(function(){
+		window.location.href = "../EXRef-Identifier";
+	})
+
 
 	// help show 
 	$("#btnhelp").click(function () {
@@ -75,16 +81,16 @@ $(document).ready(function () {
 				//1 load storage to file
 				var file = new Blob([lastxmltext], { type: 'text/xml' });
 				var fileToLoad = file;
-				// set cermein fals --> we dont need it
+				// we dont need cermine
 				document.getElementById("chbCermine").checked = false;
-				//2 load lastoroginalreftext
 				if (localStorage.getItem("anno2lastoroginalreftext") != "") {
-					//set a flag true to load lastoroginalreftext
 					lastSessionFlag = true;
 				}
 				//3 load file name
 				if (localStorage.getItem("anno2filename") != "") {
-					filename = localStorage.getItem("anno2filename");
+					let filenparts = localStorage.getItem("anno2filename").split(".");
+					filename = filenparts.slice(0,-1).join(".");
+					fileExt = filenparts.pop();
 				}
 				loadFileAsText(fileToLoad);
 			} else
@@ -119,7 +125,7 @@ function savelocalStorage() {
 	}
 	//3 save filename
 	if (filename != "") {
-		localStorage.setItem("anno2filename", filename);
+		localStorage.setItem("anno2filename", `${filename}.${fileExt}`);
 	}
 }
 
@@ -155,15 +161,16 @@ function checkFileAvailability_ReturnFileName(x) {
 
 function checke_file_type(filenames) {
 	var arrayLength = filenames.length;
-	var validExts = new Array("txt", "xml", "csv");
+	var validExts = ["txt", "xml", "csv", "tsv"];
 	for (var i = 0; i < arrayLength; i++) {
-		var fileExt = filenames[i].split('.')[1];
+		fileExt = filenames[i].split('.').pop();
 		if (!validExts.includes(fileExt)) {
-			alert(fileExt + "--> is Invalid type, valid types are [ " + validExts.toString() + " ].!!! ");
+			alert(fileExt + "is invalid, valid file types are " + validExts.toString() + " .");
 			return false;
 		}
-		else if (fileExt == 'xml')
+		if (fileExt === 'xml') {
 			document.getElementById("chbCermine").checked = false;
+		}
 	}
 	return true;
 }
@@ -171,7 +178,7 @@ function checke_file_type(filenames) {
 // return file size
 function getFile_Size(sender) {
 	var _size = sender.files[0].size;
-	var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+	var fSExt = ['Bytes', 'KB', 'MB', 'GB'],
 		i = 0;
 	while (_size > 900) { _size /= 1024; i++; }
 	var exactSize = (Math.round(_size * 100) / 100) + ' ' + fSExt[i];
@@ -190,8 +197,8 @@ function checkfile() {
 	emptyParameters();
 	var fileToLoad = xfile.files[0];
 	// filename is a public var
-	filename = filenamesarray[0].split('.')[0];
-	document.getElementById("demo").innerHTML = "[ " + filenamesarray + " ] - [ File Size : " + getFile_Size(document.getElementById("btnUploadfile")) + "]";
+	filename = filenamesarray[0].split('.').slice(0,-1).join(".");
+	fileExt = filenamesarray[0].split('.').pop();
 	// set this flag false because we are reading from file not from storage
 	lastSessionFlag = false
 	loadFileAsText(fileToLoad);
@@ -202,32 +209,66 @@ function loadFileAsText(fileToLoad) {
 	// loads the file uploaded through "btnUploadfile" into the "lblColoredText" and "txaxml"  and "lblcontentForDemo" 
 	var fileReader = new FileReader();
 	fileReader.onload = function (fileLoadedEvent) {
-		var strLoadedTextFromFile = fileLoadedEvent.target.result;
-		//converts textfile into array of lines cutting whenever "\n" is in the file
+		var text = fileLoadedEvent.target.result;
 
-		// alert(strLoadedTextFromFile);
+		// monkey-patch string prototype
 		String.prototype.replaceAll = function (search, replacement) {
 			var target = this;
 			return target.replace(new RegExp(search, 'g'), replacement);
 		};
-		strLoadedTextFromFile = strLoadedTextFromFile.replaceAll('<author>', '').replaceAll('</author>', '')
-		// alert(strLoadedTextFromFile);
 
-		arrayOfLines = strLoadedTextFromFile.split('\n');
+		//converts textfile into array of lines cutting whenever "\n" is in the file
+		arrayOfLines = text
+			// replace author tags (will be re-added later)
+			.replaceAll('<author>', '')
+			.replaceAll('</author>', '')
+			.replaceAll('\r',"")
+			.split('\n');
+
+		if (fileExt === "xml" && arrayOfLines[0].includes("<?xml ")) {
+			// if xml, remove declaration and top node
+			arrayOfLines.splice(0,2);
+			arrayOfLines.splice(-1,1);
+
+		} else if (["tsv", "csv"].includes(fileExt)) {
+			// if refanno output
+			arrayOfLines = arrayOfLines
+				// remove layout info
+				.map(line => line.split('\t').slice(0,-6).join('\t'))
+				// replace line breaks by spaces
+				.join(' ')
+				// keep only the <ref>...</ref> fragments
+				.match(/\<ref>.*?<\/ref>/g)
+			if (!arrayOfLines) {
+				alert("Data does not contain any reference markup.");
+				return false;
+			}
+		} else if (fileExt == "txt") {
+			// if txt, it can be raw reference data only or <ref>-annotated without layout info
+			let tmp = arrayOfLines
+				// replace line breaks by spaces
+				.join(' ')
+				// keep only the <ref>...</ref> fragments
+				.match(/\<ref>.*?<\/ref>/g)
+			if (tmp) {
+				arrayOfLines=tmp
+			}
+		}
+
+		// remove <ref> tags, will be re-added later
+		arrayOfLines = arrayOfLines.map(line => line.replaceAll('<ref>','').replaceAll('</ref>',''))
 
 		// chek if it is reading from file or storage
-		if (lastSessionFlag == false) {
-			// get from file
-			lastSessionFlag = false;
-			OriginalLineArray_forDemo = strLoadedTextFromFile.split('\n');
-			document.getElementById("demo").innerHTML = document.getElementById("demo").innerHTML + " - [ References Number: " + arrayOfLines.length + " ]";
-		}
-		else {
+		if (lastSessionFlag && localStorage.getItem("anno2lastoroginalreftext")) {
 			// get from localStorage
 			lastSessionFlag = false;
 			OriginalLineArray_forDemo = localStorage.getItem("anno2lastoroginalreftext").split('\n');
-			document.getElementById("demo").innerHTML = " Loadeding Data From Last Session:(File Name: " + filename + ")-(References Number: " + arrayOfLines.length + " )";
+		} else {
+			// get from file
+			lastSessionFlag = false;
+			OriginalLineArray_forDemo = text.split('\n');
 		}
+		document.getElementById("demo").innerHTML = `${filename}: ${arrayOfLines.length} references`;
 		// if chbCermine is checked cermein webservice is called
 		if ($('#chbCermine').is(":checked")) {
 			$("#spinner").show("slow", function () {
@@ -400,11 +441,24 @@ function getxaxmlText() {
 			}
 		}
 
-		// We use the join() method to display the array elements as a string.
-		var strArrayOfLines = arrayOfLines.join("\n");
+		// Rejoin the line, adding a <ref> tag
+		var strArrayOfLines = arrayOfLines
+			.map(line => `<ref>${line}</ref>`)
+			.join("\n");
+
 		// special characters translate to html code --> replace them
-		textToWrite = strArrayOfLines.replace(/(&amp;)/gm, "&").replace(/(&gt;)/gm, ">").replace(/(&lt;)/gm, "<").replace(/(&quot;)/gm, '"').replace(/(&pos;)/gm, "'");
-		return textToWrite;
+		textToWrite = strArrayOfLines
+			.replace(/(&amp;)/gm, "&")
+			.replace(/(&gt;)/gm, ">")
+			.replace(/(&lt;)/gm, "<")
+			.replace(/(&quot;)/gm, '"')
+			.replace(/(&pos;)/gm, "'");
+
+		// create valid xml
+		return `<?xml version="1.0" encoding="utf-8"?>
+<seganno>
+${textToWrite}		
+</seganno>`;
 	} else
 		return "";
 }
